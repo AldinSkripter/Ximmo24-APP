@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "558033653580",
+    "project_id": "ximmobilien24",
+    "storage_bucket": "ximmobilien24.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558033653580:android:4de34291949d8e10eac9e9",
+        "android_client_info": {
+          "package_name": "com.ebroker.wrteam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558033653580-f1ab7s5plq975bv61b88bjp63qfkt8l8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgykZOz9XPRqUXcdN_I9B2L2SVOxKWeKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558033653580-f1ab7s5plq975bv61b88bjp63qfkt8l8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "558033653580-1m2hs5916qbvokg7dbp0of17vubumaer.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.ximmobilien24.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558033653580:android:0da223f903d3722feac9e9",
+        "android_client_info": {
+          "package_name": "de.ximmobilien24.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558033653580-1fudl9bs6pfqvh7fd9frnf1at0njp6s2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.ximmobilien24.app",
+            "certificate_hash": "10e042256ef6f1f9d3d013201efe4e2fdc55c7d0"
+          }
+        },
+        {
+          "client_id": "558033653580-f1ab7s5plq975bv61b88bjp63qfkt8l8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgykZOz9XPRqUXcdN_I9B2L2SVOxKWeKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558033653580-f1ab7s5plq975bv61b88bjp63qfkt8l8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "558033653580-1m2hs5916qbvokg7dbp0of17vubumaer.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.ximmobilien24.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
