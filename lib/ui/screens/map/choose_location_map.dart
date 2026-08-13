@@ -2,6 +2,7 @@ import 'package:ebroker/data/cubits/fetch_properties_by_cities_cubit.dart';
 import 'package:ebroker/data/cubits/property/home_infinityscroll_cubit.dart';
 import 'package:ebroker/exports/main_export.dart';
 import 'package:ebroker/ui/screens/home/home_sections.dart';
+import 'package:ebroker/utils/bw_region.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -249,6 +250,23 @@ class _ChooseLocationMapState extends State<ChooseLocationMap> {
 
   Future<void> _handleProceedSuccess(PlaceDetails details) async {
     if (marker == null) return;
+
+    // Region gate: only allow locations inside Baden-Württemberg.
+    final _bwOk = await BwRegion.isWithin(
+      marker!.position.latitude,
+      marker!.position.longitude,
+    );
+    if (!_bwOk) {
+      if (!mounted) return;
+      final resolved = BwRegion.outsideKey.translate(context);
+      HelperUtils.showSnackBarMessage(
+        context,
+        resolved == BwRegion.outsideKey ? BwRegion.outsideTextDe : resolved,
+        type: MessageType.error,
+      );
+      return;
+    }
+
     final place = Placemark(
       locality: details.city,
       administrativeArea: details.state,
