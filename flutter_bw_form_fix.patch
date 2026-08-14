@@ -1,0 +1,167 @@
+diff --git a/lib/ui/screens/proprties/add_propery_screens/add_property_details.dart b/lib/ui/screens/proprties/add_propery_screens/add_property_details.dart
+index da51102..aaadfb9 100644
+--- a/lib/ui/screens/proprties/add_propery_screens/add_property_details.dart
++++ b/lib/ui/screens/proprties/add_propery_screens/add_property_details.dart
+@@ -8,6 +8,7 @@ import 'package:ebroker/ui/screens/widgets/panaroma_image_view.dart';
+ import 'package:ebroker/ui/screens/widgets/video_selector.dart';
+ import 'package:ebroker/utils/custom_tabbar.dart';
+ import 'package:ebroker/utils/hive_keys.dart';
++import 'package:ebroker/utils/bw_region.dart';
+ import 'package:flutter/material.dart';
+ import 'package:hive/hive.dart';
+ import 'package:shimmer/shimmer.dart';
+@@ -58,12 +59,13 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails>
+   late final TextEditingController _cityNameController = TextEditingController(
+     text: widget.propertyDetails?['city']?.toString() ?? '',
+   );
++  // Fixed region: we only operate in Baden-Württemberg / Deutschland.
+   late final TextEditingController _stateNameController = TextEditingController(
+-    text: widget.propertyDetails?['state']?.toString() ?? '',
++    text: 'Baden-Württemberg',
+   );
+   late final TextEditingController _countryNameController =
+       TextEditingController(
+-        text: widget.propertyDetails?['country']?.toString() ?? '',
++        text: 'Deutschland',
+       );
+   late final TextEditingController _latitudeController = TextEditingController(
+     text: widget.propertyDetails?['latitude']?.toString() ?? '',
+@@ -74,6 +76,10 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails>
+   late final TextEditingController _addressController = TextEditingController(
+     text: widget.propertyDetails?['address']?.toString() ?? '',
+   );
++
++  // True only when the chosen coordinates are inside Baden-Württemberg.
++  // The Continue button is blocked until this is true.
++  bool _isCityInBW = false;
+   late final TextEditingController _priceController = TextEditingController(
+     text: widget.propertyDetails?['price']?.toString() ?? '',
+   );
+@@ -150,6 +156,8 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails>
+   @override
+   void initState() {
+     super.initState();
++    // Validate any pre-filled location (edit mode) against the BW region.
++    WidgetsBinding.instance.addPostFrameCallback((_) => _validateInitialBW());
+     // Language Selector Tabs
+     _tabController = TabController(length: languages.length, vsync: this);
+     translatedFields =
+@@ -283,18 +291,46 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails>
+     final latlng = placeMark['latlng'] as LatLng?;
+     final place = placeMark['place'] as Placemark?;
+     if (latlng != null && place != null) {
++      // Region gate: only accept locations inside Baden-Württemberg.
++      final inside = await BwRegion.isWithin(latlng.latitude, latlng.longitude);
++      if (!inside) {
++        _isCityInBW = false;
++        state.didChange(false);
++        if (mounted) {
++          await UiUtils.showBlurredDialoge(
++            context,
++            sigmaX: 5,
++            sigmaY: 5,
++            dialog: BlurredDialogBox(
++              svgImagePath: AppIcons.warning,
++              title: 'incomplete'.translate(context),
++              showCancleButton: false,
++              onAccept: () async {},
++              acceptTextColor: context.color.buttonColor,
++              content: CustomText(
++                _bwMessage(),
++                textAlign: .center,
++              ),
++            ),
++          );
++        }
++        return;
++      }
++      _isCityInBW = true;
+       _latitudeController.text = latlng.latitude.toString();
+       _longitudeController.text = latlng.longitude.toString();
+       _cityNameController.text = place.locality ?? '';
+-      _countryNameController.text = place.country ?? '';
+-      _stateNameController.text = place.administrativeArea ?? '';
++      // State + country are fixed to the BW region.
++      _countryNameController.text = 'Deutschland';
++      _stateNameController.text = 'Baden-Württemberg';
+       _addressController.text = [
+         place.locality,
+-        place.administrativeArea,
+-        place.country,
++        'Baden-Württemberg',
++        'Deutschland',
+       ].join(',');
+ 
+       state.didChange(true);
++      if (mounted) setState(() {});
+     } else {
+       // state.didChange(false);
+     }
+@@ -358,6 +394,28 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails>
+       return;
+     }
+ 
++    if (!_isCityInBW) {
++      Future.delayed(Duration.zero, () async {
++        await UiUtils.showBlurredDialoge(
++          context,
++          sigmaX: 5,
++          sigmaY: 5,
++          dialog: BlurredDialogBox(
++            svgImagePath: AppIcons.warning,
++            title: 'incomplete'.translate(context),
++            showCancleButton: false,
++            onAccept: () async {},
++            acceptTextColor: context.color.buttonColor,
++            content: CustomText(
++              _bwMessage(),
++              textAlign: .center,
++            ),
++          ),
++        );
++      });
++      return;
++    }
++
+     if (_formKey.currentState!.validate()) {
+       var documents = <String, dynamic>{};
+       try {
+@@ -540,6 +598,20 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails>
+     }
+   }
+ 
++  String _bwMessage() {
++    final resolved = BwRegion.outsideKey.translate(context);
++    return resolved == BwRegion.outsideKey ? BwRegion.outsideTextDe : resolved;
++  }
++
++  Future<void> _validateInitialBW() async {
++    final lat = double.tryParse(_latitudeController.text);
++    final lng = double.tryParse(_longitudeController.text);
++    if (lat != null && lng != null && lat != 0 && lng != 0) {
++      final inside = await BwRegion.isWithin(lat, lng);
++      if (mounted) setState(() => _isCityInBW = inside);
++    }
++  }
++
+   bool _checkIfLocationIsChosen() {
+     if (_cityNameController.text == '' ||
+         _stateNameController.text == '' ||
+@@ -926,7 +998,7 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails>
+                     CustomTextFormField(
+                       action: .next,
+                       controller: _stateNameController,
+-                      isReadOnly: false,
++                      isReadOnly: true,
+                       validator: CustomTextFieldValidator.nullCheck,
+                       hintText: 'state'.translate(context),
+                     ),
+@@ -936,7 +1008,7 @@ class _AddPropertyDetailsState extends State<AddPropertyDetails>
+                     CustomTextFormField(
+                       action: .next,
+                       controller: _countryNameController,
+-                      isReadOnly: false,
++                      isReadOnly: true,
+                       validator: CustomTextFieldValidator.nullCheck,
+                       hintText: 'country'.translate(context),
+                     ),

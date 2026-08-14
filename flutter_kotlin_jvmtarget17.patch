@@ -1,0 +1,49 @@
+diff --git a/android/build.gradle.kts b/android/build.gradle.kts
+index ca5f723..e8a03e9 100644
+--- a/android/build.gradle.kts
++++ b/android/build.gradle.kts
+@@ -49,6 +49,44 @@ subprojects {
+                 } catch (_: Exception) {
+                     // compileOptions not available on this extension; ignore
+                 }
++
++                // Align Kotlin's JVM target with the Java 17 forced above.
++                // Without this, Kotlin compiles at 1.8 and Gradle fails with
++                // "Inconsistent JVM-target compatibility between Java and Kotlin".
++                project.tasks.configureEach {
++                    if (this.javaClass.name.contains("KotlinCompile")) {
++                        try {
++                            // New Kotlin DSL: task.compilerOptions.jvmTarget = JvmTarget.JVM_17
++                            val compilerOptions =
++                                this.javaClass.getMethod("getCompilerOptions").invoke(this)
++                            val jvmTargetProp =
++                                compilerOptions.javaClass
++                                    .getMethod("getJvmTarget")
++                                    .invoke(compilerOptions)
++                            val jvmTargetEnum =
++                                Class.forName("org.jetbrains.kotlin.gradle.dsl.JvmTarget")
++                                    .getMethod("valueOf", String::class.java)
++                                    .invoke(null, "JVM_17")
++                            val setMethod = jvmTargetProp.javaClass.methods.first {
++                                it.name == "set" &&
++                                    it.parameterCount == 1 &&
++                                    it.parameterTypes[0].isAssignableFrom(jvmTargetEnum.javaClass)
++                            }
++                            setMethod.invoke(jvmTargetProp, jvmTargetEnum)
++                        } catch (_: Exception) {
++                            try {
++                                // Legacy DSL fallback: task.kotlinOptions.jvmTarget = "17"
++                                val ko =
++                                    this.javaClass.getMethod("getKotlinOptions").invoke(this)
++                                ko.javaClass
++                                    .getMethod("setJvmTarget", String::class.java)
++                                    .invoke(ko, "17")
++                            } catch (_: Exception) {
++                                // Kotlin not applied on this module; ignore
++                            }
++                        }
++                    }
++                }
+             }
+         }
+     }
