@@ -34,6 +34,21 @@ subprojects {
                 } catch (_: NoSuchMethodException) {
                     // android extension does not expose namespace getters/setters; ignore
                 }
+
+                // Force Java 17 on plugin subprojects to silence "source/target value 8
+                // is obsolete" warnings emitted by plugins that still compile at Java 8.
+                try {
+                    val compileOptions =
+                        androidExt.javaClass.getMethod("getCompileOptions").invoke(androidExt)
+                    compileOptions.javaClass
+                        .getMethod("setSourceCompatibility", Any::class.java)
+                        .invoke(compileOptions, JavaVersion.VERSION_17)
+                    compileOptions.javaClass
+                        .getMethod("setTargetCompatibility", Any::class.java)
+                        .invoke(compileOptions, JavaVersion.VERSION_17)
+                } catch (_: Exception) {
+                    // compileOptions not available on this extension; ignore
+                }
             }
         }
     }
