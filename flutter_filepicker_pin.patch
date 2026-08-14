@@ -1,0 +1,13 @@
+diff --git a/pubspec.yaml b/pubspec.yaml
+index f4fa3dc..2e804f4 100644
+--- a/pubspec.yaml
++++ b/pubspec.yaml
+@@ -74,7 +74,7 @@ dependencies:
+ 
+   # Pickers & Input
+   country_picker: ^2.0.26
+-  file_picker: ^12.0.0-beta.7
++  file_picker: 12.0.0
+   sms_autofill: ^2.4.0
+ 
+   # Utilities & Tools
