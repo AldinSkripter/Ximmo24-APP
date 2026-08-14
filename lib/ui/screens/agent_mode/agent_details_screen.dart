@@ -497,25 +497,26 @@ class _AgentDetailsScreenState extends State<AgentDetailsScreen>
                               SizedBox(height: 8.rh(context)),
                               if (widget.agentEmail != null &&
                                   widget.agentEmail!.isNotEmpty)
-                                widget.heroTag != null
-                                    ? Hero(
-                                        tag: '${widget.heroTag}-email',
-                                        child: Material(
-                                          type: MaterialType.transparency,
-                                          child: CustomText(
-                                            widget.agentEmail!,
-                                            fontSize: context.font.xs,
-                                            color: context.color.textLightColor,
-                                            maxLines: 1,
-                                          ),
-                                        ),
-                                      )
-                                    : CustomText(
+                                if (widget.heroTag != null)
+                                  Hero(
+                                    tag: '${widget.heroTag}-email',
+                                    child: Material(
+                                      type: MaterialType.transparency,
+                                      child: CustomText(
                                         widget.agentEmail!,
                                         fontSize: context.font.xs,
                                         color: context.color.textLightColor,
                                         maxLines: 1,
-                                      )
+                                      ),
+                                    ),
+                                  )
+                                else
+                                  CustomText(
+                                    widget.agentEmail!,
+                                    fontSize: context.font.xs,
+                                    color: context.color.textLightColor,
+                                    maxLines: 1,
+                                  )
                               else
                                 CustomShimmer(
                                   width: 150.rw(context),
@@ -645,9 +646,10 @@ class _AgentDetailsScreenState extends State<AgentDetailsScreen>
           children: [
             _buildPropertiesTab(propertyState),
             if (showProjects)
-              isProjectAllowed
-                  ? _buildProjectsTab(propertyState)
-                  : const SizedBox.shrink(),
+              if (isProjectAllowed)
+                _buildProjectsTab(propertyState)
+              else
+                const SizedBox.shrink(),
             _buildAboutTab(agent),
           ],
         ),

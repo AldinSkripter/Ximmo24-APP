@@ -118,13 +118,13 @@ class AgentStatusCard extends StatelessWidget {
               fontSize: 14.rf(context),
               height: 32.rh(context),
               onPressed: () {
-                unawaited(
+                
                   Navigator.pushNamed(
                     context,
                     Routes.becomeAgentForm,
                     arguments: {'form_type': 'become_agent'},
-                  ),
-                );
+                  )
+                ;
               },
             ),
           ],
@@ -174,12 +174,12 @@ class AgentStatusCard extends StatelessWidget {
                     height: 20.rh(context),
                     autoWidth: true,
                     onPressed: () {
-                      unawaited(
+                      
                         Navigator.pushNamed(
                           context,
                           Routes.becomeAgentScreen,
-                        ),
-                      );
+                        )
+                      ;
                     },
                   ),
                 ],

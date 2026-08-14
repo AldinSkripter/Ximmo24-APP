@@ -124,9 +124,8 @@ class _CityPropertiesScreenState extends State<CityPropertiesScreen> {
                     children: [
                       if (state is FetchCityPropertyInProgress)
                         Expanded(child: UiUtils.buildHorizontalShimmer(context))
-                      else
-                        state is FetchCityPropertyFail
-                            ? SizedBox(
+                      else if (state is FetchCityPropertyFail)
+                        SizedBox(
                                 height: MediaQuery.sizeOf(context).height * 0.7,
                                 width: MediaQuery.sizeOf(context).width,
                                 child: Center(
@@ -135,9 +134,9 @@ class _CityPropertiesScreenState extends State<CityPropertiesScreen> {
                                   ),
                                 ),
                               )
-                            : state is FetchCityPropertySuccess &&
-                                  state.properties.isNotEmpty
-                            ? Expanded(
+                      else if (state is FetchCityPropertySuccess &&
+                          state.properties.isNotEmpty)
+                        Expanded(
                                 child: SizedBox(
                                   height: MediaQuery.sizeOf(context).height,
                                   width: MediaQuery.sizeOf(context).width,
@@ -184,8 +183,9 @@ class _CityPropertiesScreenState extends State<CityPropertiesScreen> {
                                         ),
                                 ),
                               )
-                            : Center(
-                                child: NoDataFound(
+                      else
+                        Center(
+                          child: NoDataFound(
                                   title: 'noPropertyAdded'.translate(context),
                                   description: 'noPropertyAddedDescription'
                                       .translate(

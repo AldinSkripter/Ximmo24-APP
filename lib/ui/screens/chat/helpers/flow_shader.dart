@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class FlowShader extends StatefulWidget {
@@ -72,7 +70,7 @@ class FlowShaderState extends State<FlowShader>
         curve: const Interval(0.45, 1),
       ),
     );
-    unawaited(controller.repeat());
+    controller.repeat();
     controller.addListener(() {
       setState(() {});
     });

@@ -25,6 +25,6 @@ class AppFilePicker {
       type: type,
       allowedExtensions: allowedExtensions,
     );
-    return result?.files;
+    return result.isEmpty ? null : result;
   }
 }

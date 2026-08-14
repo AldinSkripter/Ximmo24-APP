@@ -252,11 +252,11 @@ class _ChooseLocationMapState extends State<ChooseLocationMap> {
     if (marker == null) return;
 
     // Region gate: only allow locations inside Baden-Württemberg.
-    final _bwOk = await BwRegion.isWithin(
+    final bwOk = await BwRegion.isWithin(
       marker!.position.latitude,
       marker!.position.longitude,
     );
-    if (!_bwOk) {
+    if (!bwOk) {
       if (!mounted) return;
       final resolved = BwRegion.outsideKey.translate(context);
       HelperUtils.showSnackBarMessage(

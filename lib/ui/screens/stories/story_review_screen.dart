@@ -63,7 +63,7 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
       allowedExtensions: _imageExtensions,
     );
     if (file?.path == null) return;
-    if (file!.size > _maxThumbnailSizeBytes) {
+    if (File(file!.path!).lengthSync() > _maxThumbnailSizeBytes) {
       if (mounted) {
         HelperUtils.showSnackBarMessage(
           context,

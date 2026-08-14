@@ -175,7 +175,7 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
   }
 
   void _resumePlayback() {
-    unawaited(_progressController.forward());
+    _progressController.forward();
     if (_isCurrentVideo) _videoPlayerKey.currentState?.play();
   }
 
@@ -260,7 +260,7 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
     _progressController.duration = Duration(
       seconds: seconds <= 0 ? 6 : seconds,
     );
-    unawaited(_progressController.forward());
+    _progressController.forward();
   }
 
   void _onVideoReady(Duration duration) {
@@ -268,7 +268,7 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
     _progressController.duration = duration > Duration.zero
         ? duration
         : const Duration(seconds: 6);
-    unawaited(_progressController.forward());
+    _progressController.forward();
     _videoPlayerKey.currentState?.play();
   }
 
@@ -309,12 +309,12 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
         _onAgentPageChanged(_agentIndex + 1);
         return;
       }
-      unawaited(
+      
         _agentPageController.nextPage(
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeOut,
-        ),
-      );
+        )
+      ;
     } else {
       Navigator.pop(context);
     }
@@ -326,12 +326,12 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
         _onAgentPageChanged(_agentIndex - 1);
         return;
       }
-      unawaited(
+      
         _agentPageController.previousPage(
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeOut,
-        ),
-      );
+        )
+      ;
     }
   }
 

@@ -332,7 +332,7 @@ class AgentsRepository {
     required Map<String, dynamic> parameters,
   }) async {
     try {
-      return Api.post(url: Api.applyUserVerification, parameter: parameters);
+      return await Api.post(url: Api.applyUserVerification, parameter: parameters);
     } on Exception catch (e) {
       throw ApiException(e.toString());
     }

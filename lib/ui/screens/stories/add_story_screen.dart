@@ -70,7 +70,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       allowedExtensions: _videoExtensions,
     );
     if (file?.path == null) return;
-    if (file!.size > _maxMediaSizeBytes) {
+    if (File(file!.path!).lengthSync() > _maxMediaSizeBytes) {
       if (mounted) {
         HelperUtils.showSnackBarMessage(
           context,
@@ -88,7 +88,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       allowedExtensions: _imageExtensions,
     );
     if (file?.path == null) return;
-    if (file!.size > _maxMediaSizeBytes) {
+    if (File(file!.path!).lengthSync() > _maxMediaSizeBytes) {
       if (mounted) {
         HelperUtils.showSnackBarMessage(
           context,

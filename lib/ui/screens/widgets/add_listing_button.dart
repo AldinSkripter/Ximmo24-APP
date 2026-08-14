@@ -71,11 +71,11 @@ class _AddListingOverlayState extends State<AddListingOverlay>
 
   void _onControllerChanged() {
     if (widget.controller.isOpen) {
-      unawaited(_propertyController.forward());
-      unawaited(_projectController.forward());
+      _propertyController.forward();
+      _projectController.forward();
     } else {
-      unawaited(_propertyController.reverse());
-      unawaited(_projectController.reverse());
+      _propertyController.reverse();
+      _projectController.reverse();
     }
   }
 
@@ -212,9 +212,9 @@ class AddListingButtonState extends State<AddListingButton>
 
   void _onControllerChanged() {
     if (widget.controller.isOpen) {
-      unawaited(_plusController.forward());
+      _plusController.forward();
     } else {
-      unawaited(_plusController.reverse());
+      _plusController.reverse();
     }
   }
 

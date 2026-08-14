@@ -713,22 +713,23 @@ class _SetBusinessHoursScreenState extends State<SetBusinessHoursScreen>
               ),
             ),
             if (daySchedule.isEnabled && hasContent)
-              daySchedule.isExpanded
-                  ? Transform.flip(
-                      flipY: true,
-                      child: CustomImage(
-                        imageUrl: AppIcons.downArrow,
-                        width: 20.rw(context),
-                        height: 20.rh(context),
-                        color: context.color.textLightColor,
-                      ),
-                    )
-                  : CustomImage(
-                      imageUrl: AppIcons.downArrow,
-                      width: 20.rw(context),
-                      height: 20.rh(context),
-                      color: context.color.textLightColor,
-                    ),
+              if (daySchedule.isExpanded)
+                Transform.flip(
+                  flipY: true,
+                  child: CustomImage(
+                    imageUrl: AppIcons.downArrow,
+                    width: 20.rw(context),
+                    height: 20.rh(context),
+                    color: context.color.textLightColor,
+                  ),
+                )
+              else
+                CustomImage(
+                  imageUrl: AppIcons.downArrow,
+                  width: 20.rw(context),
+                  height: 20.rh(context),
+                  color: context.color.textLightColor,
+                ),
           ],
         ),
       ),

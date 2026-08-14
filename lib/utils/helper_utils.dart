@@ -1179,7 +1179,7 @@ class _SlideSnackBarState extends State<_SlideSnackBar>
   @override
   void initState() {
     super.initState();
-    unawaited(_controller.forward());
+    _controller.forward();
     _hideTimer = Timer(widget.duration, _dismiss);
   }
 

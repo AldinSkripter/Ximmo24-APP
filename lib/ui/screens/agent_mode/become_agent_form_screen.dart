@@ -541,12 +541,12 @@ class _BecomeAgentFormScreenState extends State<BecomeAgentFormScreen> {
       child: BlocConsumer<ApplyAgentVerificationCubit, ApplyAgentVerificationState>(
         listener: (context, state) {
           if (state is ApplyAgentVerificationSuccess) {
-            unawaited(
+            
               Navigator.pushReplacementNamed(
                 context,
                 Routes.agentRegistrationSuccess,
-              ),
-            );
+              )
+            ;
           } else if (state is ApplyAgentVerificationFailure) {
             HelperUtils.showSnackBarMessage(
               context,

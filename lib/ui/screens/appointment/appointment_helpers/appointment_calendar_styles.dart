@@ -252,13 +252,14 @@ class AppointmentCalendarStyles {
       rightChevronIcon: arrow,
       leftChevronIcon: Transform.flip(flipX: true, child: arrow),
       titleTextFormatter: (date, locale) =>
-          DateFormat.yMMMM(locale).format(date),
+          DateFormat.yMMMM(locale as String?).format(date),
     );
   }
 
   static DaysOfWeekStyle buildDaysOfWeekStyle(BuildContext context) {
     return DaysOfWeekStyle(
-      dowTextFormatter: (date, locale) => DateFormat.E(locale).format(date)[0],
+      dowTextFormatter: (date, locale) =>
+          DateFormat.E(locale as String?).format(date)[0],
       weekdayStyle: TextStyle(
         color: context.color.textColorDark,
         fontSize: context.font.md,

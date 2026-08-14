@@ -49,12 +49,12 @@ class BwRegion {
         }
       }
       _polygons = polys;
-    } catch (_) {
+    } on Object catch (_) {
       _polygons = []; // fail-open if asset missing
     }
   }
 
-  static List<List<List<double>>> _toPolygon(List rings) {
+  static List<List<List<double>>> _toPolygon(List<dynamic> rings) {
     return rings
         .map<List<List<double>>>((ring) => (ring as List)
             .map<List<double>>((pt) => [
@@ -98,8 +98,10 @@ class BwRegion {
     var inside = false;
     final n = ring.length;
     for (var i = 0, j = n - 1; i < n; j = i++) {
-      final xi = ring[i][0], yi = ring[i][1];
-      final xj = ring[j][0], yj = ring[j][1];
+      final xi = ring[i][0];
+      final yi = ring[i][1];
+      final xj = ring[j][0];
+      final yj = ring[j][1];
       final denom = (yj - yi) == 0 ? 1e-12 : (yj - yi);
       final intersect =
           ((yi > lat) != (yj > lat)) && (lng < (xj - xi) * (lat - yi) / denom + xi);

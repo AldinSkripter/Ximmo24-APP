@@ -652,12 +652,12 @@ class _VerifyAgentFormBodyState extends State<_VerifyAgentFormBody> {
       child: BlocConsumer<ApplyAgentVerificationCubit, ApplyAgentVerificationState>(
         listener: (context, state) {
           if (state is ApplyAgentVerificationSuccess) {
-            unawaited(
+            
               Navigator.pushReplacementNamed(
                 context,
                 Routes.agentRegistrationSuccess,
-              ),
-            );
+              )
+            ;
           } else if (state is ApplyAgentVerificationFailure) {
             HelperUtils.showSnackBarMessage(
               context,

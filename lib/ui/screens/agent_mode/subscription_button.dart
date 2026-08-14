@@ -57,7 +57,7 @@ class _CustomPremiumButtonState extends State<CustomPremiumButton>
       duration: const Duration(seconds: 5),
       vsync: this,
     );
-    unawaited(_borderAnimationController.repeat());
+    _borderAnimationController.repeat();
 
     // Icon animation - switches every 3 seconds
     _iconAnimationController = AnimationController(

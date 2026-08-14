@@ -1,5 +1,5 @@
 class CustomException implements Exception {
-  CustomException([this._message]);
+  CustomException([dynamic message]) : _message = message;
   final dynamic _message;
 
   @override

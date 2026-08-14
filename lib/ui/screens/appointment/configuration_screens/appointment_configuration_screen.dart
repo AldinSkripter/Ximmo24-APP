@@ -118,7 +118,7 @@ class _AppointmentConfigurationScreenState
   }
 
   void _navigateToSubScreen(Widget screen, String title) {
-    unawaited(
+    
       Navigator.push(
         context,
         CupertinoPageRoute<dynamic>(
@@ -133,8 +133,8 @@ class _AppointmentConfigurationScreenState
             ),
           ),
         ),
-      ),
-    );
+      )
+    ;
   }
 
   void _onNavigateToScreen(Widget screen, String title) {

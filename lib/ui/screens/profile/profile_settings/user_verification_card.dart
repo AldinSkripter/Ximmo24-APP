@@ -12,7 +12,7 @@ class UserVerificationCard extends StatelessWidget {
     if (userVerificationStatus == 'not_applied') {
       return GestureDetector(
         onTap: () {
-          unawaited(Navigator.pushNamed(context, Routes.userVerificationForm));
+          Navigator.pushNamed(context, Routes.userVerificationForm);
         },
         child: Container(
           padding: EdgeInsets.symmetric(
@@ -53,12 +53,12 @@ class UserVerificationCard extends StatelessWidget {
                       height: 20.rh(context),
                       autoWidth: true,
                       onPressed: () {
-                        unawaited(
+                        
                           Navigator.pushNamed(
                             context,
                             Routes.userVerificationForm,
-                          ),
-                        );
+                          )
+                        ;
                       },
                       buttonTitle: 'verifyNow'.translate(context),
                     ),
@@ -123,7 +123,7 @@ class UserVerificationCard extends StatelessWidget {
           HiveUtils.getUserDetails().userVerificationRejectReason;
       return GestureDetector(
         onTap: () {
-          unawaited(Navigator.pushNamed(context, Routes.userVerificationForm));
+          Navigator.pushNamed(context, Routes.userVerificationForm);
         },
         child: Container(
           padding: const EdgeInsets.all(16),
@@ -178,12 +178,12 @@ class UserVerificationCard extends StatelessWidget {
               UiUtils.buildButton(
                 context,
                 onPressed: () {
-                  unawaited(
+                  
                     Navigator.pushNamed(
                       context,
                       Routes.userVerificationForm,
-                    ),
-                  );
+                    )
+                  ;
                 },
                 autoWidth: true,
                 fontSize: 14.rf(context),

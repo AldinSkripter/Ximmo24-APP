@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:ebroker/utils/app_file_picker.dart';
 import 'package:ebroker/utils/app_icons.dart';
@@ -115,7 +117,7 @@ class DocumentUploadState extends State<DocumentUpload> {
       );
       if (file != null) {
         if (widget.maxFileSizeInMB != null &&
-            file.size > widget.maxFileSizeInMB! * 1024 * 1024) {
+            File(file.path!).lengthSync() > widget.maxFileSizeInMB! * 1024 * 1024) {
           await Fluttertoast.showToast(
             msg:
                 '${'fileSizeExceedsLimit'.translate(context)} ${widget.maxFileSizeInMB} MB',

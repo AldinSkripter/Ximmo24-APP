@@ -197,7 +197,7 @@ class _SelectStoryListingScreenState extends State<SelectStoryListingScreen>
               final property = state.myProperty[index];
               return _SelectablePropertyTile(
                 property: property,
-                onTap: () => unawaited(
+                onTap: () => 
                   Navigator.pushNamed(
                     context,
                     Routes.addStory,
@@ -212,8 +212,8 @@ class _SelectStoryListingScreenState extends State<SelectStoryListingScreen>
                         propertyType: property.propertyType ?? '',
                       ),
                     },
-                  ),
-                ),
+                  )
+                ,
               );
             },
           );
@@ -272,7 +272,7 @@ class _SelectStoryListingScreenState extends State<SelectStoryListingScreen>
               final project = state.projects[index];
               return _SelectableProjectTile(
                 project: project,
-                onTap: () => unawaited(
+                onTap: () => 
                   Navigator.pushNamed(
                     context,
                     Routes.addStory,
@@ -285,8 +285,8 @@ class _SelectStoryListingScreenState extends State<SelectStoryListingScreen>
                         galleryImages: _projectGalleryImages(project),
                       ),
                     },
-                  ),
-                ),
+                  )
+                ,
               );
             },
           );

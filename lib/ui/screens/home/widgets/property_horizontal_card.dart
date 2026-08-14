@@ -381,13 +381,13 @@ class _PropertyHorizontalCardState extends State<PropertyHorizontalCard> {
                                   ],
                                 ),
                               )
+                            else if (property.isExpired != true)
+                              SellRentLabel(
+                                propertyType: property.propertyType
+                                    .toString(),
+                              )
                             else
-                              property.isExpired != true
-                                  ? SellRentLabel(
-                                      propertyType: property.propertyType
-                                          .toString(),
-                                    )
-                                  : const SizedBox.shrink(),
+                              const SizedBox.shrink(),
                           ],
                         ),
                       ],

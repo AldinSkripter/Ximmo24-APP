@@ -317,7 +317,7 @@ class _RecordButtonState extends State<RecordButton> {
         if (widget.isSending) return;
         debugPrint('onLongPressDown');
         setState(() => _isPressing = true);
-        unawaited(widget.controller.forward());
+        widget.controller.forward();
       },
       onLongPressEnd: (details) async {
         if (widget.isSending) return;
