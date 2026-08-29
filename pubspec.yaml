@@ -2,7 +2,7 @@ name: ebroker #! DO NOT CHANGE THIS
 description: Welcome to eBroker.
 
 publish_to: 'none'
-version: 1.6.0+85
+version: 1.0.3+4
 
 environment:
   sdk: ^3.10.0
@@ -91,7 +91,9 @@ dependencies:
   
   
   # Payment Gateways
-  in_app_purchase: ^3.2.3
+  # Bumped to ^3.3.0 -> pulls in_app_purchase_android ^0.5.0 which ships
+  # Google Play Billing Library 8.0.0 (required by Google Play from 2026-11-01).
+  in_app_purchase: ^3.3.0
 
   # Notifications & Reviews
   awesome_notifications: ^0.12.1

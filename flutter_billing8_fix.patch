@@ -1,0 +1,15 @@
+diff --git a/pubspec.yaml b/pubspec.yaml
+index 2e804f4..4afd843 100644
+--- a/pubspec.yaml
++++ b/pubspec.yaml
+@@ -91,7 +91,9 @@ dependencies:
+   
+   
+   # Payment Gateways
+-  in_app_purchase: ^3.2.3
++  # Bumped to ^3.3.0 -> pulls in_app_purchase_android ^0.5.0 which ships
++  # Google Play Billing Library 8.0.0 (required by Google Play from 2026-11-01).
++  in_app_purchase: ^3.3.0
+ 
+   # Notifications & Reviews
+   awesome_notifications: ^0.12.1
