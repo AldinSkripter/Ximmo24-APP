@@ -53,6 +53,10 @@ jobs:
           lib/ui/screens/profile/profile_settings/profile_tile.dart
           lib/ui/screens/profile/profile_settings/user_verification_card.dart
           lib/ui/screens/profile/widgets/profile_body.dart
+          lib/ui/screens/main_activity.dart
+          lib/ui/screens/agent_dashboard/widgets/agent_bottom_bar.dart
+          lib/ui/screens/widgets/add_listing_button.dart
+          lib/ui/screens/widgets/premium_bottom_bar.dart
 
       - name: Analyze application
         run: flutter analyze --no-fatal-infos --no-fatal-warnings

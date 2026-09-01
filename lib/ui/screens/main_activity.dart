@@ -6,6 +6,7 @@ import 'package:ebroker/ui/screens/home/home_screen.dart';
 import 'package:ebroker/ui/screens/my_listings_screen.dart';
 import 'package:ebroker/ui/screens/profile/profile_screen.dart';
 import 'package:ebroker/ui/screens/widgets/add_listing_button.dart';
+import 'package:ebroker/ui/screens/widgets/premium_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -479,98 +480,11 @@ class MainActivityState extends State<MainActivity>
   }
 
   Widget bottomBar() {
-    return Container(
-      height: 76.rh(context),
-      decoration: BoxDecoration(
-        color: context.color.secondaryColor,
-        boxShadow: [
-          BoxShadow(
-            color: context.color.textColorDark.withValues(alpha: 0.2),
-            offset: const Offset(0, -1),
-            blurRadius: 5,
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: .spaceAround,
-        children: <Widget>[
-          buildBottomNavigationbarItem(
-            0,
-            AppIcons.home,
-            AppIcons.homeActive,
-            'homeTab'.translate(context),
-          ),
-          buildBottomNavigationbarItem(
-            1,
-            AppIcons.chat,
-            AppIcons.chatActive,
-            'chat'.translate(context),
-          ),
-          Transform.translate(
-            offset: Offset(0, -30.rh(context)),
-            child: AddListingButton(controller: _addListingController),
-          ),
-          buildBottomNavigationbarItem(
-            3,
-            AppIcons.properties,
-            AppIcons.propertiesActive,
-            'myListings'.translate(context),
-          ),
-          buildBottomNavigationbarItem(
-            4,
-            AppIcons.profileOutlined,
-            AppIcons.profileActive,
-            'profileTab'.translate(context),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildBottomNavigationbarItem(
-    int index,
-    String svgImage,
-    String selectedSvgImage,
-    String title,
-  ) {
-    return Expanded(
-      child: GestureDetector(
-        behavior: .opaque,
-        onTap: () => onItemTapped(index),
-        child: Padding(
-          padding: EdgeInsets.all(4.rh(context)),
-          child: Column(
-            mainAxisAlignment: .center,
-            children: <Widget>[
-              AnimatedScale(
-                scale: currtab == index ? 1.3 : 1,
-                duration: const Duration(milliseconds: 200),
-                child: Container(
-                  alignment: Alignment.center,
-                  child: CustomImage(
-                    imageUrl: currtab == index ? selectedSvgImage : svgImage,
-                    height: 24.rh(context),
-                    width: 24.rw(context),
-                    color: currtab == index
-                        ? context.color.tertiaryColor
-                        : context.color.textColorDark.withValues(alpha: .5),
-                  ),
-                ),
-              ),
-              SizedBox(height: 4.rh(context)),
-              CustomText(
-                title,
-                maxLines: 1,
-                textAlign: .center,
-                fontSize: context.font.xs,
-                color: currtab == index
-                    ? context.color.tertiaryColor
-                    : context.color.textColorDark.withValues(alpha: .5),
-              ),
-            ],
-          ),
-        ),
-      ),
+    return PremiumBottomBar(
+      currentTab: currtab,
+      onTabTapped: (index) => unawaited(onItemTapped(index)),
+      addListingController: _addListingController,
+      firstLabel: 'homeTab'.translate(context),
     );
   }
 }

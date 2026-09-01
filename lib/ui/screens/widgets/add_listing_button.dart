@@ -156,8 +156,23 @@ class _AddListingOverlayState extends State<AddListingOverlay>
           width: width,
           height: 44.rh(context),
           decoration: BoxDecoration(
-            color: context.color.tertiaryColor,
+            gradient: LinearGradient(
+              begin: AlignmentDirectional.topStart,
+              end: AlignmentDirectional.bottomEnd,
+              colors: [
+                context.color.tertiaryColor,
+                context.color.tertiaryColor.withValues(alpha: 0.82),
+              ],
+            ),
             borderRadius: BorderRadius.circular(22.rw(context)),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
+            boxShadow: [
+              BoxShadow(
+                color: context.color.tertiaryColor.withValues(alpha: 0.28),
+                blurRadius: 18,
+                offset: const Offset(0, 8),
+              ),
+            ],
           ),
           alignment: Alignment.center,
           child: Row(
@@ -235,29 +250,38 @@ class AddListingButtonState extends State<AddListingButton>
           behavior: .opaque,
           onTap: widget.controller.toggle,
           child: SizedBox(
-            width: 56.rw(context),
-            height: 56.rh(context),
+            width: 64.rw(context),
+            height: 64.rh(context),
             child: Stack(
               alignment: Alignment.center,
               clipBehavior: .none,
               children: [
-                if (context.color.brightness == .light)
-                  Container(
-                    height: 48.rh(context),
-                    width: 46.rw(context),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(99999),
-                      boxShadow: [
-                        BoxShadow(
-                          color: context.color.textColorDark.withValues(
-                            alpha: 0.5,
-                          ),
-                          offset: const Offset(0, -1.5),
-                          blurRadius: 5,
-                        ),
-                      ],
+                Container(
+                  height: 64.rh(context),
+                  width: 64.rw(context),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: context.color.secondaryColor,
+                    border: Border.all(
+                      color: context.color.secondaryColor,
+                      width: 5,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: context.color.tertiaryColor.withValues(
+                          alpha: 0.32,
+                        ),
+                        offset: const Offset(0, 8),
+                        blurRadius: 20,
+                      ),
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.12),
+                        offset: const Offset(0, 3),
+                        blurRadius: 8,
+                      ),
+                    ],
                   ),
+                ),
                 AnimatedScale(
                   scale: isOpen ? 1.15 : 1,
                   duration: const Duration(milliseconds: 200),
@@ -267,14 +291,14 @@ class AddListingButtonState extends State<AddListingButton>
                     child: CustomImage(
                       imageUrl: AppIcons.addButtonShape,
                       color: context.color.tertiaryColor,
-                      height: 56.rh(context),
-                      width: 56.rw(context),
+                      height: 54.rh(context),
+                      width: 54.rw(context),
                     ),
                   ),
                 ),
                 Container(
-                  height: 56.rh(context),
-                  width: 56.rw(context),
+                  height: 54.rh(context),
+                  width: 54.rw(context),
                   alignment: Alignment.center,
                   child: AnimatedBuilder(
                     animation: _plusController,
