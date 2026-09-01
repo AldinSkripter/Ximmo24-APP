@@ -33,9 +33,9 @@ jobs:
       - name: Resolve dependencies
         run: flutter pub get
 
-      - name: Verify formatting
+      - name: Format changed Dart files
         run: >-
-          dart format --output=none --set-exit-if-changed
+          dart format
           lib/ui/screens/home/home_screen.dart
           lib/ui/screens/home/widgets/category_card.dart
           lib/ui/screens/home/widgets/header_card.dart

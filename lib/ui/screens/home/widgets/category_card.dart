@@ -69,7 +69,7 @@ class CategoryCard extends StatelessWidget {
                   color: context.color.textColorDark,
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ),
