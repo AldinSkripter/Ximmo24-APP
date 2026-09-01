@@ -29,89 +29,108 @@ class PremiumBottomBar extends StatelessWidget {
           right: 12.rw(context),
           bottom: 8.rh(context),
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(24.rw(context)),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-            child: Container(
-              height: 72.rh(context),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: AlignmentDirectional.topStart,
-                  end: AlignmentDirectional.bottomEnd,
-                  colors: [
-                    context.color.secondaryColor.withValues(alpha: 0.88),
-                    context.color.secondaryColor.withValues(alpha: 0.68),
-                  ],
+        child: Container(
+          height: 72.rh(context),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24.rw(context)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(
+                  alpha: context.color.brightness == Brightness.light
+                      ? 0.12
+                      : 0.34,
                 ),
-                borderRadius: BorderRadius.circular(24.rw(context)),
-                border: Border.all(
-                  color: context.color.brightness == Brightness.light
-                      ? Colors.white.withValues(alpha: 0.72)
-                      : Colors.white.withValues(alpha: 0.12),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(
-                      alpha: context.color.brightness == Brightness.light
-                          ? 0.12
-                          : 0.34,
-                    ),
-                    blurRadius: 28,
-                    offset: const Offset(0, 10),
-                  ),
-                  BoxShadow(
-                    color: context.color.tertiaryColor.withValues(alpha: 0.06),
-                    blurRadius: 18,
-                    offset: const Offset(0, -2),
-                  ),
-                ],
+                blurRadius: 28,
+                offset: const Offset(0, 10),
               ),
-              child: Row(
-                children: [
-                  _PremiumNavItem(
-                    index: 0,
-                    currentTab: currentTab,
-                    icon: AppIcons.home,
-                    activeIcon: AppIcons.homeActive,
-                    label: firstLabel,
-                    onTap: onTabTapped,
-                  ),
-                  _PremiumNavItem(
-                    index: 1,
-                    currentTab: currentTab,
-                    icon: AppIcons.chat,
-                    activeIcon: AppIcons.chatActive,
-                    label: 'chat'.translate(context),
-                    onTap: onTabTapped,
-                  ),
-                  Expanded(
-                    child: Transform.translate(
-                      offset: Offset(0, -18.rh(context)),
-                      child: AddListingButton(
-                        controller: addListingController,
+              BoxShadow(
+                color: context.color.tertiaryColor.withValues(alpha: 0.06),
+                blurRadius: 18,
+                offset: const Offset(0, -2),
+              ),
+            ],
+          ),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned.fill(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24.rw(context)),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: AlignmentDirectional.topStart,
+                          end: AlignmentDirectional.bottomEnd,
+                          colors: [
+                            context.color.secondaryColor.withValues(
+                              alpha: 0.88,
+                            ),
+                            context.color.secondaryColor.withValues(
+                              alpha: 0.68,
+                            ),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(24.rw(context)),
+                        border: Border.all(
+                          color:
+                              context.color.brightness == Brightness.light
+                              ? Colors.white.withValues(alpha: 0.72)
+                              : Colors.white.withValues(alpha: 0.12),
+                        ),
                       ),
                     ),
                   ),
-                  _PremiumNavItem(
-                    index: 3,
-                    currentTab: currentTab,
-                    icon: AppIcons.properties,
-                    activeIcon: AppIcons.propertiesActive,
-                    label: 'myListings'.translate(context),
-                    onTap: onTabTapped,
-                  ),
-                  _PremiumNavItem(
-                    index: 4,
-                    currentTab: currentTab,
-                    icon: AppIcons.profileOutlined,
-                    activeIcon: AppIcons.profileActive,
-                    label: 'profileTab'.translate(context),
-                    onTap: onTabTapped,
-                  ),
-                ],
+                ),
               ),
-            ),
+              Positioned.fill(
+                child: Row(
+                  children: [
+                    _PremiumNavItem(
+                      index: 0,
+                      currentTab: currentTab,
+                      icon: AppIcons.home,
+                      activeIcon: AppIcons.homeActive,
+                      label: firstLabel,
+                      onTap: onTabTapped,
+                    ),
+                    _PremiumNavItem(
+                      index: 1,
+                      currentTab: currentTab,
+                      icon: AppIcons.chat,
+                      activeIcon: AppIcons.chatActive,
+                      label: 'chat'.translate(context),
+                      onTap: onTabTapped,
+                    ),
+                    Expanded(
+                      child: Transform.translate(
+                        offset: Offset(0, -18.rh(context)),
+                        child: AddListingButton(
+                          controller: addListingController,
+                        ),
+                      ),
+                    ),
+                    _PremiumNavItem(
+                      index: 3,
+                      currentTab: currentTab,
+                      icon: AppIcons.properties,
+                      activeIcon: AppIcons.propertiesActive,
+                      label: 'myListings'.translate(context),
+                      onTap: onTabTapped,
+                    ),
+                    _PremiumNavItem(
+                      index: 4,
+                      currentTab: currentTab,
+                      icon: AppIcons.profileOutlined,
+                      activeIcon: AppIcons.profileActive,
+                      label: 'profileTab'.translate(context),
+                      onTap: onTabTapped,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
