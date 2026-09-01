@@ -287,6 +287,9 @@ class SplashScreenState extends State<SplashScreen>
         }
         final splashBackground = context.color.tertiaryColor;
         final isLightBackground = splashBackground.computeLuminance() > 0.45;
+        final splashLogo = isLightBackground
+            ? AppIcons.splashLogoLight
+            : AppIcons.splashLogoDark;
         final splashLogoWidth = (MediaQuery.sizeOf(context).width * 0.78)
             .clamp(240.0, 360.0)
             .toDouble();
@@ -311,30 +314,11 @@ class SplashScreenState extends State<SplashScreen>
             body: Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Container(
-                  key: const ValueKey('ximmo24-splash-logo-card'),
+                child: CustomImage(
+                  key: const ValueKey('ximmo24-splash-logo'),
+                  imageUrl: splashLogo,
                   width: splashLogoWidth,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 18,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFDFEFE),
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: const Color(0x1A09263D)),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0x29000000),
-                        blurRadius: 24,
-                        offset: Offset(0, 10),
-                      ),
-                    ],
-                  ),
-                  child: CustomImage(
-                    key: const ValueKey('ximmo24-splash-logo'),
-                    imageUrl: AppIcons.splashLogoLight,
-                    fit: BoxFit.contain,
-                  ),
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
@@ -378,3 +362,32 @@ Future<dynamic> getDefaultLanguage({
           final map = state.toMap();
           final data = map['file_name'];
           map['data'] = data;
+
+          map.remove('file_name');
+          await HiveUtils.storeLanguage(map);
+          context.read<LanguageCubit>().emitLanguageLoader(
+            code: state.code,
+            isRtl: state.isRTL,
+          );
+        } else {
+          if (cachedLanguage != null && cachedLanguage['data'] != null) {
+            context.read<LanguageCubit>().loadCurrentLanguage();
+          }
+        }
+      }
+    } on Exception catch (e) {
+      log('Error while fetching language from API: $e');
+      if (cachedLanguage != null &&
+          cachedLanguage['data'] != null &&
+          context.mounted) {
+        context.read<LanguageCubit>().loadCurrentLanguage();
+      }
+    }
+
+    onSuccess.call();
+  } on Exception catch (e, st) {
+    log('Error while load default language $e\n$st');
+    // Fallback: proceed with default template language to avoid blocking splash
+    onSuccess.call();
+  }
+}
