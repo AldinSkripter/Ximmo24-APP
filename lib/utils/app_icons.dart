@@ -174,6 +174,12 @@ class AppIcons {
 
   // Company branding
   static final String splashLogo = _asset('${_appIconPath}splash_logo.png');
+  static final String splashLogoLight = _asset(
+    '${_appIconPath}splash_logo_light.png',
+  );
+  static final String splashLogoDark = _asset(
+    '${_appIconPath}splash_logo_dark.png',
+  );
   static final String companyLogo = _asset('${_appIconPath}company_logo.svg');
   static final String defaultPersonLogo = _asset(
     '${_svgPath}defaultProfileIcon.svg',

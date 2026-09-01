@@ -285,36 +285,42 @@ class SplashScreenState extends State<SplashScreen>
             ),
           );
         }
+        final splashBackground = context.color.tertiaryColor;
+        final isLightBackground = splashBackground.computeLuminance() > 0.45;
+        final splashLogo = isLightBackground
+            ? AppIcons.splashLogoLight
+            : AppIcons.splashLogoDark;
+        final splashLogoWidth = (MediaQuery.sizeOf(context).width * 0.78)
+            .clamp(240.0, 360.0)
+            .toDouble();
+
         return AnnotatedRegion(
           value: SystemUiOverlayStyle(
-            statusBarColor: context.color.tertiaryColor,
-            systemNavigationBarColor: context.color.tertiaryColor,
+            statusBarColor: splashBackground,
+            statusBarIconBrightness: isLightBackground
+                ? Brightness.dark
+                : Brightness.light,
+            statusBarBrightness: isLightBackground
+                ? Brightness.light
+                : Brightness.dark,
+            systemNavigationBarColor: splashBackground,
+            systemNavigationBarIconBrightness: isLightBackground
+                ? Brightness.dark
+                : Brightness.light,
           ),
           child: Scaffold(
-            backgroundColor: context.color.tertiaryColor,
+            backgroundColor: splashBackground,
             extendBody: true,
-            body: Stack(
-              children: [
-                Center(
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: CustomImage(
-                      imageUrl: AppIcons.splashLogo,
-                      height: 151.rs(context),
-                    ),
-                  ),
+            body: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: CustomImage(
+                  key: const ValueKey('ximmo24-splash-logo'),
+                  imageUrl: splashLogo,
+                  width: splashLogoWidth,
+                  fit: BoxFit.contain,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    key: const ValueKey('companylogo'),
-                    child: CustomImage(
-                      imageUrl: AppIcons.companyLogo,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         );
