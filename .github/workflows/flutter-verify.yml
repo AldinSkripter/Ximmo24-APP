@@ -59,5 +59,11 @@ jobs:
             echo 'No Flutter tests found; skipping flutter test.'
           fi
 
+      - name: Install required Android NDK
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses >/dev/null
+          sdkmanager --channel=3 'ndk;29.0.14033849'
+
       - name: Build debug APK
         run: flutter build apk --debug
