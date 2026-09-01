@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:ebroker/commons/utils/property_project_add_button_tap.dart';
 import 'package:ebroker/exports/main_export.dart';
 import 'package:flutter/material.dart';
@@ -256,43 +258,61 @@ class AddListingButtonState extends State<AddListingButton>
               alignment: Alignment.center,
               clipBehavior: .none,
               children: [
-                Container(
-                  height: 64.rh(context),
-                  width: 64.rw(context),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: context.color.secondaryColor,
-                    border: Border.all(
-                      color: context.color.secondaryColor,
-                      width: 5,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: context.color.tertiaryColor.withValues(
-                          alpha: 0.32,
+                ClipOval(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+                    child: Container(
+                      height: 64.rh(context),
+                      width: 64.rw(context),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          begin: AlignmentDirectional.topStart,
+                          end: AlignmentDirectional.bottomEnd,
+                          colors: [
+                            context.color.secondaryColor.withValues(
+                              alpha: 0.78,
+                            ),
+                            context.color.secondaryColor.withValues(
+                              alpha: 0.38,
+                            ),
+                          ],
                         ),
-                        offset: const Offset(0, 8),
-                        blurRadius: 20,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.34),
+                        ),
                       ),
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.12),
-                        offset: const Offset(0, 3),
-                        blurRadius: 8,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
                 AnimatedScale(
                   scale: isOpen ? 1.15 : 1,
                   duration: const Duration(milliseconds: 200),
-                  child: AnimatedRotation(
-                    turns: isOpen ? 1 / 3 : 0,
-                    duration: const Duration(milliseconds: 500),
-                    child: CustomImage(
-                      imageUrl: AppIcons.addButtonShape,
-                      color: context.color.tertiaryColor,
-                      height: 54.rh(context),
-                      width: 54.rw(context),
+                  child: Container(
+                    height: 52.rh(context),
+                    width: 52.rw(context),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        begin: AlignmentDirectional.topStart,
+                        end: AlignmentDirectional.bottomEnd,
+                        colors: [
+                          context.color.tertiaryColor,
+                          context.color.tertiaryColor.withValues(alpha: 0.78),
+                        ],
+                      ),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.18),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: context.color.tertiaryColor.withValues(
+                            alpha: 0.34,
+                          ),
+                          offset: const Offset(0, 7),
+                          blurRadius: 18,
+                        ),
+                      ],
                     ),
                   ),
                 ),
