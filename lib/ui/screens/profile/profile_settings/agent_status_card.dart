@@ -35,7 +35,14 @@ class AgentStatusCard extends StatelessWidget {
             color: context.color.tertiaryColor.withValues(alpha: .1),
             width: 1.5,
           ),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: context.color.textColorDark.withValues(alpha: 0.05),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: .start,
@@ -62,9 +69,11 @@ class AgentStatusCard extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: context.color.secondaryColor,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: context.color.borderColor),
+            color: context.color.secondaryColor,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: context.color.tertiaryColor.withValues(alpha: 0.10),
+            ),
         ),
         child: Column(
           crossAxisAlignment: .start,
@@ -139,9 +148,25 @@ class AgentStatusCard extends StatelessWidget {
           vertical: 12.rh(context),
         ),
         decoration: BoxDecoration(
-          color: context.color.secondaryColor,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: context.color.borderColor),
+          gradient: LinearGradient(
+            begin: AlignmentDirectional.topStart,
+            end: AlignmentDirectional.bottomEnd,
+            colors: [
+              context.color.secondaryColor,
+              context.color.tertiaryColor.withValues(alpha: 0.06),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: context.color.tertiaryColor.withValues(alpha: 0.12),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: context.color.textColorDark.withValues(alpha: 0.05),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
         child: Row(
           crossAxisAlignment: .start,
@@ -213,7 +238,14 @@ class AgentStatusCard extends StatelessWidget {
             color: context.color.tertiaryColor.withValues(alpha: .1),
             width: 1.5,
           ),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: context.color.textColorDark.withValues(alpha: 0.05),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
         child: Row(
           children: [

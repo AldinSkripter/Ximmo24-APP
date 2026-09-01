@@ -20,9 +20,18 @@ class UserVerificationCard extends StatelessWidget {
             vertical: 12.rh(context),
           ),
           decoration: BoxDecoration(
-            color: context.color.secondaryColor,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: context.color.borderColor),
+            gradient: LinearGradient(
+              begin: AlignmentDirectional.topStart,
+              end: AlignmentDirectional.bottomEnd,
+              colors: [
+                context.color.secondaryColor,
+                context.color.tertiaryColor.withValues(alpha: 0.06),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: context.color.tertiaryColor.withValues(alpha: 0.12),
+            ),
           ),
           child: Row(
             children: [
@@ -93,7 +102,7 @@ class UserVerificationCard extends StatelessWidget {
             color: context.color.tertiaryColor.withValues(alpha: .1),
             width: 1.5,
           ),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,8 +138,10 @@ class UserVerificationCard extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: context.color.secondaryColor,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: context.color.borderColor),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: context.color.tertiaryColor.withValues(alpha: 0.10),
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

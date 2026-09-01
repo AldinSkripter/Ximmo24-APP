@@ -53,6 +53,19 @@ class _ProfileBodyState extends State<ProfileBody> {
           const AgentStatusCard(),
           SizedBox(height: 16.rh(context)),
         ],
+        Padding(
+          padding: EdgeInsetsDirectional.only(
+            start: 4.rw(context),
+            bottom: 10.rh(context),
+          ),
+          child: CustomText(
+            'XIMMO24',
+            color: context.color.tertiaryColor,
+            fontSize: context.font.xxs,
+            fontWeight: .w700,
+            letterSpacing: 2,
+          ),
+        ),
         ProfileMenu(
           isGuest: widget.isGuest,
           onShareApp: _shareApp,

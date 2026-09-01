@@ -33,41 +33,51 @@ class ProfileTile extends StatelessWidget {
       },
       child: AbsorbPointer(
         absorbing: !isSwitchBox && trailing == null,
-        child: Row(
-          children: [
-            if (svgImagePath != null) ...[
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: context.color.textColorDark.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: FittedBox(
-                  fit: .none,
-                  child: CustomImage(
-                    imageUrl: svgImagePath!,
-                    height: 24.rh(context),
-                    width: 24.rw(context),
-                    color: context.color.textColorDark,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 12.rw(context),
+            vertical: 11.rh(context),
+          ),
+          decoration: BoxDecoration(
+            color: context.color.primaryColor.withValues(alpha: 0.55),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            children: [
+              if (svgImagePath != null) ...[
+                Container(
+                  padding: const EdgeInsets.all(9),
+                  decoration: BoxDecoration(
+                    color: context.color.tertiaryColor.withValues(alpha: 0.10),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: FittedBox(
+                    fit: .none,
+                    child: CustomImage(
+                      imageUrl: svgImagePath!,
+                      height: 24.rh(context),
+                      width: 24.rw(context),
+                      color: context.color.tertiaryColor,
+                    ),
                   ),
                 ),
+                SizedBox(width: 12.rw(context)),
+              ],
+              Expanded(
+                child: CustomText(
+                  title,
+                  fontSize: context.font.sm,
+                  fontWeight: .w600,
+                  color: context.color.textColorDark,
+                ),
               ),
-              SizedBox(width: 8.rw(context)),
+              if (isSwitchBox) ...[
+                const _ThemeModeSelector(),
+              ] else if (trailing != null) ...[
+                trailing!,
+              ],
             ],
-            Expanded(
-              child: CustomText(
-                title,
-                fontSize: context.font.md,
-                fontWeight: .w700,
-                color: context.color.textColorDark,
-              ),
-            ),
-            if (isSwitchBox) ...[
-              const _ThemeModeSelector(),
-            ] else if (trailing != null) ...[
-              trailing!,
-            ],
-          ],
+          ),
         ),
       ),
     );

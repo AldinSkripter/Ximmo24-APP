@@ -39,12 +39,21 @@ class ProfileHeader extends StatelessWidget {
         : displayEmail ?? '';
 
     return Container(
-      padding: .all(12.rw(context)),
+      padding: .all(16.rw(context)),
       margin: .symmetric(horizontal: 16.rw(context)),
       decoration: BoxDecoration(
-        border: Border.all(color: context.color.borderColor, width: 1.5),
+        border: Border.all(
+          color: context.color.tertiaryColor.withValues(alpha: 0.12),
+        ),
         color: context.color.secondaryColor,
-        borderRadius: BorderRadius.circular(12.rw(context)),
+        borderRadius: BorderRadius.circular(24.rw(context)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.10),
+            blurRadius: 28,
+            offset: const Offset(0, 12),
+          ),
+        ],
       ),
       child: Row(
         children: [
@@ -71,7 +80,7 @@ class ProfileHeader extends StatelessWidget {
               (displayProfile ?? '').trim(),
               isAgent,
             ),
-          SizedBox(width: 12.rw(context)),
+          SizedBox(width: 14.rw(context)),
           Expanded(
             child: Column(
               crossAxisAlignment: .start,
@@ -84,7 +93,7 @@ class ProfileHeader extends StatelessWidget {
                       child: CustomText(
                         username,
                         color: context.color.inverseSurface,
-                        fontSize: context.font.md,
+                        fontSize: context.font.lg,
                         fontWeight: .w700,
                         maxLines: 2,
                       ),
@@ -95,7 +104,7 @@ class ProfileHeader extends StatelessWidget {
 
                 CustomText(
                   email,
-                  color: context.color.textColorDark,
+                  color: context.color.textLightColor,
                   fontSize: context.font.xs,
                   maxLines: 1,
                 ),
@@ -125,22 +134,22 @@ class ProfileHeader extends StatelessWidget {
       ),
       margin: .only(top: 6.rh(context)),
       decoration: BoxDecoration(
-        color: context.color.tertiaryColor,
-        borderRadius: BorderRadius.circular(6.rw(context)),
+        color: context.color.tertiaryColor.withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(99),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           CustomImage(
             imageUrl: isAgent ? AppIcons.agentBadge : AppIcons.userBadge,
-            color: context.color.secondaryColor,
+            color: context.color.tertiaryColor,
             height: 12.rh(context),
             width: 12.rw(context),
           ),
           SizedBox(width: 4.rw(context)),
           CustomText(
             'verified'.translate(context),
-            color: context.color.secondaryColor,
+            color: context.color.tertiaryColor,
             fontSize: context.font.xxs,
             fontWeight: FontWeight.w600,
           ),
@@ -186,12 +195,12 @@ class ProfileHeader extends StatelessWidget {
               padding: .all(8.rw(context)),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: context.color.textColorDark.withValues(alpha: 0.06),
+                color: context.color.tertiaryColor.withValues(alpha: 0.10),
               ),
               child: Center(
                 child: CustomImage(
                   imageUrl: AppIcons.edit,
-                  color: context.color.textColorDark,
+                  color: context.color.tertiaryColor,
                   fit: .contain,
                   height: 18.rh(context),
                 ),
@@ -211,16 +220,16 @@ class ProfileHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(isAgent ? 8.rw(context) : 999),
             child: CustomImage(
               imageUrl: profileUrl,
-              width: 80.rw(context),
-              height: 80.rh(context),
+              width: 78.rw(context),
+              height: 78.rh(context),
             ),
           );
   }
 
   Widget _buildDefaultPersonSVG(BuildContext context, bool isAgent) {
     return Container(
-      width: 80.rw(context),
-      height: 80.rh(context),
+      width: 78.rw(context),
+      height: 78.rh(context),
       decoration: BoxDecoration(
         shape: isAgent ? .rectangle : .circle,
         borderRadius: isAgent ? .all(.circular(8.rw(context))) : null,

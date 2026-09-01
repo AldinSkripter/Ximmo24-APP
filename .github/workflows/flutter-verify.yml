@@ -46,6 +46,13 @@ jobs:
           lib/ui/screens/home/widgets/sections/all_properties_section.dart
           lib/ui/screens/home/widgets/sections/categories_section.dart
           lib/ui/screens/home/widgets/sections/slider_section.dart
+          lib/ui/screens/profile/profile_screen.dart
+          lib/ui/screens/profile/profile_settings/profile_header.dart
+          lib/ui/screens/profile/profile_settings/agent_status_card.dart
+          lib/ui/screens/profile/profile_settings/profile_menu.dart
+          lib/ui/screens/profile/profile_settings/profile_tile.dart
+          lib/ui/screens/profile/profile_settings/user_verification_card.dart
+          lib/ui/screens/profile/widgets/profile_body.dart
 
       - name: Analyze application
         run: flutter analyze --no-fatal-infos --no-fatal-warnings

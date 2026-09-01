@@ -158,11 +158,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                         delegate: _ProfileStickyHeaderDelegate(
                           isAgent: isAgent,
                           isGuest: isGuest,
-                          headerHeight: 142.rh(context),
+                          headerHeight: 154.rh(context),
                           bannerHeight: isAgent
                               ? 215.rh(context)
-                              : 124.rh(context),
-                          overlap: 64,
+                              : 174.rh(context),
+                          overlap: 72,
                           backgroundColor: context.color.primaryColor,
                           userDetailsState: userDetailsState,
                           agentProfileState: agentProfileState,
@@ -260,8 +260,11 @@ class _ProfileStickyHeaderDelegate extends SliverPersistentHeaderDelegate {
             right: 0,
             child: SizedBox(
               height: bannerHeight,
-              child: isAgent
-                  ? BlocBuilder<AgentProfileCubit, AgentProfileState>(
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  if (isAgent)
+                    BlocBuilder<AgentProfileCubit, AgentProfileState>(
                       builder: (context, state) {
                         final url = state is AgentProfileSuccess
                             ? state.agentProfile.agentBanner ?? ''
@@ -273,9 +276,57 @@ class _ProfileStickyHeaderDelegate extends SliverPersistentHeaderDelegate {
                         );
                       },
                     )
-                  : ColoredBox(
-                      color: context.color.tertiaryColor,
+                  else
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: AlignmentDirectional.topStart,
+                          end: AlignmentDirectional.bottomEnd,
+                          colors: [
+                            context.color.tertiaryColor,
+                            context.color.tertiaryColor.withValues(alpha: 0.78),
+                          ],
+                        ),
+                      ),
                     ),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withValues(alpha: isAgent ? 0.18 : 0),
+                          Colors.black.withValues(alpha: isAgent ? 0.52 : 0.10),
+                        ],
+                      ),
+                    ),
+                  ),
+                  PositionedDirectional(
+                    top: 24.rh(context),
+                    start: 20.rw(context),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 8.rw(context),
+                          height: 8.rh(context),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        SizedBox(width: 8.rw(context)),
+                        CustomText(
+                          'XIMMO24',
+                          color: Colors.white,
+                          fontSize: context.font.sm,
+                          fontWeight: .w700,
+                          letterSpacing: 2,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Positioned(

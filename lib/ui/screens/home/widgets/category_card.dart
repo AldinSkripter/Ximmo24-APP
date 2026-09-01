@@ -28,7 +28,7 @@ class CategoryCard extends StatelessWidget {
           onTapCategory.call(category);
         },
         child: Container(
-          width: 106.rw(context),
+          constraints: BoxConstraints(minWidth: 106.rw(context)),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
           decoration: BoxDecoration(
             color: context.color.secondaryColor,
@@ -43,6 +43,7 @@ class CategoryCard extends StatelessWidget {
             ],
           ),
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 width: 36.rw(context),
@@ -60,14 +61,12 @@ class CategoryCard extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 8.rw(context)),
-              Expanded(
-                child: CustomText(
-                  category.translatedName ?? category.category ?? '',
-                  maxLines: 2,
-                  fontWeight: .w600,
-                  fontSize: context.font.xs,
-                  color: context.color.textColorDark,
-                ),
+              CustomText(
+                category.translatedName ?? category.category ?? '',
+                maxLines: 1,
+                fontWeight: .w600,
+                fontSize: context.font.xs,
+                color: context.color.textColorDark,
               ),
             ],
           ),

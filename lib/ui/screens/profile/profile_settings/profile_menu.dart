@@ -162,11 +162,20 @@ class ProfileMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        border: Border.all(color: context.color.borderColor),
+        border: Border.all(
+          color: context.color.tertiaryColor.withValues(alpha: 0.10),
+        ),
         color: context.color.secondaryColor,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: context.color.textColorDark.withValues(alpha: 0.06),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
       ),
       child: Builder(
         builder: (context) {
@@ -179,7 +188,7 @@ class ProfileMenu extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               for (var i = 0; i < items.length; i++) ...[
-                if (i > 0) _divider(context),
+                if (i > 0) SizedBox(height: 6.rh(context)),
                 ProfileTile(
                   title: items[i].titleKey.translate(context),
                   svgImagePath: items[i].icon,
@@ -217,11 +226,15 @@ class ProfileMenu extends StatelessWidget {
                                 fit: .contain,
                                 color: context.color.textLightColor,
                               )
-                            : null),
+                            : Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 14,
+                                color: context.color.textLightColor,
+                              )),
                 ),
               ],
               if (Constant.isUpdateAvailable) ...[
-                _divider(context),
+                SizedBox(height: 6.rh(context)),
                 UpdateTile(
                   title: 'update'.translate(context),
                   newVersion: Constant.newVersionNumber,
@@ -245,8 +258,3 @@ class ProfileMenu extends StatelessWidget {
     );
   }
 }
-
-Widget _divider(BuildContext context) => Padding(
-  padding: const EdgeInsets.symmetric(vertical: 12),
-  child: Container(height: 1, color: context.color.borderColor),
-);
