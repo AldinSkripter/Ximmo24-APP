@@ -152,11 +152,18 @@ class _PropertyCardBigState extends State<PropertyCardBig> {
             padding: EdgeInsets.all(8.rh(context)),
             width: widget.isFromGrid ? 254.rw(context) : 290.rw(context),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(18),
               color: context.color.secondaryColor,
               border: Border.all(
                 color: context.color.borderColor,
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: context.color.textColorDark.withValues(alpha: 0.08),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
             ),
             child: Stack(
               children: [
@@ -169,7 +176,7 @@ class _PropertyCardBigState extends State<PropertyCardBig> {
                         Hero(
                           tag: resolvedHeroTag,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(14),
                             child: CustomImage(
                               imageUrl: property.titleImage ?? '',
                               height: widget.isFromGrid

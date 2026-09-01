@@ -23,6 +23,7 @@ class PropertyHorizontalCard extends StatefulWidget {
     this.disableTap,
     this.showFeatured,
     this.heroTag,
+    this.usePremiumStyle = false,
   });
 
   final PropertyModel property;
@@ -36,6 +37,7 @@ class PropertyHorizontalCard extends StatefulWidget {
   final bool? disableTap;
   final bool? showFeatured;
   final String? heroTag;
+  final bool usePremiumStyle;
 
   @override
   State<PropertyHorizontalCard> createState() => _PropertyHorizontalCardState();
@@ -145,7 +147,20 @@ class _PropertyHorizontalCardState extends State<PropertyHorizontalCard> {
               decoration: BoxDecoration(
                 border: Border.all(color: context.color.borderColor),
                 color: context.color.secondaryColor,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  widget.usePremiumStyle ? 18 : 8,
+                ),
+                boxShadow: widget.usePremiumStyle
+                    ? [
+                        BoxShadow(
+                          color: context.color.textColorDark.withValues(
+                            alpha: 0.07,
+                          ),
+                          blurRadius: 18,
+                          offset: const Offset(0, 7),
+                        ),
+                      ]
+                    : null,
               ),
               child: Row(
                 children: [
@@ -154,7 +169,9 @@ class _PropertyHorizontalCardState extends State<PropertyHorizontalCard> {
                       Hero(
                         tag: resolvedHeroTag,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(
+                            widget.usePremiumStyle ? 14 : 4,
+                          ),
                           child: CustomImage(
                             imageUrl: property.titleImage ?? '',
                             height: double.infinity,
@@ -253,7 +270,9 @@ class _PropertyHorizontalCardState extends State<PropertyHorizontalCard> {
                                   property.title?.firstUpperCase() ??
                                   '',
                               maxLines: 1,
-                              fontWeight: .w400,
+                              fontWeight: widget.usePremiumStyle
+                                  ? .w600
+                                  : .w400,
                               fontSize: context.font.sm,
                               color: context.color.textColorDark,
                             ),

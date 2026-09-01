@@ -185,7 +185,7 @@ class HomeScreenState extends State<HomeScreen>
       appBar: CustomAppBar(
         backgroundColor: context.color.primaryColor,
         showBackButton: false,
-        showShadow: false,
+        showShadow: true,
         titleWidget: const HomeLocationWidget(),
         actions: [
           GestureDetector(
@@ -201,8 +201,15 @@ class HomeScreenState extends State<HomeScreen>
               height: 40.rh(context),
               decoration: BoxDecoration(
                 color: context.color.secondaryColor,
-                borderRadius: BorderRadius.circular(6.rw(context)),
+                borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: context.color.borderColor),
+                boxShadow: [
+                  BoxShadow(
+                    color: context.color.textColorDark.withValues(alpha: 0.07),
+                    blurRadius: 14,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
               child: Center(
                 child: CustomImage(
@@ -242,11 +249,6 @@ class HomeScreenState extends State<HomeScreen>
                     physics: Constant.scrollPhysics,
                     clipBehavior: .none,
                     slivers: [
-                      SliverPadding(
-                        padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).padding.top,
-                        ),
-                      ),
                       const SliverToBoxAdapter(child: HomeSearchField()),
                       _HomeSections(
                         getAppliedHomeLocationFlag: () =>

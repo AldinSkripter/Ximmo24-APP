@@ -103,6 +103,7 @@ class AllPropertiesSection extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return PropertyHorizontalCard(
                       property: state.properties[index],
+                      usePremiumStyle: true,
                     );
                   },
                 ),
@@ -119,6 +120,7 @@ class AllPropertiesSection extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return PropertyHorizontalCard(
                       property: state.properties[index],
+                      usePremiumStyle: true,
                     );
                   },
                 ),

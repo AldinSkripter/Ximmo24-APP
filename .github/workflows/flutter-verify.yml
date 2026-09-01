@@ -1,0 +1,63 @@
+name: Flutter verify
+
+on:
+  push:
+    branches:
+      - main
+      - 'codex/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Resolve dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: >-
+          dart format --output=none --set-exit-if-changed
+          lib/ui/screens/home/home_screen.dart
+          lib/ui/screens/home/widgets/category_card.dart
+          lib/ui/screens/home/widgets/header_card.dart
+          lib/ui/screens/home/widgets/home_location_widget.dart
+          lib/ui/screens/home/widgets/home_search.dart
+          lib/ui/screens/home/widgets/property_card_big.dart
+          lib/ui/screens/home/widgets/property_horizontal_card.dart
+          lib/ui/screens/home/widgets/sections/all_properties_section.dart
+          lib/ui/screens/home/widgets/sections/categories_section.dart
+          lib/ui/screens/home/widgets/sections/slider_section.dart
+
+      - name: Analyze application
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - name: Run tests when present
+        shell: bash
+        run: |
+          if find test -type f -name '*_test.dart' -print -quit 2>/dev/null | grep -q .; then
+            flutter test
+          else
+            echo 'No Flutter tests found; skipping flutter test.'
+          fi
+
+      - name: Build debug APK
+        run: flutter build apk --debug

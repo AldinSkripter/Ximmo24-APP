@@ -21,54 +21,56 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.only(
-        start: frontSpacing ?? false ? 5.0 : 0,
+        start: frontSpacing ?? false ? 10.0 : 0,
       ),
       child: GestureDetector(
         onTap: () {
           onTapCategory.call(category);
         },
-        child: Row(
-          children: <Widget>[
-            Container(
-              constraints: BoxConstraints(
-                minWidth: 100.rw(context),
-                minHeight: 28.rh(context),
+        child: Container(
+          width: 106.rw(context),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+          decoration: BoxDecoration(
+            color: context.color.secondaryColor,
+            border: Border.all(color: context.color.borderColor),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: context.color.textColorDark.withValues(alpha: 0.06),
+                blurRadius: 14,
+                offset: const Offset(0, 5),
               ),
-              padding: EdgeInsets.only(
-                left: 8.rw(context),
-                right: 8.rw(context),
-                top: 4.rh(context),
-                bottom: 4.rh(context),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 36.rw(context),
+                height: 36.rh(context),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: context.color.tertiaryColor.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: CustomImage(
+                  imageUrl: category.image ?? '',
+                  color: context.color.tertiaryColor,
+                  width: 21.rw(context),
+                  height: 21.rh(context),
+                ),
               ),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: context.color.secondaryColor,
-                border: Border.all(color: context.color.borderColor),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Row(
-                mainAxisSize: .min,
-                children: [
-                  CustomImage(
-                    imageUrl: category.image ?? '',
-                    color: context.color.tertiaryColor,
-                    width: 18.rw(context),
-                    height: 18.rh(context),
-                  ),
-                  SizedBox(width: 12.rw(context)),
-                  SizedBox(
-                    child: CustomText(
-                      category.translatedName ?? category.category ?? '',
-                      textAlign: .center,
-                      maxLines: 1,
-                      fontWeight: .w400,
-                      fontSize: context.font.sm,
-                    ),
-                  ),
-                ],
+              SizedBox(width: 8.rw(context)),
+              Expanded(
+                child: CustomText(
+                  category.translatedName ?? category.category ?? '',
+                  maxLines: 2,
+                  fontWeight: .w600,
+                  fontSize: context.font.xs,
+                  color: context.color.textColorDark,
+                ),
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

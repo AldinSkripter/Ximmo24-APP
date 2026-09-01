@@ -27,7 +27,7 @@ class SliderSection extends StatelessWidget {
                 .map((banner) => _SliderBanner(banner: banner))
                 .toList(),
             options: CarouselOptions(
-              height: 170.rs(context),
+              height: 188.rs(context),
               viewportFraction: 1,
               autoPlay: true,
               autoPlayInterval: const Duration(seconds: 3),
@@ -61,11 +61,24 @@ class _SliderBannerState extends State<_SliderBanner> {
       padding: const EdgeInsets.symmetric(
         horizontal: SliderSection._sidePadding,
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.color.secondaryColor,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: context.color.borderColor),
+          boxShadow: [
+            BoxShadow(
+              color: context.color.textColorDark.withValues(alpha: 0.10),
+              blurRadius: 24,
+              offset: const Offset(0, 10),
+            ),
+          ],
+        ),
+        clipBehavior: Clip.antiAlias,
         child: CustomImage(
           imageUrl: banner.image.toString(),
           width: context.screenWidth,
+          fit: BoxFit.cover,
         ),
       ),
     );

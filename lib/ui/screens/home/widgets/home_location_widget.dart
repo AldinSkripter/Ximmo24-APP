@@ -143,20 +143,31 @@ class _HomeLocationWidgetState extends State<HomeLocationWidget> {
         mainAxisSize: .min,
         children: [
           Container(
-            alignment: AlignmentDirectional.center,
+            width: 44.rw(context),
+            height: 44.rh(context),
+            padding: const EdgeInsets.all(5),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: context.color.secondaryColor,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: context.color.borderColor),
+              boxShadow: [
+                BoxShadow(
+                  color: context.color.textColorDark.withValues(alpha: 0.06),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
             child: CustomImage(
               fit: .contain,
               imageUrl: homeLogo,
-              width: 42.rw(context),
-              height: 42.rh(context),
+              width: 34.rw(context),
+              height: 34.rh(context),
             ),
           ),
-          SizedBox(
-            width: 10.rw(context),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: ValueListenableBuilder(
+          SizedBox(width: 10.rw(context)),
+          ValueListenableBuilder(
               valueListenable: homeLocationBox.listenable(),
               builder: (context, value, child) {
                 final currentCity = HiveUtils.getHomeCityName()
@@ -177,63 +188,58 @@ class _HomeLocationWidgetState extends State<HomeLocationWidget> {
                             element == '';
                       });
                 final joinedLocation = locationList.join(', ');
+                final locationText = joinedLocation.isNotEmpty
+                    ? joinedLocation
+                    : 'selectLocation'.translate(context);
 
-                if (joinedLocation.isNotEmpty) {
-                  return Column(
-                    mainAxisSize: .min,
-                    crossAxisAlignment: .start,
-                    children: [
-                      CustomText(
-                        'locationLbl'.translate(context),
-                        fontSize: context.font.xs,
-                        color: context.color.textColorDark,
-                      ),
-                      SizedBox(
-                        width: 150,
-                        child: CustomText(
-                          joinedLocation,
-                          maxLines: 1,
-                          fontWeight: .w600,
-                          fontSize: context.font.xs,
-                          color: context.color.textColorDark,
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  return Column(
-                    mainAxisSize: .min,
-                    crossAxisAlignment: .start,
-                    children: [
-                      CustomText(
-                        'locationLbl'.translate(context),
-                        fontSize: context.font.xs,
-                        color: context.color.textColorDark,
-                      ),
-                      Row(
-                        mainAxisSize: .min,
-                        children: [
-                          CustomText(
-                            'selectLocation'.translate(context),
-                            fontWeight: .w600,
+                return Column(
+                  mainAxisSize: .min,
+                  crossAxisAlignment: .start,
+                  children: [
+                    CustomText(
+                      'locationLbl'.translate(context),
+                      fontSize: context.font.xxs,
+                      fontWeight: .w500,
+                      color: context.color.textLightColor,
+                    ),
+                    SizedBox(height: 2.rh(context)),
+                    Row(
+                      mainAxisSize: .min,
+                      children: [
+                        SizedBox(
+                          width: 138.rw(context),
+                          child: CustomText(
+                            locationText,
+                            maxLines: 1,
+                            fontWeight: .w700,
                             fontSize: context.font.sm,
                             color: context.color.textColorDark,
                           ),
-                          SizedBox(width: 4.rw(context)),
-                          CustomImage(
-                            imageUrl: AppIcons.downArrow,
-                            height: 16.rh(context),
-                            width: 16.rw(context),
-                            color: context.color.textColorDark,
+                        ),
+                        SizedBox(width: 4.rw(context)),
+                        Container(
+                          width: 22.rw(context),
+                          height: 22.rh(context),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: context.color.tertiaryColor.withValues(
+                              alpha: 0.10,
+                            ),
+                            shape: BoxShape.circle,
                           ),
-                        ],
-                      ),
-                    ],
-                  );
-                }
+                          child: CustomImage(
+                            imageUrl: AppIcons.downArrow,
+                            height: 13.rh(context),
+                            width: 13.rw(context),
+                            color: context.color.tertiaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
               },
             ),
-          ),
         ],
       ),
     );
