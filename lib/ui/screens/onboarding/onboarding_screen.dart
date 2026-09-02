@@ -87,7 +87,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final slidersList = [
+    final slidersList = <Map<String, dynamic>>[
       {
         'lottie': onBoardingOneData,
         'title': 'onboarding_1_title'.translate(context),
@@ -111,41 +111,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       value: UiUtils.getSystemUiOverlayStyle(context: context),
       child: Scaffold(
         backgroundColor: context.color.backgroundColor,
-        body: Stack(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    context.color.tertiaryColor.withValues(alpha: 0.18),
-                    context.color.backgroundColor,
-                    context.color.tertiaryColor.withValues(alpha: 0.06),
-                  ],
-                ),
-              ),
+        body: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                context.color.tertiaryColor.withValues(alpha: 0.18),
+                context.color.backgroundColor,
+                context.color.tertiaryColor.withValues(alpha: 0.06),
+              ],
             ),
-            PositionedDirectional(
-              bottom: 282.rh(context),
-              child: SizedBox(
-                height: 400.rh(context),
-                width: context.screenWidth,
-                child: PageView.builder(
-                  controller: _pageController,
-                  physics: Constant.scrollPhysics,
-                  onPageChanged: (index) =>
-                      setState(() => currentPageIndex = index),
-                  itemCount: slidersList.length,
-                  itemBuilder: (context, index) =>
-                      _buildLottieWidget(context, slidersList[index]['lottie']),
-                ),
-              ),
-            ),
-            PositionedDirectional(
-              top: kPagingTouchSlop + 16.rh(context),
-              start: 16,
-              child: MultiBlocListener(
+          ),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    18.rw(context),
+                    10.rh(context),
+                    18.rw(context),
+                    0,
+                  ),
+                  child: Row(
+                    children: [
+                      MultiBlocListener(
                 listeners: [
                   BlocListener<FetchLanguageCubit, FetchLanguageState>(
                     listener: (context, state) async {
@@ -195,164 +185,196 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     },
                   ),
                 ],
-                child: _buildLanguageDropdown(),
-              ),
-            ),
-            PositionedDirectional(
-              top: kPagingTouchSlop + 16.rh(context),
-              end: 16.rw(context),
-              child: GestureDetector(
-                onTap: () async {
-                  await Navigator.pushReplacementNamed(context, Routes.login);
-                },
-                child: CustomText(
-                  'skip'.translate(context),
-                  color: context.color.textColorDark,
-                  fontSize: context.font.md,
-                  fontWeight: .w600,
-                ),
-              ),
-            ),
-            PositionedDirectional(
-              bottom: 0,
-              child: GestureDetector(
-                onHorizontalDragEnd: (details) async {
-                  if (details.primaryVelocity! < 0) {
-                    if (currentPageIndex < 2) {
-                      await _pageController.nextPage(
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  } else if (details.primaryVelocity! > 0) {
-                    if (currentPageIndex > 0) {
-                      await _pageController.previousPage(
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  }
-                },
-                child: Container(
-                  height: 282.rh(context),
-                  width: context.screenWidth,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  padding: const EdgeInsets.fromLTRB(24, 22, 24, 20),
-                  decoration: BoxDecoration(
-                    color: context.color.secondaryColor.withValues(alpha: 0.96),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
-                    ),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.68),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.14),
-                        blurRadius: 36,
-                        offset: const Offset(0, -10),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 16.rh(context)),
-                      CustomText(
-                        slidersList[currentPageIndex]['title']?.toString() ??
-                            '',
-                        fontWeight: .w700,
-                        fontSize: context.font.xxl,
-                        color: context.color.tertiaryColor,
-                        textAlign: .center,
-                      ),
-                      SizedBox(height: 16.rh(context)),
-                      CustomText(
-                        key: ValueKey('desc_$currentPageIndex'),
-                        slidersList[currentPageIndex]['description']
-                                ?.toString() ??
-                            '',
-                        maxLines: 3,
-                        textAlign: .center,
-                        fontSize: context.font.md,
-                        color: context.color.textColorDark,
-                        fontWeight: .w600,
+                        child: _buildLanguageDropdown(),
                       ),
                       const Spacer(),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              for (var i = 0; i < slidersList.length; i++) ...[
-                                buildIndicator(
-                                  context,
-                                  selected: i == currentPageIndex,
-                                ),
-                              ],
-                            ],
+                      GestureDetector(
+                        onTap: () async {
+                          await Navigator.pushReplacementNamed(
+                            context,
+                            Routes.login,
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.rw(context),
+                            vertical: 9.rh(context),
                           ),
-                          const Spacer(),
-                          GestureDetector(
-                            key: const ValueKey('next_screen'),
-                            onTap: () async {
-                              if (currentPageIndex < slidersList.length - 1) {
-                                await _pageController.nextPage(
-                                  duration: const Duration(milliseconds: 400),
-                                  curve: Curves.easeInOut,
-                                );
-                              } else {
-                                await Navigator.of(
-                                  context,
-                                ).pushNamedAndRemoveUntil(
-                                  Routes.login,
-                                  (route) => false,
-                                );
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              width: 48.rw(context),
-                              height: 48.rh(context),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    context.color.tertiaryColor,
-                                    context.color.tertiaryColor.withValues(
-                                      alpha: 0.76,
-                                    ),
-                                  ],
-                                ),
-                                shape: .circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: context.color.tertiaryColor
-                                        .withValues(alpha: 0.3),
-                                    blurRadius: 18,
-                                    offset: const Offset(0, 7),
-                                  ),
-                                ],
-                              ),
-                              child: CustomImage(
-                                matchTextDirection: true,
-                                imageUrl: AppIcons.arrowRight,
-                                fit: .contain,
-                                color: context.color.backgroundColor,
-                                width: 24.rw(context),
-                                height: 24.rh(context),
-                              ),
+                          decoration: BoxDecoration(
+                            color: context.color.secondaryColor.withValues(
+                              alpha: 0.72,
+                            ),
+                            borderRadius: BorderRadius.circular(999),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.55),
                             ),
                           ),
-                        ],
+                          child: CustomText(
+                            'skip'.translate(context),
+                            color: context.color.textColorDark,
+                            fontSize: context.font.sm,
+                            fontWeight: .w600,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ),
+                Expanded(
+                  flex: 6,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    physics: Constant.scrollPhysics,
+                    onPageChanged: (index) =>
+                        setState(() => currentPageIndex = index),
+                    itemCount: slidersList.length,
+                    itemBuilder: (context, index) => Center(
+                      child: _buildLottieWidget(
+                        context,
+                        slidersList[index]['lottie'],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    14.rw(context),
+                    0,
+                    14.rw(context),
+                    12.rh(context),
+                  ),
+                  child: _buildOnboardingCard(context, slidersList),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildOnboardingCard(
+    BuildContext context,
+    List<Map<String, dynamic>> slidersList,
+  ) {
+    return Container(
+      width: double.infinity,
+      constraints: BoxConstraints(minHeight: 260.rh(context)),
+      padding: EdgeInsets.fromLTRB(
+        24.rw(context),
+        28.rh(context),
+        24.rw(context),
+        20.rh(context),
+      ),
+      decoration: BoxDecoration(
+        color: context.color.secondaryColor.withValues(alpha: 0.96),
+        borderRadius: BorderRadius.circular(36.rw(context)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.68)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.14),
+            blurRadius: 38,
+            offset: const Offset(0, 14),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 320),
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.08, 0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+            ),
+            child: Column(
+              key: ValueKey(currentPageIndex),
+              children: [
+                CustomText(
+                  slidersList[currentPageIndex]['title']?.toString() ?? '',
+                  fontWeight: .w700,
+                  fontSize: context.font.xxl,
+                  color: context.color.textColorDark,
+                  textAlign: .center,
+                ),
+                SizedBox(height: 12.rh(context)),
+                CustomText(
+                  slidersList[currentPageIndex]['description']?.toString() ??
+                      '',
+                  maxLines: 4,
+                  textAlign: .center,
+                  fontSize: context.font.md,
+                  color: context.color.textLightColor,
+                  fontWeight: .w500,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 24.rh(context)),
+          Row(
+            children: [
+              for (var i = 0; i < slidersList.length; i++)
+                buildIndicator(context, selected: i == currentPageIndex),
+              const Spacer(),
+              GestureDetector(
+                key: const ValueKey('next_screen'),
+                onTap: _goToNextOnboardingPage,
+                child: Container(
+                  width: 58.rw(context),
+                  height: 58.rh(context),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        context.color.tertiaryColor,
+                        context.color.tertiaryColor.withValues(alpha: 0.72),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(20.rw(context)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: context.color.tertiaryColor.withValues(
+                          alpha: 0.32,
+                        ),
+                        blurRadius: 20,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: CustomImage(
+                    matchTextDirection: true,
+                    imageUrl: AppIcons.arrowRight,
+                    fit: .contain,
+                    color: context.color.buttonColor,
+                    width: 24.rw(context),
+                    height: 24.rh(context),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _goToNextOnboardingPage() async {
+    if (currentPageIndex < totalPages - 1) {
+      await _pageController.nextPage(
+        duration: const Duration(milliseconds: 420),
+        curve: Curves.easeOutCubic,
+      );
+      return;
+    }
+    await Navigator.of(context).pushNamedAndRemoveUntil(
+      Routes.login,
+      (route) => false,
     );
   }
 
