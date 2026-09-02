@@ -46,23 +46,30 @@ class _AddListingOverlayState extends State<AddListingOverlay>
     with TickerProviderStateMixin {
   late final AnimationController _projectController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 400),
-    reverseDuration: const Duration(milliseconds: 400),
+    duration: const Duration(milliseconds: 420),
+    reverseDuration: const Duration(milliseconds: 300),
   );
   late final AnimationController _propertyController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 300),
-    reverseDuration: const Duration(milliseconds: 300),
+    duration: const Duration(milliseconds: 340),
+    reverseDuration: const Duration(milliseconds: 260),
   );
 
-  // Values match the original body-Stack Tween values exactly.
   late final Animation<double> _propertyAnim =
-      Tween<double>(begin: -60.rh(context), end: 30.rh(context)).animate(
-        CurvedAnimation(parent: _propertyController, curve: Curves.easeIn),
+      Tween<double>(begin: 42.rh(context), end: 112.rh(context)).animate(
+        CurvedAnimation(
+          parent: _propertyController,
+          curve: Curves.easeOutBack,
+          reverseCurve: Curves.easeInCubic,
+        ),
       );
   late final Animation<double> _projectAnim =
-      Tween<double>(begin: -60.rh(context), end: 80.rh(context)).animate(
-        CurvedAnimation(parent: _projectController, curve: Curves.easeIn),
+      Tween<double>(begin: 42.rh(context), end: 166.rh(context)).animate(
+        CurvedAnimation(
+          parent: _projectController,
+          curve: Curves.easeOutBack,
+          reverseCurve: Curves.easeInCubic,
+        ),
       );
 
   @override
@@ -117,7 +124,6 @@ class _AddListingOverlayState extends State<AddListingOverlay>
                 ),
               _floatingButton(
                 tween: _propertyAnim,
-                leftOffset: 90.rw(context),
                 width: 180.rw(context),
                 icon: AppIcons.propertiesIcon,
                 label: 'property',
@@ -125,7 +131,6 @@ class _AddListingOverlayState extends State<AddListingOverlay>
               ),
               _floatingButton(
                 tween: _projectAnim,
-                leftOffset: 64.rw(context),
                 width: 128.rw(context),
                 icon: AppIcons.upcomingProject,
                 label: 'project',
@@ -140,7 +145,6 @@ class _AddListingOverlayState extends State<AddListingOverlay>
 
   Widget _floatingButton({
     required Animation<double> tween,
-    required double leftOffset,
     required double width,
     required String icon,
     required String label,
@@ -148,7 +152,7 @@ class _AddListingOverlayState extends State<AddListingOverlay>
   }) {
     return Positioned(
       bottom: tween.value,
-      left: (context.screenWidth / 2) - leftOffset,
+      left: (context.screenWidth - width) / 2,
       child: GestureDetector(
         onTap: () async {
           widget.controller.close();

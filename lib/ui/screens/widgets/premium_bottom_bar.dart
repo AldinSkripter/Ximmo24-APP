@@ -55,7 +55,7 @@ class PremiumBottomBar extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24.rw(context)),
                   child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                    filter: ImageFilter.blur(sigmaX: 28, sigmaY: 28),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -64,13 +64,13 @@ class PremiumBottomBar extends StatelessWidget {
                           colors: [
                             Colors.white.withValues(
                               alpha: context.color.brightness == Brightness.light
-                                  ? 0.72
-                                  : 0.16,
+                                  ? 0.50
+                                  : 0.18,
                             ),
                             context.color.secondaryColor.withValues(
                               alpha: context.color.brightness == Brightness.light
-                                  ? 0.42
-                                  : 0.30,
+                                  ? 0.20
+                                  : 0.14,
                             ),
                           ],
                         ),
