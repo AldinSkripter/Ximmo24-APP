@@ -1,5 +1,6 @@
 import 'package:ebroker/exports/main_export.dart';
 import 'package:ebroker/ui/screens/widgets/read_more_text.dart';
+import 'package:flutter/material.dart';
 
 class PropertyDescriptionSection extends StatelessWidget {
   const PropertyDescriptionSection({
