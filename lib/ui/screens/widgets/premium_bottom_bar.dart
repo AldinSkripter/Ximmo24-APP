@@ -20,9 +20,7 @@ class PremiumBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: context.color.primaryColor,
-      child: SafeArea(
+    return SafeArea(
         top: false,
         minimum: EdgeInsets.only(
           left: 12.rw(context),
@@ -64,11 +62,15 @@ class PremiumBottomBar extends StatelessWidget {
                           begin: AlignmentDirectional.topStart,
                           end: AlignmentDirectional.bottomEnd,
                           colors: [
-                            context.color.secondaryColor.withValues(
-                              alpha: 0.88,
+                            Colors.white.withValues(
+                              alpha: context.color.brightness == Brightness.light
+                                  ? 0.72
+                                  : 0.16,
                             ),
                             context.color.secondaryColor.withValues(
-                              alpha: 0.68,
+                              alpha: context.color.brightness == Brightness.light
+                                  ? 0.42
+                                  : 0.30,
                             ),
                           ],
                         ),
@@ -76,8 +78,8 @@ class PremiumBottomBar extends StatelessWidget {
                         border: Border.all(
                           color:
                               context.color.brightness == Brightness.light
-                              ? Colors.white.withValues(alpha: 0.72)
-                              : Colors.white.withValues(alpha: 0.12),
+                              ? Colors.white.withValues(alpha: 0.86)
+                              : Colors.white.withValues(alpha: 0.20),
                         ),
                       ),
                     ),
@@ -133,7 +135,6 @@ class PremiumBottomBar extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }

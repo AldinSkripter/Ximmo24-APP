@@ -370,6 +370,7 @@ class MainActivityState extends State<MainActivity>
           });
         },
         child: Scaffold(
+          extendBody: true,
           backgroundColor: context.color.primaryColor,
           bottomNavigationBar: Constant.maintenanceMode == '1'
               ? null

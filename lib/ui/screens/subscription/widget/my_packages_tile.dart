@@ -51,6 +51,17 @@ class _CurrentPackageTileCardState extends State<CurrentPackageTileCard> {
           ),
           decoration: BoxDecoration(
             color: context.color.secondaryColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(
+                  alpha: context.color.brightness == Brightness.dark
+                      ? 0.24
+                      : 0.07,
+                ),
+                blurRadius: 28,
+                offset: const Offset(0, 12),
+              ),
+            ],
             border: Border(
               bottom: BorderSide(
                 color: context.color.borderColor,
@@ -62,9 +73,9 @@ class _CurrentPackageTileCardState extends State<CurrentPackageTileCard> {
                 color: context.color.borderColor,
               ),
             ),
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(4),
-              bottomRight: Radius.circular(4),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(26.rw(context)),
+              bottomRight: Radius.circular(26.rw(context)),
             ),
           ),
           child: Column(
@@ -144,10 +155,17 @@ class _CurrentPackageTileCardState extends State<CurrentPackageTileCard> {
               ? const EdgeInsets.fromLTRB(16, 12, 16, 12)
               : const EdgeInsets.fromLTRB(16, 8, 16, 8),
           decoration: BoxDecoration(
-            color: context.color.tertiaryColor,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(4),
-              topRight: Radius.circular(4),
+            gradient: LinearGradient(
+              begin: AlignmentDirectional.topStart,
+              end: AlignmentDirectional.bottomEnd,
+              colors: [
+                context.color.tertiaryColor,
+                context.color.tertiaryColor.withValues(alpha: 0.72),
+              ],
+            ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(26.rw(context)),
+              topRight: Radius.circular(26.rw(context)),
             ),
           ),
           child: widget.package.isRenewed

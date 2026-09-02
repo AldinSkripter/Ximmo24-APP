@@ -35,33 +35,52 @@ class _SubscriptionPackageTileState extends State<SubscriptionPackageTile> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = context.color.brightness == Brightness.dark;
     return Container(
-      margin: const EdgeInsetsDirectional.only(start: 16, end: 16, bottom: 16),
-      decoration: BoxDecoration(
-        color: context.color.secondaryColor,
-        borderRadius: BorderRadius.circular(4),
+      margin: EdgeInsetsDirectional.fromSTEB(
+        16.rw(context),
+        8.rh(context),
+        16.rw(context),
+        18.rh(context),
       ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: AlignmentDirectional.topStart,
+          end: AlignmentDirectional.bottomEnd,
+          colors: [
+            context.color.secondaryColor,
+            context.color.secondaryColor.withValues(alpha: isDark ? 0.82 : 0.94),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(26.rw(context)),
+        border: Border.all(
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.10)
+              : context.color.borderColor.withValues(alpha: 0.75),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.26 : 0.08),
+            blurRadius: 30,
+            offset: const Offset(0, 14),
+          ),
+          BoxShadow(
+            color: context.color.tertiaryColor.withValues(alpha: 0.07),
+            blurRadius: 24,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
         children: [
           buildPackageTitle(),
           Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(4),
-                bottomRight: Radius.circular(4),
-              ),
-              border: Border(
-                left: BorderSide(
-                  color: context.color.borderColor,
-                ),
-                right: BorderSide(
-                  color: context.color.borderColor,
-                ),
-                bottom: BorderSide(
-                  color: context.color.borderColor,
-                ),
-              ),
+            padding: EdgeInsets.fromLTRB(
+              20.rw(context),
+              18.rh(context),
+              20.rw(context),
+              20.rh(context),
             ),
             child: Column(
               children: [
@@ -108,48 +127,63 @@ class _SubscriptionPackageTileState extends State<SubscriptionPackageTile> {
           ),
         ],
         Container(
-          padding: .fromLTRB(
-            16.rw(context),
-            8.rh(context),
-            16.rw(context),
-            8.rh(context),
-          ),
-          margin: .only(top: 16.rh(context)),
+          padding: EdgeInsets.all(16.rw(context)),
+          margin: EdgeInsets.only(top: 6.rh(context)),
           decoration: BoxDecoration(
-            color: context.color.textColorDark.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(4),
+            gradient: LinearGradient(
+              begin: AlignmentDirectional.topStart,
+              end: AlignmentDirectional.bottomEnd,
+              colors: [
+                context.color.tertiaryColor.withValues(alpha: 0.12),
+                context.color.tertiaryColor.withValues(alpha: 0.04),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(20.rw(context)),
+            border: Border.all(
+              color: context.color.tertiaryColor.withValues(alpha: 0.16),
+            ),
           ),
-          child: Row(
-            spacing: 8.rw(context),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                child: Column(
-                  mainAxisSize: .min,
-                  crossAxisAlignment: .start,
-                  children: [
-                    CustomText(
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: CustomText(
                       widget.package.price == 0
                           ? 'free'.translate(context)
                           : widget.package.price.toString().priceFormat(
                               context: context,
                             ),
-                      fontSize: context.font.lg,
+                      fontSize: context.font.xl,
                       color: context.color.textColorDark,
-                      fontWeight: .bold,
+                      fontWeight: FontWeight.w800,
                     ),
-                    CustomText(
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.rw(context),
+                      vertical: 6.rh(context),
+                    ),
+                    decoration: BoxDecoration(
+                      color: context.color.secondaryColor.withValues(alpha: 0.72),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: CustomText(
                       '$packageDuration ${packageDuration == '1' ? 'day'.translate(context) : 'days'.translate(context)}',
-                      fontSize: context.font.md,
+                      fontSize: context.font.xs,
                       color: context.color.textColorDark,
+                      fontWeight: FontWeight.w600,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+              SizedBox(height: 14.rh(context)),
               if (isUnderReview)
                 UiUtils.buildButton(
                   context,
-                  height: 32.rh(context),
-                  autoWidth: true,
+                  height: 46.rh(context),
                   onPressed: () async {
                     await Navigator.pushNamed(
                       context,
@@ -165,13 +199,46 @@ class _SubscriptionPackageTileState extends State<SubscriptionPackageTile> {
               else
                 BlocBuilder<PaymentIntentCubit, PaymentIntentState>(
                   builder: (context, state) {
-                    return UiUtils.buildButton(
-                      context,
-                      height: 32.rh(context),
-                      autoWidth: true,
-                      isInProgress: state is PaymentIntentInProgress,
-                      onPressed: widget.onTap,
-                      buttonTitle: 'subscribe'.translate(context),
+                    final isLoading = state is PaymentIntentInProgress;
+                    return SizedBox(
+                      height: 48.rh(context),
+                      child: ElevatedButton(
+                        onPressed: isLoading ? null : widget.onTap,
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor: context.color.tertiaryColor,
+                          foregroundColor: context.color.buttonColor,
+                          disabledBackgroundColor: context.color.tertiaryColor
+                              .withValues(alpha: 0.55),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.rw(context)),
+                          ),
+                        ),
+                        child: isLoading
+                            ? SizedBox.square(
+                                dimension: 20.rw(context),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.2,
+                                  color: context.color.buttonColor,
+                                ),
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomText(
+                                    'subscribe'.translate(context),
+                                    fontSize: context.font.sm,
+                                    fontWeight: FontWeight.w700,
+                                    color: context.color.buttonColor,
+                                  ),
+                                  SizedBox(width: 8.rw(context)),
+                                  Icon(
+                                    Icons.arrow_forward_rounded,
+                                    size: 19.rw(context),
+                                  ),
+                                ],
+                              ),
+                      ),
                     );
                   },
                 ),
@@ -184,33 +251,72 @@ class _SubscriptionPackageTileState extends State<SubscriptionPackageTile> {
 
   Widget buildSeparator() {
     return Container(
-      margin: const EdgeInsets.only(top: 18, bottom: 18),
+      margin: EdgeInsets.only(top: 18.rh(context), bottom: 18.rh(context)),
       child: MySeparator(
-        color: context.color.tertiaryColor.withValues(alpha: 0.7),
+        color: context.color.borderColor.withValues(alpha: 0.7),
+        dashWidth: 5,
       ),
     );
   }
 
   Widget buildPackageTitle() {
     return Container(
-      height: 48.rh(context),
-      alignment: AlignmentDirectional.centerStart,
-      padding: const EdgeInsets.symmetric(horizontal: 14),
+      padding: EdgeInsets.fromLTRB(
+        20.rw(context),
+        20.rh(context),
+        20.rw(context),
+        18.rh(context),
+      ),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: context.color.brightness == .dark
-            ? context.color.textColorDark.withValues(alpha: 0.1)
-            : context.color.textColorDark,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(4),
-          topRight: Radius.circular(4),
+        gradient: LinearGradient(
+          begin: AlignmentDirectional.topStart,
+          end: AlignmentDirectional.bottomEnd,
+          colors: [
+            context.color.tertiaryColor,
+            context.color.tertiaryColor.withValues(alpha: 0.76),
+          ],
         ),
       ),
-      child: CustomText(
-        widget.package.translatedName ?? widget.package.name,
-        fontSize: context.font.md,
-        color: Colors.white,
-        fontWeight: .w600,
+      child: Row(
+        children: [
+          Container(
+            width: 44.rw(context),
+            height: 44.rh(context),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.18),
+              borderRadius: BorderRadius.circular(14.rw(context)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.22)),
+            ),
+            child: Icon(
+              Icons.workspace_premium_rounded,
+              color: context.color.buttonColor,
+              size: 24.rw(context),
+            ),
+          ),
+          SizedBox(width: 14.rw(context)),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  widget.package.translatedName ?? widget.package.name,
+                  fontSize: context.font.lg,
+                  color: context.color.buttonColor,
+                  fontWeight: FontWeight.w800,
+                  maxLines: 2,
+                ),
+                SizedBox(height: 3.rh(context)),
+                CustomText(
+                  'subscriptionPlan'.translate(context),
+                  fontSize: context.font.xs,
+                  color: context.color.buttonColor.withValues(alpha: 0.72),
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -234,21 +340,33 @@ class _SubscriptionPackageTileState extends State<SubscriptionPackageTile> {
     final packageDuration = HelperUtils.getPackageDuration(
       duration: int.parse(duration),
     );
-    return Row(
-      children: [
-        CustomImage(
-          imageUrl: AppIcons.featureAvailable,
-          height: 20.rh(context),
-          width: 20.rw(context),
-        ),
-        SizedBox(width: 8.rw(context)),
-        CustomText(
-          '${'validUntil'.translate(context)} $packageDuration ${packageDuration == '1' ? 'day'.translate(context) : 'days'.translate(context)}',
-          fontSize: context.font.xs,
-          color: context.color.textColorDark,
-          fontWeight: .w500,
-        ),
-      ],
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 12.rw(context),
+        vertical: 10.rh(context),
+      ),
+      decoration: BoxDecoration(
+        color: context.color.tertiaryColor.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(14.rw(context)),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.schedule_rounded,
+            size: 19.rw(context),
+            color: context.color.tertiaryColor,
+          ),
+          SizedBox(width: 9.rw(context)),
+          Expanded(
+            child: CustomText(
+              '${'validUntil'.translate(context)} $packageDuration ${packageDuration == '1' ? 'day'.translate(context) : 'days'.translate(context)}',
+              fontSize: context.font.xs,
+              color: context.color.textColorDark,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -280,27 +398,40 @@ class _SubscriptionPackageTileState extends State<SubscriptionPackageTile> {
           }
         }
 
+        final isIncluded = package.features.any(
+          (element) => element.id == allFeatures.id,
+        );
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomImage(
-              imageUrl:
-                  package.features.any(
-                    (element) => element.id == allFeatures.id,
-                  )
-                  ? AppIcons.featureAvailable
-                  : AppIcons.featureNotAvailable,
-              height: 20.rh(context),
-              width: 20.rw(context),
+            Container(
+              width: 24.rw(context),
+              height: 24.rh(context),
+              decoration: BoxDecoration(
+                color: (isIncluded
+                        ? context.color.tertiaryColor
+                        : context.color.textLightColor)
+                    .withValues(alpha: 0.10),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                isIncluded ? Icons.check_rounded : Icons.remove_rounded,
+                size: 16.rw(context),
+                color: isIncluded
+                    ? context.color.tertiaryColor
+                    : context.color.textLightColor,
+              ),
             ),
-            const SizedBox(
-              width: 8,
-            ),
+            SizedBox(width: 10.rw(context)),
             Expanded(
               child: CustomText(
                 '${allFeatures.translatedName ?? allFeatures.name} ${getLimit != '' ? ': ${getLimit.firstUpperCase()}' : ''}',
                 fontSize: context.font.xs,
-                color: context.color.textColorDark,
-                fontWeight: .w500,
+                color: isIncluded
+                    ? context.color.textColorDark
+                    : context.color.textLightColor,
+                fontWeight: isIncluded ? FontWeight.w600 : FontWeight.w500,
+                maxLines: 3,
               ),
             ),
           ],

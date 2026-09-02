@@ -57,6 +57,10 @@ jobs:
           lib/ui/screens/agent_dashboard/widgets/agent_bottom_bar.dart
           lib/ui/screens/widgets/add_listing_button.dart
           lib/ui/screens/widgets/premium_bottom_bar.dart
+          lib/ui/screens/subscription/packages_list.dart
+          lib/ui/screens/subscription/widget/package_tile.dart
+          lib/ui/screens/subscription/widget/my_packages_tile.dart
+          lib/utils/custom_tabbar.dart
 
       - name: Analyze application
         run: flutter analyze --no-fatal-infos --no-fatal-warnings
