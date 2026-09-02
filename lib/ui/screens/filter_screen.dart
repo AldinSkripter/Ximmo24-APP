@@ -473,31 +473,37 @@ class FilterScreenState extends State<FilterScreen> {
         bottomNavigationBar: _buildBottomBar(),
         body: SingleChildScrollView(
           physics: Constant.scrollPhysics,
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.fromLTRB(
+            16.rw(context),
+            16.rh(context),
+            16.rw(context),
+            28.rh(context),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 8.rh(context)),
-              _buildPropertyTypeToggle(),
+              _buildFilterHero(),
+              SizedBox(height: 16.rh(context)),
+              _premiumSection(_buildPropertyTypeToggle()),
               if (widget.showPropertyType || widget.isProject) ...[
                 SizedBox(height: 16.rh(context)),
-                _buildCategorySection(),
+                _premiumSection(_buildCategorySection()),
               ],
               if (!widget.isProject) ...[
                 SizedBox(height: 16.rh(context)),
-                _buildBudgetSection(),
+                _premiumSection(_buildBudgetSection()),
               ],
               SizedBox(height: 16.rh(context)),
-              _buildPostedSinceSection(),
+              _premiumSection(_buildPostedSinceSection()),
               SizedBox(height: 16.rh(context)),
-              _buildLocationSection(),
+              _premiumSection(_buildLocationSection()),
               SizedBox(height: 16.rh(context)),
-              _buildFlagsSection(),
+              _premiumSection(_buildFlagsSection()),
               if (!widget.isProject) ...[
                 SizedBox(height: 16.rh(context)),
-                _buildFacilitiesSection(),
+                _premiumSection(_buildFacilitiesSection()),
                 SizedBox(height: 16.rh(context)),
-                _buildAddedNearbyPlacesSection(),
+                _premiumSection(_buildAddedNearbyPlacesSection()),
               ],
               SizedBox(height: 16.rh(context)),
               const Center(
@@ -510,11 +516,117 @@ class FilterScreenState extends State<FilterScreen> {
     );
   }
 
+  Widget _buildFilterHero() {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(20.rw(context)),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: AlignmentDirectional.topStart,
+          end: AlignmentDirectional.bottomEnd,
+          colors: [
+            context.color.tertiaryColor,
+            context.color.tertiaryColor.withValues(alpha: 0.72),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(26.rw(context)),
+        boxShadow: [
+          BoxShadow(
+            color: context.color.tertiaryColor.withValues(alpha: 0.22),
+            blurRadius: 28,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 52.rw(context),
+            height: 52.rh(context),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.16),
+              borderRadius: BorderRadius.circular(17.rw(context)),
+            ),
+            child: Icon(
+              Icons.tune_rounded,
+              color: context.color.buttonColor,
+              size: 28.rw(context),
+            ),
+          ),
+          SizedBox(width: 14.rw(context)),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  'filterTitle'.translate(context),
+                  color: context.color.buttonColor,
+                  fontSize: context.font.xl,
+                  fontWeight: FontWeight.w800,
+                ),
+                SizedBox(height: 4.rh(context)),
+                CustomText(
+                  'search'.translate(context),
+                  color: context.color.buttonColor.withValues(alpha: 0.76),
+                  fontSize: context.font.sm,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _premiumSection(Widget child) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(16.rw(context)),
+      decoration: BoxDecoration(
+        color: context.color.secondaryColor,
+        borderRadius: BorderRadius.circular(22.rw(context)),
+        border: Border.all(
+          color: context.color.brightness == Brightness.dark
+              ? Colors.white.withValues(alpha: 0.09)
+              : context.color.borderColor.withValues(alpha: 0.68),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(
+              alpha: context.color.brightness == Brightness.dark ? 0.18 : 0.05,
+            ),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+
   Widget _buildBottomBar() {
-    return BottomAppBar(
+    return Container(
+      margin: EdgeInsets.fromLTRB(
+        12.rw(context),
+        0,
+        12.rw(context),
+        8.rh(context),
+      ),
       height: 72.rh(context),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      color: context.color.primaryColor,
+      padding: EdgeInsets.all(10.rw(context)),
+      decoration: BoxDecoration(
+        color: context.color.secondaryColor.withValues(alpha: 0.96),
+        borderRadius: BorderRadius.circular(22.rw(context)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.28)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.13),
+            blurRadius: 26,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
       child: Row(
         children: [
           Expanded(
@@ -525,6 +637,7 @@ class FilterScreenState extends State<FilterScreen> {
               showElevation: false,
               textColor: context.color.tertiaryColor,
               border: BorderSide(color: context.color.tertiaryColor),
+              radius: 15,
               buttonTitle: 'clearfilter'.translate(context),
             ),
           ),
@@ -536,6 +649,7 @@ class FilterScreenState extends State<FilterScreen> {
               onPressed: _applyFilters,
               buttonColor: context.color.tertiaryColor,
               textColor: context.color.buttonColor,
+              radius: 15,
             ),
           ),
         ],

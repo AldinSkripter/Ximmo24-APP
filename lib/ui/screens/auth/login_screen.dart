@@ -342,9 +342,9 @@ class LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSkipButton() {
     return MaterialButton(
-      color: context.color.secondaryColor.withValues(alpha: 0.7),
+      color: context.color.secondaryColor.withValues(alpha: 0.88),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(18),
         side: BorderSide(
           color: context.color.borderColor,
         ),
@@ -644,6 +644,22 @@ class LoginScreenState extends State<LoginScreen> {
             color: context.color.tertiaryColor.withValues(alpha: 0.3),
           ),
         ),
+        Positioned.fill(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  context.color.secondaryColor.withValues(alpha: 0.18),
+                  context.color.secondaryColor,
+                ],
+                stops: const [0.25, 0.7, 1],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -672,11 +688,23 @@ class LoginScreenState extends State<LoginScreen> {
         ),
         width: isTablet ? context.screenWidth * 0.7 : context.screenWidth,
         decoration: BoxDecoration(
-          color: context.color.secondaryColor,
+          color: context.color.secondaryColor.withValues(alpha: 0.98),
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16.rw(context)),
-            topRight: Radius.circular(16.rw(context)),
+            topLeft: Radius.circular(32.rw(context)),
+            topRight: Radius.circular(32.rw(context)),
           ),
+          border: Border(
+            top: BorderSide(
+              color: Colors.white.withValues(alpha: 0.7),
+            ),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.16),
+              blurRadius: 36,
+              offset: const Offset(0, -10),
+            ),
+          ],
         ),
         padding: EdgeInsets.symmetric(
           horizontal: 18.rw(context),

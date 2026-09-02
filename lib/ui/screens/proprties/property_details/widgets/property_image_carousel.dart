@@ -20,6 +20,7 @@ class PropertyImageCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final carouselHeight = 292.rh(context);
     final videoUrl = property.video?.trim();
     final hasVideo = videoUrl != null && videoUrl.isNotEmpty;
 
@@ -38,7 +39,8 @@ class PropertyImageCarousel extends StatelessWidget {
         Widget image = CustomImage(
           imageUrl: entry.value,
           width: double.infinity,
-          height: 218.rs(context),
+          height: carouselHeight,
+          fit: BoxFit.cover,
           showFullScreenImage: true,
         );
         // Wrap the first image in a Hero for shared-element transition
@@ -61,8 +63,25 @@ class PropertyImageCarousel extends StatelessWidget {
 
     final totalItems = carouselItems.length;
 
-    return SizedBox(
-      height: 218.rs(context),
+    return Container(
+      height: carouselHeight,
+      margin: EdgeInsets.fromLTRB(
+        12.rw(context),
+        8.rh(context),
+        12.rw(context),
+        0,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(28.rw(context)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.18),
+            blurRadius: 32,
+            offset: const Offset(0, 16),
+          ),
+        ],
+      ),
+      clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
           if (totalItems > 1)
@@ -72,7 +91,7 @@ class PropertyImageCarousel extends StatelessWidget {
                   options: CarouselOptions(
                     autoPlay: !hasVideo,
                     viewportFraction: 1,
-                    height: 218.rs(context),
+                    height: carouselHeight,
                     onPageChanged: (index, reason) {
                       onPageChanged(index);
                     },
@@ -132,11 +151,29 @@ class PropertyImageCarousel extends StatelessWidget {
               child: CustomImage(
                 imageUrl: property.titleImage ?? '',
                 width: double.infinity,
-                height: 218.rs(context),
+                height: carouselHeight,
+                fit: BoxFit.cover,
                 showFullScreenImage: true,
                 loadingImageHash: property.lowQualityTitleImage,
               ),
             ),
+          Positioned.fill(
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.28),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
           if (property.id != null)
             PositionedDirectional(
               top: 16.rh(context),

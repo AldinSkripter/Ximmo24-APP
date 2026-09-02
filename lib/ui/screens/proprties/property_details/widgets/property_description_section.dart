@@ -12,31 +12,61 @@ class PropertyDescriptionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(18.rw(context)),
       decoration: BoxDecoration(
         color: context.color.secondaryColor,
         border: Border.all(
           color: context.color.borderColor,
         ),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(22.rw(context)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(
+              alpha: context.color.brightness == Brightness.dark ? 0.18 : 0.05,
+            ),
+            blurRadius: 22,
+            offset: const Offset(0, 9),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: .start,
         children: [
-          CustomText(
-            'aboutThisPropLbl'.translate(context),
-            fontWeight: .w600,
-            fontSize: context.font.md,
-            color: context.color.textColorDark,
+          Row(
+            children: [
+              Container(
+                width: 36.rw(context),
+                height: 36.rh(context),
+                decoration: BoxDecoration(
+                  color: context.color.tertiaryColor.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(11.rw(context)),
+                ),
+                child: Icon(
+                  Icons.notes_rounded,
+                  color: context.color.tertiaryColor,
+                  size: 20.rw(context),
+                ),
+              ),
+              SizedBox(width: 11.rw(context)),
+              Expanded(
+                child: CustomText(
+                  'aboutThisPropLbl'.translate(context),
+                  fontWeight: .w700,
+                  fontSize: context.font.md,
+                  color: context.color.textColorDark,
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 8.rh(context)),
+          SizedBox(height: 14.rh(context)),
           UiUtils.getDivider(context),
-          SizedBox(height: 8.rh(context)),
+          SizedBox(height: 14.rh(context)),
           ReadMoreText(
             text: property.translatedDescription ?? property.description ?? '',
             style: TextStyle(
               fontSize: context.font.xs,
-              fontWeight: .w500,
+              fontWeight: .w400,
+              height: 1.55,
               color: context.color.textColorDark,
             ),
             readMoreButtonStyle: TextStyle(

@@ -189,21 +189,20 @@ class MyListingsScreenState extends State<MyListingsScreen>
             GestureDetector(
               onTap: showFilters,
               child: Container(
-                height: 40.rh(context),
-                width: 40.rw(context),
+                height: 42.rh(context),
+                width: 42.rw(context),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: context.color.borderColor,
-                  ),
-                  borderRadius: BorderRadius.circular(4),
+                  color: context.color.tertiaryColor.withValues(alpha: 0.10),
+                  border: Border.all(color: context.color.tertiaryColor.withValues(alpha: 0.16)),
+                  borderRadius: BorderRadius.circular(14.rw(context)),
                 ),
                 alignment: Alignment.center,
                 padding: EdgeInsets.all(4.rw(context)),
                 child: CustomImage(
                   imageUrl: AppIcons.filter,
-                  color: context.color.textColorDark,
-                  width: 24.rw(context),
-                  height: 24.rh(context),
+                  color: context.color.tertiaryColor,
+                  width: 21.rw(context),
+                  height: 21.rh(context),
                 ),
               ),
             ),
@@ -219,6 +218,7 @@ class MyListingsScreenState extends State<MyListingsScreen>
           },
           child: Column(
             children: [
+              _buildListingsHero(),
               _buildTabToggle(),
               Expanded(
                 child: _selectedTab == 0
@@ -232,6 +232,76 @@ class MyListingsScreenState extends State<MyListingsScreen>
     );
   }
 
+  Widget _buildListingsHero() {
+    return Container(
+      margin: EdgeInsets.fromLTRB(
+        16.rw(context),
+        12.rh(context),
+        16.rw(context),
+        0,
+      ),
+      padding: EdgeInsets.all(18.rw(context)),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: AlignmentDirectional.topStart,
+          end: AlignmentDirectional.bottomEnd,
+          colors: [
+            context.color.tertiaryColor,
+            context.color.tertiaryColor.withValues(alpha: 0.72),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(24.rw(context)),
+        boxShadow: [
+          BoxShadow(
+            color: context.color.tertiaryColor.withValues(alpha: 0.20),
+            blurRadius: 26,
+            offset: const Offset(0, 11),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 50.rw(context),
+            height: 50.rh(context),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.16),
+              borderRadius: BorderRadius.circular(16.rw(context)),
+            ),
+            child: Icon(
+              Icons.real_estate_agent_rounded,
+              color: context.color.buttonColor,
+              size: 27.rw(context),
+            ),
+          ),
+          SizedBox(width: 14.rw(context)),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  'myListings'.translate(context),
+                  color: context.color.buttonColor,
+                  fontSize: context.font.xl,
+                  fontWeight: FontWeight.w800,
+                ),
+                SizedBox(height: 4.rh(context)),
+                CustomText(
+                  _selectedTab == 0
+                      ? 'properties'.translate(context)
+                      : 'myProjects'.translate(context),
+                  color: context.color.buttonColor.withValues(alpha: 0.76),
+                  fontSize: context.font.sm,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildTabToggle() {
     return CustomTabBar(
       tabController: _tabController,
@@ -240,6 +310,7 @@ class MyListingsScreenState extends State<MyListingsScreen>
         Tab(text: 'myProjects'.translate(context)),
       ],
       isScrollable: false,
+      borderRadius: 18.rw(context),
       onTap: (index) => setState(() => _selectedTab = index),
     );
   }
@@ -340,7 +411,7 @@ class MyListingsScreenState extends State<MyListingsScreen>
                 16.rw(context),
                 0,
                 16.rw(context),
-                32.rh(context),
+                118.rh(context),
               ),
               itemCount:
                   state.myProperty.length + (state.isLoadingMore ? 1 : 0),
@@ -431,7 +502,7 @@ class MyListingsScreenState extends State<MyListingsScreen>
               16.rw(context),
               0,
               16.rw(context),
-              32.rh(context),
+              118.rh(context),
             ),
             itemCount: state.projects.length + (state.isLoadingMore ? 1 : 0),
             itemBuilder: (context, index) {

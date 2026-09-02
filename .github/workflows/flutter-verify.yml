@@ -61,6 +61,16 @@ jobs:
           lib/ui/screens/subscription/widget/package_tile.dart
           lib/ui/screens/subscription/widget/my_packages_tile.dart
           lib/utils/custom_tabbar.dart
+          lib/ui/screens/auth/login_screen.dart
+          lib/ui/screens/chat/chat_list_screen.dart
+          lib/ui/screens/chat/widgets/chat_input_bar.dart
+          lib/ui/screens/filter_screen.dart
+          lib/ui/screens/my_listings_screen.dart
+          lib/ui/screens/onboarding/onboarding_screen.dart
+          lib/ui/screens/proprties/property_details/widgets/property_description_section.dart
+          lib/ui/screens/proprties/property_details/widgets/property_header.dart
+          lib/ui/screens/proprties/property_details/widgets/property_image_carousel.dart
+          lib/ui/screens/proprties/property_details/widgets/property_owner_bottom_bar.dart
 
       - name: Analyze application
         run: flutter analyze --no-fatal-infos --no-fatal-warnings

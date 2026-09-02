@@ -20,14 +20,22 @@ class PropertyOwnerBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+      margin: EdgeInsets.fromLTRB(
+        12.rw(context),
+        0,
+        12.rw(context),
+        8.rh(context),
+      ),
+      padding: EdgeInsets.all(8.rw(context)),
       decoration: BoxDecoration(
-        color: context.color.secondaryColor,
+        color: context.color.secondaryColor.withValues(alpha: 0.94),
+        borderRadius: BorderRadius.circular(22.rw(context)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.30)),
         boxShadow: [
           BoxShadow(
             color: context.color.textColorDark.withValues(alpha: 0.12),
             offset: const Offset(0, -1),
-            blurRadius: 5,
+            blurRadius: 24,
           ),
         ],
       ),

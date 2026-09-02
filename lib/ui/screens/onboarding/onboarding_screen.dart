@@ -114,7 +114,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         body: Stack(
           children: <Widget>[
             Container(
-              color: context.color.tertiaryColor.withValues(alpha: 0.1),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    context.color.tertiaryColor.withValues(alpha: 0.18),
+                    context.color.backgroundColor,
+                    context.color.tertiaryColor.withValues(alpha: 0.06),
+                  ],
+                ),
+              ),
             ),
             PositionedDirectional(
               bottom: 282.rh(context),
@@ -226,13 +236,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Container(
                   height: 282.rh(context),
                   width: context.screenWidth,
-                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.fromLTRB(24, 22, 24, 20),
                   decoration: BoxDecoration(
-                    color: context.color.secondaryColor,
+                    color: context.color.secondaryColor.withValues(alpha: 0.96),
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(48),
-                      topRight: Radius.circular(48),
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
                     ),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.68),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.14),
+                        blurRadius: 36,
+                        offset: const Offset(0, -10),
+                      ),
+                    ],
                   ),
                   child: Column(
                     children: [
@@ -240,7 +261,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       CustomText(
                         slidersList[currentPageIndex]['title']?.toString() ??
                             '',
-                        fontWeight: .w500,
+                        fontWeight: .w700,
                         fontSize: context.font.xxl,
                         color: context.color.tertiaryColor,
                         textAlign: .center,
@@ -294,8 +315,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               height: 48.rh(context),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                color: context.color.tertiaryColor,
+                                gradient: LinearGradient(
+                                  colors: [
+                                    context.color.tertiaryColor,
+                                    context.color.tertiaryColor.withValues(
+                                      alpha: 0.76,
+                                    ),
+                                  ],
+                                ),
                                 shape: .circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: context.color.tertiaryColor
+                                        .withValues(alpha: 0.3),
+                                    blurRadius: 18,
+                                    offset: const Offset(0, 7),
+                                  ),
+                                ],
                               ),
                               child: CustomImage(
                                 matchTextDirection: true,

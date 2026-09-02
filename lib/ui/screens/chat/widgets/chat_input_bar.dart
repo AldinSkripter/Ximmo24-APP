@@ -247,12 +247,28 @@ class _ChatInputBarState extends State<ChatInputBar>
             ),
           ),
         Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
+          padding: EdgeInsets.fromLTRB(
+            12,
+            8,
+            12,
+            12 + MediaQuery.of(context).viewInsets.bottom,
           ),
-          child: BottomAppBar(
-            padding: const EdgeInsetsDirectional.all(10),
-            color: context.color.secondaryColor,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: context.color.secondaryColor.withValues(alpha: 0.96),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: context.color.borderColor.withValues(alpha: 0.75),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.12),
+                  blurRadius: 24,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
             child: Row(
               children: [
                 Expanded(
@@ -288,8 +304,22 @@ class _ChatInputBarState extends State<ChatInputBar>
                       height: 46.rh(context),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: context.color.tertiaryColor,
-                        borderRadius: BorderRadius.circular(4),
+                        gradient: LinearGradient(
+                          colors: [
+                            context.color.tertiaryColor,
+                            context.color.tertiaryColor.withValues(alpha: 0.78),
+                          ],
+                        ),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: context.color.tertiaryColor.withValues(
+                              alpha: 0.28,
+                            ),
+                            blurRadius: 16,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
                       ),
                       child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 150),
