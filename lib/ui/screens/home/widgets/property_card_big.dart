@@ -149,19 +149,26 @@ class _PropertyCardBigState extends State<PropertyCardBig> {
             }
           },
           child: Container(
-            padding: EdgeInsets.all(8.rh(context)),
+            padding: EdgeInsets.all(9.rh(context)),
             width: widget.isFromGrid ? 254.rw(context) : 290.rw(context),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
-              color: context.color.secondaryColor,
+              borderRadius: BorderRadius.circular(24),
+              gradient: LinearGradient(
+                begin: AlignmentDirectional.topStart,
+                end: AlignmentDirectional.bottomEnd,
+                colors: [
+                  context.color.secondaryColor,
+                  context.color.tertiaryColor.withValues(alpha: 0.035),
+                ],
+              ),
               border: Border.all(
                 color: context.color.borderColor,
               ),
               boxShadow: [
                 BoxShadow(
                   color: context.color.textColorDark.withValues(alpha: 0.08),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
+                  blurRadius: 26,
+                  offset: const Offset(0, 11),
                 ),
               ],
             ),
@@ -176,7 +183,7 @@ class _PropertyCardBigState extends State<PropertyCardBig> {
                         Hero(
                           tag: resolvedHeroTag,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(19),
                             child: CustomImage(
                               imageUrl: property.titleImage ?? '',
                               height: widget.isFromGrid
@@ -199,16 +206,27 @@ class _PropertyCardBigState extends State<PropertyCardBig> {
                           ),
                       ],
                     ),
-                    SizedBox(height: 8.rh(context)),
+                    SizedBox(height: 10.rh(context)),
                     Row(
                       children: [
-                        CustomImage(
-                          imageUrl: property.category?.image ?? '',
-                          color: context.color.textLightColor,
-                          width: 18.rw(context),
-                          height: 18.rh(context),
+                        Container(
+                          width: 28.rw(context),
+                          height: 28.rh(context),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: context.color.tertiaryColor.withValues(
+                              alpha: 0.09,
+                            ),
+                            borderRadius: BorderRadius.circular(9),
+                          ),
+                          child: CustomImage(
+                            imageUrl: property.category?.image ?? '',
+                            color: context.color.tertiaryColor,
+                            width: 16.rw(context),
+                            height: 16.rh(context),
+                          ),
                         ),
-                        SizedBox(width: 4.rw(context)),
+                        SizedBox(width: 7.rw(context)),
                         Expanded(
                           child: Hero(
                             tag: '$resolvedHeroTag-category',
@@ -218,7 +236,7 @@ class _PropertyCardBigState extends State<PropertyCardBig> {
                                 property.category?.translatedName ??
                                     property.category?.category ??
                                     '',
-                                fontWeight: .w600,
+                                fontWeight: .w700,
                                 fontSize: context.font.xs,
                                 color: context.color.textLightColor,
                                 maxLines: 1,
@@ -528,7 +546,7 @@ class _PropertyCardBigState extends State<PropertyCardBig> {
             type: MaterialType.transparency,
             child: CustomText(
               price,
-              fontWeight: .w500,
+                      fontWeight: .w700,
               fontSize: context.font.md,
               maxLines: 1,
               color: context.color.tertiaryColor,

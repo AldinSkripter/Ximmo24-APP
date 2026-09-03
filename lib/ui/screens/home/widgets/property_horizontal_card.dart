@@ -142,13 +142,23 @@ class _PropertyHorizontalCardState extends State<PropertyHorizontalCard> {
               }
             },
             child: Container(
-              padding: EdgeInsets.all(8.rh(context)),
-              height: 132.rh(context),
+              padding: EdgeInsets.all(widget.usePremiumStyle ? 9.0 : 8.0),
+              height: (widget.usePremiumStyle ? 140 : 132).rh(context),
               decoration: BoxDecoration(
                 border: Border.all(color: context.color.borderColor),
-                color: context.color.secondaryColor,
+                color: widget.usePremiumStyle ? null : context.color.secondaryColor,
+                gradient: widget.usePremiumStyle
+                    ? LinearGradient(
+                        begin: AlignmentDirectional.topStart,
+                        end: AlignmentDirectional.bottomEnd,
+                        colors: [
+                          context.color.secondaryColor,
+                          context.color.tertiaryColor.withValues(alpha: 0.035),
+                        ],
+                      )
+                    : null,
                 borderRadius: BorderRadius.circular(
-                  widget.usePremiumStyle ? 18 : 8,
+                  widget.usePremiumStyle ? 22 : 8,
                 ),
                 boxShadow: widget.usePremiumStyle
                     ? [
@@ -156,8 +166,8 @@ class _PropertyHorizontalCardState extends State<PropertyHorizontalCard> {
                           color: context.color.textColorDark.withValues(
                             alpha: 0.07,
                           ),
-                          blurRadius: 18,
-                          offset: const Offset(0, 7),
+                          blurRadius: 24,
+                          offset: const Offset(0, 10),
                         ),
                       ]
                     : null,
@@ -170,7 +180,7 @@ class _PropertyHorizontalCardState extends State<PropertyHorizontalCard> {
                         tag: resolvedHeroTag,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(
-                            widget.usePremiumStyle ? 14 : 4,
+                            widget.usePremiumStyle ? 17 : 4,
                           ),
                           child: CustomImage(
                             imageUrl: property.titleImage ?? '',
@@ -204,7 +214,7 @@ class _PropertyHorizontalCardState extends State<PropertyHorizontalCard> {
                         ),
                     ],
                   ),
-                  SizedBox(width: 8.rw(context)),
+                  SizedBox(width: (widget.usePremiumStyle ? 12 : 8).rw(context)),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: .start,

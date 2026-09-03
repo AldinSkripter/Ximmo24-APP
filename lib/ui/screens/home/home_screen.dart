@@ -369,7 +369,7 @@ class _PremiumHomeHero extends StatelessWidget {
     final deepAccent = Color.lerp(accent, Colors.black, 0.24) ?? accent;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 8, 18, 5),
+      padding: const EdgeInsets.fromLTRB(18, 6, 18, 2),
       child: TweenAnimationBuilder<double>(
         duration: const Duration(milliseconds: 650),
         curve: Curves.easeOutCubic,
@@ -414,15 +414,15 @@ class _PremiumHomeHero extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 22, 20, 18),
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
                         Container(
-                          width: 43.rw(context),
-                          height: 43.rh(context),
+                          width: 38.rw(context),
+                          height: 38.rh(context),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.14),
                             borderRadius: BorderRadius.circular(14),
@@ -433,7 +433,7 @@ class _PremiumHomeHero extends StatelessWidget {
                           child: Icon(
                             Icons.apartment_rounded,
                             color: Colors.white,
-                            size: 24.rs(context),
+                            size: 21.rs(context),
                           ),
                         ),
                         SizedBox(width: 12.rw(context)),
@@ -444,7 +444,7 @@ class _PremiumHomeHero extends StatelessWidget {
                               CustomText(
                                 'Ximmo24',
                                 color: Colors.white,
-                                fontSize: context.font.xl,
+                                fontSize: context.font.lg,
                                 fontWeight: FontWeight.w800,
                               ),
                               const SizedBox(height: 2),
@@ -458,39 +458,14 @@ class _PremiumHomeHero extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.13),
-                            borderRadius: BorderRadius.circular(99),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.16),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.verified_rounded,
-                                size: 14.rs(context),
-                                color: Colors.white,
-                              ),
-                              const SizedBox(width: 5),
-                              CustomText(
-                                'Premium',
-                                color: Colors.white,
-                                fontSize: context.font.xxs,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ],
-                          ),
+                        Icon(
+                          Icons.auto_awesome_rounded,
+                          size: 22.rs(context),
+                          color: Colors.white.withValues(alpha: 0.82),
                         ),
                       ],
                     ),
-                    SizedBox(height: 19.rh(context)),
+                    SizedBox(height: 12.rh(context)),
                     const HomeSearchField(embedded: true),
                   ],
                 ),

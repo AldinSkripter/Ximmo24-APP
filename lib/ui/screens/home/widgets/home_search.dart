@@ -36,7 +36,7 @@ class HomeSearchField extends StatelessWidget {
               ? EdgeInsets.zero
               : const EdgeInsets.fromLTRB(18, 12, 18, 4),
           child: Container(
-            height: 58.rh(context),
+            height: (embedded ? 52 : 58).rh(context),
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               color: context.color.secondaryColor.withValues(
@@ -73,8 +73,8 @@ class HomeSearchField extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          width: 42.rw(context),
-                          height: 42.rh(context),
+                          width: (embedded ? 38 : 42).rw(context),
+                          height: (embedded ? 38 : 42).rh(context),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: context.color.tertiaryColor.withValues(
@@ -120,8 +120,8 @@ class HomeSearchField extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    width: 46.rw(context),
-                    height: 46.rh(context),
+                    width: (embedded ? 40 : 46).rw(context),
+                    height: (embedded ? 40 : 46).rh(context),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: context.color.tertiaryColor,
