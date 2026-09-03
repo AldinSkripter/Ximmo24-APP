@@ -283,7 +283,12 @@ class _ProfileStickyHeaderDelegate extends SliverPersistentHeaderDelegate {
                           begin: AlignmentDirectional.topStart,
                           end: AlignmentDirectional.bottomEnd,
                           colors: [
-                            context.color.tertiaryColor,
+                            Color.lerp(
+                                  context.color.tertiaryColor,
+                                  Colors.black,
+                                  0.16,
+                                ) ??
+                                context.color.tertiaryColor,
                             context.color.tertiaryColor.withValues(alpha: 0.78),
                           ],
                         ),
@@ -318,11 +323,45 @@ class _ProfileStickyHeaderDelegate extends SliverPersistentHeaderDelegate {
                   ),
                   PositionedDirectional(
                     end: 42.rw(context),
-                    bottom: 24.rh(context),
+                    bottom: 12.rh(context),
                     child: Icon(
                       Icons.apartment_rounded,
-                      color: Colors.white.withValues(alpha: 0.12),
-                      size: 88.rw(context),
+                      color: Colors.white.withValues(alpha: 0.09),
+                      size: 106.rw(context),
+                    ),
+                  ),
+                  PositionedDirectional(
+                    start: -68.rw(context),
+                    bottom: -78.rh(context),
+                    child: Container(
+                      width: 210.rw(context),
+                      height: 210.rh(context),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                          colors: [
+                            Colors.white.withValues(alpha: 0.16),
+                            Colors.white.withValues(alpha: 0),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  PositionedDirectional(
+                    start: 20.rw(context),
+                    end: 20.rw(context),
+                    bottom: 18.rh(context),
+                    child: Container(
+                      height: 1,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white.withValues(alpha: 0),
+                            Colors.white.withValues(alpha: 0.24),
+                            Colors.white.withValues(alpha: 0),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                   PositionedDirectional(
