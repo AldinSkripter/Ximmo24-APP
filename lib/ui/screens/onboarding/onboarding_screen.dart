@@ -89,6 +89,33 @@ class _PremiumOnboardingVisualState extends State<PremiumOnboardingVisual>
                     ),
                   ),
                 ),
+                Transform.rotate(
+                  angle: motion * 0.16,
+                  child: Container(
+                    width: 292.rw(context),
+                    height: 292.rh(context),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: accent.withValues(alpha: 0.12),
+                      ),
+                    ),
+                  ),
+                ),
+                Transform.rotate(
+                  angle: -motion * 0.12,
+                  child: Container(
+                    width: 220.rw(context),
+                    height: 220.rh(context),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.34),
+                        width: 1.4,
+                      ),
+                    ),
+                  ),
+                ),
                 PositionedDirectional(
                   start: 18.rw(context),
                   top: 58.rh(context) + motion * 8,
@@ -121,36 +148,11 @@ class _PremiumOnboardingVisualState extends State<PremiumOnboardingVisual>
                   offset: Offset(0, -5 + motion * 10),
                   child: _phoneFrame(context, motion),
                 ),
-                if (widget.page == 0)
-                  PositionedDirectional(
-                    end: 44.rw(context),
-                    top: 48.rh(context) - motion * 5,
-                    child: _accentBubble(
-                      context,
-                      Icons.key_rounded,
-                      52,
-                    ),
-                  ),
-                if (widget.page == 1)
-                  PositionedDirectional(
-                    end: 38.rw(context),
-                    top: 50.rh(context) - motion * 6,
-                    child: _accentBubble(
-                      context,
-                      Icons.favorite_rounded,
-                      54,
-                    ),
-                  ),
-                if (widget.page == 2)
-                  PositionedDirectional(
-                    end: 40.rw(context),
-                    top: 48.rh(context) - motion * 6,
-                    child: _accentBubble(
-                      context,
-                      Icons.forum_rounded,
-                      54,
-                    ),
-                  ),
+                PositionedDirectional(
+                  end: 40.rw(context),
+                  top: 48.rh(context) - motion * 6,
+                  child: _pageBadge(context, motion),
+                ),
               ],
             );
           },
@@ -183,23 +185,96 @@ class _PremiumOnboardingVisualState extends State<PremiumOnboardingVisual>
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(26.rw(context)),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: context.color.secondaryColor,
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                context.color.secondaryColor,
-                accent.withValues(alpha: 0.10),
-              ],
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: context.color.secondaryColor,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    context.color.secondaryColor,
+                    accent.withValues(alpha: 0.13),
+                  ],
+                ),
+              ),
             ),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(12.rw(context)),
-            child: _phoneContent(context, motion),
-          ),
+            Positioned(
+              top: 7.rh(context),
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                  width: 44.rw(context),
+                  height: 5.rh(context),
+                  decoration: BoxDecoration(
+                    color: context.color.textColorDark.withValues(alpha: 0.16),
+                    borderRadius: BorderRadius.circular(99),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                12.rw(context),
+                20.rh(context),
+                12.rw(context),
+                12.rh(context),
+              ),
+              child: _phoneContent(context, motion),
+            ),
+            PositionedDirectional(
+              start: -28.rw(context),
+              top: -36.rh(context),
+              child: Transform.rotate(
+                angle: -0.45,
+                child: Container(
+                  width: 72.rw(context),
+                  height: 210.rh(context),
+                  color: Colors.white.withValues(alpha: 0.055),
+                ),
+              ),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  IconData get _pageIcon => switch (widget.page) {
+    0 => Icons.maps_home_work_rounded,
+    1 => Icons.travel_explore_rounded,
+    _ => Icons.forum_rounded,
+  };
+
+  Widget _pageBadge(BuildContext context, double motion) {
+    return Transform.scale(
+      scale: 0.94 + (motion * 0.06),
+      child: Container(
+        width: 46.rw(context),
+        height: 46.rh(context),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              context.color.tertiaryColor,
+              context.color.tertiaryColor.withValues(alpha: 0.68),
+            ],
+          ),
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.white.withValues(alpha: 0.72)),
+          boxShadow: [
+            BoxShadow(
+              color: context.color.tertiaryColor.withValues(alpha: 0.3),
+              blurRadius: 18,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Icon(_pageIcon, color: Colors.white, size: 23.rw(context)),
       ),
     );
   }
@@ -443,30 +518,6 @@ class _PremiumOnboardingVisualState extends State<PremiumOnboardingVisual>
     );
   }
 
-  Widget _accentBubble(BuildContext context, IconData icon, double size) {
-    return Container(
-      width: size.rw(context),
-      height: size.rh(context),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            context.color.tertiaryColor,
-            context.color.tertiaryColor.withValues(alpha: 0.68),
-          ],
-        ),
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.white.withValues(alpha: 0.72)),
-        boxShadow: [
-          BoxShadow(
-            color: context.color.tertiaryColor.withValues(alpha: 0.32),
-            blurRadius: 22,
-            offset: const Offset(0, 9),
-          ),
-        ],
-      ),
-      child: Icon(icon, color: Colors.white, size: 24),
-    );
-  }
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
@@ -664,9 +715,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         20.rh(context),
       ),
       decoration: BoxDecoration(
-        color: context.color.secondaryColor.withValues(alpha: 0.96),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            context.color.secondaryColor.withValues(alpha: 0.98),
+            Color.alphaBlend(
+              context.color.tertiaryColor.withValues(alpha: 0.055),
+              context.color.secondaryColor,
+            ),
+          ],
+        ),
         borderRadius: BorderRadius.circular(36.rw(context)),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.68)),
+        border: Border.all(
+          color: context.color.brightness == Brightness.dark
+              ? Colors.white.withValues(alpha: 0.16)
+              : Colors.white.withValues(alpha: 0.82),
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.14),
@@ -678,6 +743,61 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Row(
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 360),
+                curve: Curves.easeOutCubic,
+                width: 42.rw(context),
+                height: 42.rh(context),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      context.color.tertiaryColor,
+                      context.color.tertiaryColor.withValues(alpha: 0.68),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(14.rw(context)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: context.color.tertiaryColor.withValues(alpha: 0.25),
+                      blurRadius: 16,
+                      offset: const Offset(0, 7),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  switch (currentPageIndex) {
+                    0 => Icons.maps_home_work_rounded,
+                    1 => Icons.travel_explore_rounded,
+                    _ => Icons.forum_rounded,
+                  },
+                  color: Colors.white,
+                  size: 21.rw(context),
+                ),
+              ),
+              const Spacer(),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.rw(context),
+                  vertical: 7.rh(context),
+                ),
+                decoration: BoxDecoration(
+                  color: context.color.tertiaryColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(99),
+                ),
+                child: CustomText(
+                  '${(currentPageIndex + 1).toString().padLeft(2, '0')}  /  ${slidersList.length.toString().padLeft(2, '0')}',
+                  color: context.color.tertiaryColor,
+                  fontSize: context.font.xs,
+                  fontWeight: .w700,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 18.rh(context)),
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 320),
             transitionBuilder: (child, animation) => FadeTransition(
@@ -713,7 +833,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ],
             ),
           ),
-          SizedBox(height: 24.rh(context)),
+          SizedBox(height: 22.rh(context)),
           Row(
             children: [
               for (var i = 0; i < slidersList.length; i++)
@@ -733,7 +853,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         context.color.tertiaryColor.withValues(alpha: 0.72),
                       ],
                     ),
-                    borderRadius: BorderRadius.circular(20.rw(context)),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.72),
+                      width: 1.4,
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: context.color.tertiaryColor.withValues(

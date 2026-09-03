@@ -934,11 +934,28 @@ class LoginScreenState extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(999),
           ),
         ),
-        CustomImage(
-          imageUrl: AppIcons.splashLogoLight,
-          width: 156.rw(context),
-          height: 42.rh(context),
-          fit: BoxFit.contain,
+        Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 14.rw(context),
+            vertical: 8.rh(context),
+          ),
+          decoration: BoxDecoration(
+            color: context.color.brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.06)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(18.rw(context)),
+            border: context.color.brightness == Brightness.dark
+                ? Border.all(color: Colors.white.withValues(alpha: 0.08))
+                : null,
+          ),
+          child: CustomImage(
+            imageUrl: context.color.brightness == Brightness.dark
+                ? AppIcons.splashLogoDark
+                : AppIcons.splashLogoLight,
+            width: 156.rw(context),
+            height: 42.rh(context),
+            fit: BoxFit.contain,
+          ),
         ),
         SizedBox(height: 16.rh(context)),
         CustomText(
@@ -1933,11 +1950,12 @@ class LoginScreenState extends State<LoginScreen> {
     required bool isTablet, // Pass `isTablet` as a parameter
   }) {
     return Container(
-      width: isTablet ? context.screenWidth * 0.7 : context.screenWidth,
+      width: double.infinity,
       color: context.color.secondaryColor,
-      padding: const EdgeInsets.symmetric(
-        vertical: 8,
-      ), // Added for better spacing
+      padding: EdgeInsets.symmetric(
+        horizontal: 8.rw(context),
+        vertical: 8.rh(context),
+      ),
       margin: EdgeInsets.only(bottom: 8.rh(context)),
       child: Column(
         children: [
@@ -1949,9 +1967,13 @@ class LoginScreenState extends State<LoginScreen> {
             textAlign: .center,
           ),
           SizedBox(height: 4.rh(context)),
-          // Terms and Privacy row
-          Row(
-            mainAxisAlignment: .center,
+          // Keep long translated policy names inside narrow phone screens.
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runAlignment: WrapAlignment.center,
+            spacing: 0,
+            runSpacing: 3.rh(context),
             children: [
               // Terms and Conditions
               GestureDetector(
