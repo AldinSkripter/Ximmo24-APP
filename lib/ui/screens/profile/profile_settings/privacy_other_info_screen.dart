@@ -42,11 +42,7 @@ class _PrivacyOtherInfoScreenState extends State<PrivacyOtherInfoScreen> {
     return Scaffold(
       backgroundColor: context.color.primaryColor,
       appBar: CustomAppBar(
-        title: 'privacyOtherInfo'.translateWithFallback(
-          context,
-          english: 'Privacy & Information',
-          german: 'Datenschutz & Informationen',
-        ),
+        title: 'privacyOtherInfo'.translate(context),
       ),
       body: BlocBuilder<FetchCustomPagesCubit, FetchCustomPagesState>(
         builder: (context, state) {

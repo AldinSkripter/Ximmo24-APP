@@ -159,11 +159,7 @@ class _PreferencesSettingsScreenState extends State<PreferencesSettingsScreen> {
     return Scaffold(
       backgroundColor: context.color.primaryColor,
       appBar: CustomAppBar(
-        title: 'preferencesSettings'.translateWithFallback(
-          context,
-          english: 'Preferences & Settings',
-          german: 'Einstellungen',
-        ),
+        title: 'preferencesSettings'.translate(context),
       ),
       body: BlocListener<DeleteAccountCubit, DeleteAccountState>(
         listener: (context, state) async {
@@ -224,11 +220,7 @@ class _PreferencesSettingsScreenState extends State<PreferencesSettingsScreen> {
 
                 // 2. Theme
                 ProfileTile(
-                  title: 'theme'.translateWithFallback(
-                    context,
-                    english: 'Appearance',
-                    german: 'Darstellung',
-                  ),
+                  title: 'theme'.translate(context),
                   onTap: () async {
                     await showModalBottomSheet<void>(
                       context: context,
@@ -246,25 +238,7 @@ class _PreferencesSettingsScreenState extends State<PreferencesSettingsScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       CustomText(
-                        switch (currentThemeLabel) {
-                          'systemDefault' => currentThemeLabel
-                              .translateWithFallback(
-                                context,
-                                english: 'System default',
-                                german: 'Systemstandard',
-                              ),
-                          'lightTheme' => currentThemeLabel
-                              .translateWithFallback(
-                                context,
-                                english: 'Light',
-                                german: 'Hell',
-                              ),
-                          _ => currentThemeLabel.translateWithFallback(
-                            context,
-                            english: 'Dark',
-                            german: 'Dunkel',
-                          ),
-                        },
+                        currentThemeLabel.translate(context),
                         color: context.color.textLightColor,
                         fontSize: context.font.sm,
                       ),

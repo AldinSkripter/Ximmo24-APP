@@ -42,20 +42,6 @@ class ProfileMenu extends StatelessWidget {
   final VoidCallback onDeleteAccount;
   final VoidCallback onLogout;
 
-  String _itemTitle(BuildContext context, String key) => switch (key) {
-    'preferencesSettings' => key.translateWithFallback(
-      context,
-      english: 'Preferences & Settings',
-      german: 'Einstellungen',
-    ),
-    'privacyOtherInfo' => key.translateWithFallback(
-      context,
-      english: 'Privacy & Information',
-      german: 'Datenschutz & Informationen',
-    ),
-    _ => key.translate(context),
-  };
-
   List<_Item> _buildItems(BuildContext context) => [
     _Item(
       titleKey: 'favorites',
@@ -200,7 +186,6 @@ class ProfileMenu extends StatelessWidget {
             itemBuilder: (context, index) => _PremiumActionCard(
               item: featured[index],
               index: index,
-              title: _itemTitle(context, featured[index].titleKey),
             ),
           ),
         if (remaining.isNotEmpty) ...[
@@ -226,7 +211,7 @@ class ProfileMenu extends StatelessWidget {
                 for (var i = 0; i < remaining.length; i++) ...[
                   if (i > 0) SizedBox(height: 6.rh(context)),
                   ProfileTile(
-                    title: _itemTitle(context, remaining[i].titleKey),
+                    title: remaining[i].titleKey.translate(context),
                     svgImagePath: remaining[i].icon,
                     onTap: remaining[i].onTap,
                     trailing: _buildTrailing(context, remaining[i]),
@@ -300,15 +285,10 @@ class ProfileMenu extends StatelessWidget {
 }
 
 class _PremiumActionCard extends StatelessWidget {
-  const _PremiumActionCard({
-    required this.item,
-    required this.index,
-    required this.title,
-  });
+  const _PremiumActionCard({required this.item, required this.index});
 
   final _Item item;
   final int index;
-  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -377,7 +357,7 @@ class _PremiumActionCard extends StatelessWidget {
               SizedBox(width: 11.rw(context)),
               Expanded(
                 child: CustomText(
-                  title,
+                  item.titleKey.translate(context),
                   maxLines: 2,
                   fontSize: context.font.sm,
                   fontWeight: FontWeight.w700,
