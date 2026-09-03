@@ -15,14 +15,11 @@ import 'package:ebroker/utils/extensions/extensions.dart';
 import 'package:ebroker/utils/helper_utils.dart';
 import 'package:ebroker/utils/hive_utils.dart';
 import 'package:ebroker/utils/language_change_helper.dart';
-import 'package:ebroker/utils/lottie/lottie_editor.dart';
 import 'package:ebroker/utils/responsive_size.dart';
 import 'package:ebroker/utils/ui_utils.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -31,52 +28,456 @@ class OnboardingScreen extends StatefulWidget {
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
+class PremiumOnboardingVisual extends StatefulWidget {
+  const PremiumOnboardingVisual({required this.page, super.key});
+
+  final int page;
+
+  @override
+  State<PremiumOnboardingVisual> createState() =>
+      _PremiumOnboardingVisualState();
+}
+
+class _PremiumOnboardingVisualState extends State<PremiumOnboardingVisual>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2800),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = context.color.tertiaryColor;
+    return IgnorePointer(
+      child: SizedBox(
+        width: 360.rw(context),
+        height: 330.rh(context),
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, _) {
+            final motion = Curves.easeInOut.transform(_controller.value);
+            return Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                Transform.scale(
+                  scale: 0.96 + motion * 0.05,
+                  child: Container(
+                    width: 250.rw(context),
+                    height: 250.rh(context),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          accent.withValues(alpha: 0.22),
+                          accent.withValues(alpha: 0.03),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                PositionedDirectional(
+                  start: 18.rw(context),
+                  top: 58.rh(context) + motion * 8,
+                  child: Transform.rotate(
+                    angle: -0.08,
+                    child: _floatingCard(
+                      context,
+                      icon: Icons.apartment_rounded,
+                      size: const Size(112, 92),
+                      opacity: 0.78,
+                    ),
+                  ),
+                ),
+                PositionedDirectional(
+                  end: 14.rw(context),
+                  bottom: 52.rh(context) + (1 - motion) * 9,
+                  child: Transform.rotate(
+                    angle: 0.07,
+                    child: _floatingCard(
+                      context,
+                      icon: widget.page == 2
+                          ? Icons.verified_user_rounded
+                          : Icons.location_on_rounded,
+                      size: const Size(108, 88),
+                      opacity: 0.72,
+                    ),
+                  ),
+                ),
+                Transform.translate(
+                  offset: Offset(0, -5 + motion * 10),
+                  child: _phoneFrame(context, motion),
+                ),
+                if (widget.page == 0)
+                  PositionedDirectional(
+                    end: 44.rw(context),
+                    top: 48.rh(context) - motion * 5,
+                    child: _accentBubble(
+                      context,
+                      Icons.key_rounded,
+                      52,
+                    ),
+                  ),
+                if (widget.page == 1)
+                  PositionedDirectional(
+                    end: 38.rw(context),
+                    top: 50.rh(context) - motion * 6,
+                    child: _accentBubble(
+                      context,
+                      Icons.favorite_rounded,
+                      54,
+                    ),
+                  ),
+                if (widget.page == 2)
+                  PositionedDirectional(
+                    end: 40.rw(context),
+                    top: 48.rh(context) - motion * 6,
+                    child: _accentBubble(
+                      context,
+                      Icons.forum_rounded,
+                      54,
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _phoneFrame(BuildContext context, double motion) {
+    final accent = context.color.tertiaryColor;
+    return Container(
+      width: 174.rw(context),
+      height: 270.rh(context),
+      padding: EdgeInsets.all(9.rw(context)),
+      decoration: BoxDecoration(
+        color: context.color.textColorDark,
+        borderRadius: BorderRadius.circular(34.rw(context)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.42)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.22),
+            blurRadius: 34,
+            offset: const Offset(0, 18),
+          ),
+          BoxShadow(
+            color: accent.withValues(alpha: 0.18),
+            blurRadius: 30,
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(26.rw(context)),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: context.color.secondaryColor,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                context.color.secondaryColor,
+                accent.withValues(alpha: 0.10),
+              ],
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(12.rw(context)),
+            child: _phoneContent(context, motion),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _phoneContent(BuildContext context, double motion) {
+    final accent = context.color.tertiaryColor;
+    if (widget.page == 1) {
+      return Column(
+        children: [
+          Container(
+            height: 32.rh(context),
+            decoration: BoxDecoration(
+              color: context.color.primaryColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                SizedBox(width: 9.rw(context)),
+                Icon(Icons.search_rounded, size: 16, color: accent),
+                const Spacer(),
+                Icon(Icons.tune_rounded, size: 16, color: accent),
+                SizedBox(width: 9.rw(context)),
+              ],
+            ),
+          ),
+          SizedBox(height: 12.rh(context)),
+          for (var i = 0; i < 2; i++) ...[
+            Expanded(
+              child: Transform.translate(
+                offset: Offset((i == 0 ? -1 : 1) * motion * 2, 0),
+                child: _listingPreview(context, i),
+              ),
+            ),
+            if (i == 0) SizedBox(height: 9.rh(context)),
+          ],
+        ],
+      );
+    }
+    if (widget.page == 2) {
+      return Column(
+        children: [
+          Row(
+            children: [
+              CircleAvatar(radius: 14, backgroundColor: accent),
+              SizedBox(width: 8.rw(context)),
+              Expanded(child: _line(context, 8, 0.55)),
+            ],
+          ),
+          SizedBox(height: 22.rh(context)),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: _messageBubble(context, false, 0.82),
+          ),
+          SizedBox(height: 12.rh(context)),
+          Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: _messageBubble(context, true, 0.68),
+          ),
+          SizedBox(height: 12.rh(context)),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: _messageBubble(context, false, 0.58),
+          ),
+          const Spacer(),
+          Container(
+            height: 32.rh(context),
+            decoration: BoxDecoration(
+              color: context.color.primaryColor,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Container(
+                margin: const EdgeInsets.all(4),
+                width: 24,
+                decoration: BoxDecoration(
+                  color: accent,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.arrow_upward_rounded,
+                  color: Colors.white,
+                  size: 14,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            SizedBox(
+              width: 54.rw(context),
+              child: _line(context, 7, 1),
+            ),
+            const Spacer(),
+            Icon(Icons.notifications_none_rounded, size: 18, color: accent),
+          ],
+        ),
+        SizedBox(height: 14.rh(context)),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [accent, accent.withValues(alpha: 0.58)],
+              ),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Stack(
+              children: [
+                Center(
+                  child: Icon(
+                    Icons.villa_rounded,
+                    color: Colors.white.withValues(alpha: 0.92),
+                    size: 62,
+                  ),
+                ),
+                PositionedDirectional(
+                  end: 10,
+                  top: 10,
+                  child: Icon(
+                    Icons.favorite_border_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 12.rh(context)),
+        _line(context, 9, 0.82),
+        SizedBox(height: 7.rh(context)),
+        _line(context, 7, 0.54),
+        SizedBox(height: 12.rh(context)),
+        Row(
+          children: [
+            Icon(Icons.location_on_rounded, size: 15, color: accent),
+            SizedBox(width: 5.rw(context)),
+            Expanded(child: _line(context, 6, 1)),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _listingPreview(BuildContext context, int index) {
+    final accent = context.color.tertiaryColor;
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: context.color.primaryColor.withValues(alpha: 0.72),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 42.rw(context),
+            decoration: BoxDecoration(
+              color: accent.withValues(alpha: index == 0 ? 0.22 : 0.12),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.home_work_rounded, color: accent, size: 23),
+          ),
+          SizedBox(width: 8.rw(context)),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _line(context, 7, 0.9),
+                const SizedBox(height: 6),
+                _line(context, 6, 0.62),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _messageBubble(BuildContext context, bool accentBubble, double width) {
+    return FractionallySizedBox(
+      widthFactor: width,
+      child: Container(
+        height: 34.rh(context),
+        decoration: BoxDecoration(
+          color: accentBubble
+              ? context.color.tertiaryColor
+              : context.color.primaryColor,
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(13),
+            topRight: const Radius.circular(13),
+            bottomLeft: Radius.circular(accentBubble ? 13 : 4),
+            bottomRight: Radius.circular(accentBubble ? 4 : 13),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _line(BuildContext context, double height, double widthFactor) {
+    return FractionallySizedBox(
+      widthFactor: widthFactor,
+      child: Container(
+        height: height.rh(context),
+        decoration: BoxDecoration(
+          color: context.color.textLightColor.withValues(alpha: 0.22),
+          borderRadius: BorderRadius.circular(99),
+        ),
+      ),
+    );
+  }
+
+  Widget _floatingCard(
+    BuildContext context, {
+    required IconData icon,
+    required Size size,
+    required double opacity,
+  }) {
+    return Container(
+      width: size.width.rw(context),
+      height: size.height.rh(context),
+      decoration: BoxDecoration(
+        color: context.color.secondaryColor.withValues(alpha: opacity),
+        borderRadius: BorderRadius.circular(22.rw(context)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.52)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.09),
+            blurRadius: 22,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Icon(icon, color: context.color.tertiaryColor, size: 30),
+    );
+  }
+
+  Widget _accentBubble(BuildContext context, IconData icon, double size) {
+    return Container(
+      width: size.rw(context),
+      height: size.rh(context),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            context.color.tertiaryColor,
+            context.color.tertiaryColor.withValues(alpha: 0.68),
+          ],
+        ),
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.white.withValues(alpha: 0.72)),
+        boxShadow: [
+          BoxShadow(
+            color: context.color.tertiaryColor.withValues(alpha: 0.32),
+            blurRadius: 22,
+            offset: const Offset(0, 9),
+          ),
+        ],
+      ),
+      child: Icon(icon, color: Colors.white, size: 24),
+    );
+  }
+}
+
 class _OnboardingScreenState extends State<OnboardingScreen> {
   int currentPageIndex = 0;
   late int totalPages;
   late final PageController _pageController;
 
-  final LottieEditor _onBoardingOne = LottieEditor();
-  final LottieEditor _onBoardingTwo = LottieEditor();
-  final LottieEditor _onBoardingThree = LottieEditor();
-
-  dynamic onBoardingOneData;
-  dynamic onBoardingTwoData;
-  dynamic onBoardingThreeData;
-
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
-    Future.delayed(Duration.zero, () async {
-      try {
-        await _onBoardingOne.openAndLoad('assets/lottie/onbo_a.json');
-        await _onBoardingTwo.openAndLoad('assets/lottie/onbo_b.json');
-        await _onBoardingThree.openAndLoad('assets/lottie/onbo_c.json');
-
-        if (!mounted) return;
-
-        _onBoardingOne.changeWholeLottieFileColor(
-          context.color.tertiaryColor,
-        );
-        _onBoardingTwo.changeWholeLottieFileColor(
-          context.color.tertiaryColor,
-        );
-        _onBoardingThree.changeWholeLottieFileColor(
-          context.color.tertiaryColor,
-        );
-
-        onBoardingOneData = _onBoardingOne.convertToUint8List();
-        onBoardingTwoData = _onBoardingTwo.convertToUint8List();
-        onBoardingThreeData = _onBoardingThree.convertToUint8List();
-      } on Exception catch (e) {
-        debugPrint('Error loading or processing Lottie files: $e');
-        onBoardingOneData = null;
-        onBoardingTwoData = null;
-        onBoardingThreeData = null;
-      }
-      if (mounted) setState(() {});
-    });
   }
 
   @override
@@ -89,18 +490,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     final slidersList = <Map<String, dynamic>>[
       {
-        'lottie': onBoardingOneData,
         'title': 'onboarding_1_title'.translate(context),
         'description': 'onboarding_1_description'.translate(context),
-        'button': 'next_button.svg',
       },
       {
-        'lottie': onBoardingTwoData,
         'title': 'onboarding_2_title'.translate(context),
         'description': 'onboarding_2_description'.translate(context),
       },
       {
-        'lottie': onBoardingThreeData,
         'title': 'onboarding_3_title'.translate(context),
         'description': 'onboarding_3_description'.translate(context),
       },
@@ -229,9 +626,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         setState(() => currentPageIndex = index),
                     itemCount: slidersList.length,
                     itemBuilder: (context, index) => Center(
-                      child: _buildLottieWidget(
-                        context,
-                        slidersList[index]['lottie'],
+                      child: PremiumOnboardingVisual(
+                        key: ValueKey('premium-visual-$index'),
+                        page: index,
                       ),
                     ),
                   ),
@@ -376,49 +773,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       Routes.login,
       (route) => false,
     );
-  }
-
-  Widget _buildLottieWidget(BuildContext context, dynamic lottieData) {
-    // If lottie data is null or empty, return blank SizedBox
-    if (lottieData == null) {
-      return SizedBox(
-        width: 350.rw(context),
-        height: 350.rh(context),
-      );
-    }
-
-    try {
-      final data = lottieData as List<int>?;
-      if (data == null || data.isEmpty) {
-        return SizedBox(
-          width: 350.rw(context),
-          height: 350.rh(context),
-        );
-      }
-
-      return Lottie.memory(
-        width: 350.rw(context),
-        height: 350.rh(context),
-        fit: .contain,
-        Uint8List.fromList(data),
-        delegates: const LottieDelegates(values: []),
-        errorBuilder: (context, error, stackTrace) {
-          debugPrint('Lottie error: $error');
-          // Return blank SizedBox on error
-          return SizedBox(
-            width: 350.rw(context),
-            height: 350.rh(context),
-          );
-        },
-      );
-    } on Exception catch (e) {
-      debugPrint('Error building Lottie widget: $e');
-      // Return blank SizedBox on any exception
-      return SizedBox(
-        width: 350.rw(context),
-        height: 350.rh(context),
-      );
-    }
   }
 
   Widget buildIndicator(BuildContext context, {required bool selected}) {

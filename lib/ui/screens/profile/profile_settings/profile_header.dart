@@ -46,13 +46,20 @@ class ProfileHeader extends StatelessWidget {
         border: Border.all(
           color: context.color.tertiaryColor.withValues(alpha: 0.12),
         ),
-        color: context.color.secondaryColor,
+        gradient: LinearGradient(
+          begin: AlignmentDirectional.topStart,
+          end: AlignmentDirectional.bottomEnd,
+          colors: [
+            context.color.secondaryColor,
+            context.color.tertiaryColor.withValues(alpha: 0.055),
+          ],
+        ),
         borderRadius: BorderRadius.circular(24.rw(context)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.10),
-            blurRadius: 28,
-            offset: const Offset(0, 12),
+              blurRadius: 32,
+              offset: const Offset(0, 14),
           ),
         ],
       ),
@@ -215,16 +222,38 @@ class ProfileHeader extends StatelessWidget {
     String profileUrl,
     bool isAgent,
   ) {
-    return profileUrl.isEmpty
-        ? _buildDefaultPersonSVG(context, isAgent)
-        : ClipRRect(
-            borderRadius: BorderRadius.circular(isAgent ? 8.rw(context) : 999),
-            child: CustomImage(
-              imageUrl: profileUrl,
-              width: 78.rw(context),
-              height: 78.rh(context),
-            ),
-          );
+    final radius = BorderRadius.circular(isAgent ? 18.rw(context) : 999);
+    return Container(
+      padding: EdgeInsets.all(3.rw(context)),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            context.color.tertiaryColor,
+            context.color.tertiaryColor.withValues(alpha: 0.35),
+          ],
+        ),
+        borderRadius: radius,
+        boxShadow: [
+          BoxShadow(
+            color: context.color.tertiaryColor.withValues(alpha: 0.22),
+            blurRadius: 18,
+            offset: const Offset(0, 7),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(isAgent ? 15.rw(context) : 999),
+        child: profileUrl.isEmpty
+            ? _buildDefaultPersonSVG(context, isAgent)
+            : CustomImage(
+                imageUrl: profileUrl,
+                width: 78.rw(context),
+                height: 78.rh(context),
+              ),
+      ),
+    );
   }
 
   Widget _buildDefaultPersonSVG(BuildContext context, bool isAgent) {
@@ -233,7 +262,7 @@ class ProfileHeader extends StatelessWidget {
       height: 78.rh(context),
       decoration: BoxDecoration(
         shape: isAgent ? .rectangle : .circle,
-        borderRadius: isAgent ? .all(.circular(8.rw(context))) : null,
+        borderRadius: isAgent ? .all(.circular(15.rw(context))) : null,
         color: context.color.tertiaryColor.withValues(alpha: 0.1),
       ),
       child: FittedBox(

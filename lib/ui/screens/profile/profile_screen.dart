@@ -302,6 +302,30 @@ class _ProfileStickyHeaderDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ),
                   PositionedDirectional(
+                    end: -42.rw(context),
+                    top: -32.rh(context),
+                    child: Container(
+                      width: 170.rw(context),
+                      height: 170.rh(context),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.10),
+                          width: 24,
+                        ),
+                      ),
+                    ),
+                  ),
+                  PositionedDirectional(
+                    end: 42.rw(context),
+                    bottom: 24.rh(context),
+                    child: Icon(
+                      Icons.apartment_rounded,
+                      color: Colors.white.withValues(alpha: 0.12),
+                      size: 88.rw(context),
+                    ),
+                  ),
+                  PositionedDirectional(
                     top: 24.rh(context),
                     start: 20.rw(context),
                     child: Row(

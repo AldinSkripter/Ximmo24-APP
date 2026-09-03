@@ -79,7 +79,7 @@ class _ProfileBodyState extends State<ProfileBody> {
           ),
           onLogout: _logOutConfirmWidget,
         ),
-        SizedBox(height: 48.rh(context)),
+        SizedBox(height: 118.rh(context)),
       ]),
     );
   }
