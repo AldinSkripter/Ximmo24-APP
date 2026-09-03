@@ -28,17 +28,17 @@ class CategoryCard extends StatelessWidget {
           onTapCategory.call(category);
         },
         child: Container(
-          constraints: BoxConstraints(minWidth: 106.rw(context)),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+          constraints: BoxConstraints(minWidth: 112.rw(context)),
+          padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 13, 8),
           decoration: BoxDecoration(
             color: context.color.secondaryColor,
             border: Border.all(color: context.color.borderColor),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(18),
             boxShadow: [
               BoxShadow(
                 color: context.color.textColorDark.withValues(alpha: 0.06),
-                blurRadius: 14,
-                offset: const Offset(0, 5),
+                blurRadius: 18,
+                offset: const Offset(0, 7),
               ),
             ],
           ),
@@ -46,27 +46,29 @@ class CategoryCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 36.rw(context),
-                height: 36.rh(context),
+                width: 40.rw(context),
+                height: 40.rh(context),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: context.color.tertiaryColor.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 child: CustomImage(
                   imageUrl: category.image ?? '',
                   color: context.color.tertiaryColor,
-                  width: 21.rw(context),
-                  height: 21.rh(context),
+                  width: 22.rw(context),
+                  height: 22.rh(context),
                 ),
               ),
-              SizedBox(width: 8.rw(context)),
-              CustomText(
-                category.translatedName ?? category.category ?? '',
-                maxLines: 1,
-                fontWeight: .w600,
-                fontSize: context.font.xs,
-                color: context.color.textColorDark,
+              SizedBox(width: 9.rw(context)),
+              Flexible(
+                child: CustomText(
+                  category.translatedName ?? category.category ?? '',
+                  maxLines: 1,
+                  fontWeight: .w700,
+                  fontSize: context.font.xs,
+                  color: context.color.textColorDark,
+                ),
               ),
             ],
           ),

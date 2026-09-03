@@ -43,7 +43,7 @@ class CategoriesSection extends StatelessWidget {
                 },
               ),
               SizedBox(
-                height: 64.rh(context),
+                height: 70.rh(context),
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: _sidePadding),
                   physics: Constant.scrollPhysics,
