@@ -185,7 +185,7 @@ class HomeScreenState extends State<HomeScreen>
       appBar: CustomAppBar(
         backgroundColor: context.color.primaryColor,
         showBackButton: false,
-        showShadow: true,
+        showShadow: false,
         titleWidget: const HomeLocationWidget(),
         actions: [
           GestureDetector(
@@ -200,9 +200,11 @@ class HomeScreenState extends State<HomeScreen>
               width: 40.rw(context),
               height: 40.rh(context),
               decoration: BoxDecoration(
-                color: context.color.secondaryColor,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: context.color.borderColor),
+                color: context.color.secondaryColor.withValues(alpha: 0.86),
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: context.color.secondaryColor.withValues(alpha: 0.9),
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: context.color.textColorDark.withValues(alpha: 0.07),
@@ -249,7 +251,7 @@ class HomeScreenState extends State<HomeScreen>
                     physics: Constant.scrollPhysics,
                     clipBehavior: .none,
                     slivers: [
-                      const SliverToBoxAdapter(child: HomeSearchField()),
+                      const SliverToBoxAdapter(child: _PremiumHomeHero()),
                       _HomeSections(
                         getAppliedHomeLocationFlag: () =>
                             _appliedHomeLocationFlag,
@@ -354,6 +356,140 @@ class HomeScreenState extends State<HomeScreen>
           ],
         ),
       ),
+    );
+  }
+}
+
+class _PremiumHomeHero extends StatelessWidget {
+  const _PremiumHomeHero();
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = context.color.tertiaryColor;
+    final deepAccent = Color.lerp(accent, Colors.black, 0.24) ?? accent;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(18, 6, 18, 2),
+      child: TweenAnimationBuilder<double>(
+        duration: const Duration(milliseconds: 650),
+        curve: Curves.easeOutCubic,
+        tween: Tween(begin: 0, end: 1),
+        builder: (context, value, child) => Transform.translate(
+          offset: Offset(0, 12 * (1 - value)),
+          child: Opacity(opacity: value, child: child),
+        ),
+        child: Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: AlignmentDirectional.topStart,
+              end: AlignmentDirectional.bottomEnd,
+              colors: [deepAccent, accent],
+            ),
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: [
+              BoxShadow(
+                color: accent.withValues(alpha: 0.24),
+                blurRadius: 30,
+                offset: const Offset(0, 13),
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              PositionedDirectional(
+                end: -34,
+                top: -55,
+                child: _HeroOrb(
+                  size: 150,
+                  color: Colors.white.withValues(alpha: 0.09),
+                ),
+              ),
+              PositionedDirectional(
+                end: 44,
+                bottom: 54,
+                child: _HeroOrb(
+                  size: 52,
+                  color: Colors.white.withValues(alpha: 0.07),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 38.rw(context),
+                          height: 38.rh(context),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.14),
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.18),
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.apartment_rounded,
+                            color: Colors.white,
+                            size: 21.rs(context),
+                          ),
+                        ),
+                        SizedBox(width: 12.rw(context)),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                'Ximmo24',
+                                color: Colors.white,
+                                fontSize: context.font.lg,
+                                fontWeight: FontWeight.w800,
+                              ),
+                              const SizedBox(height: 2),
+                              CustomText(
+                                'searchHintLbl'.translate(context),
+                                color: Colors.white.withValues(alpha: 0.76),
+                                fontSize: context.font.xs,
+                                fontWeight: FontWeight.w500,
+                                maxLines: 1,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Icon(
+                          Icons.auto_awesome_rounded,
+                          size: 22.rs(context),
+                          color: Colors.white.withValues(alpha: 0.82),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 12.rh(context)),
+                    const HomeSearchField(embedded: true),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HeroOrb extends StatelessWidget {
+  const _HeroOrb({required this.size, required this.color});
+
+  final double size;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: color),
     );
   }
 }

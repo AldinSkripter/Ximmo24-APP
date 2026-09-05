@@ -19,8 +19,8 @@ class TitleHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsetsDirectional.only(
-        top: 28,
-        bottom: 14,
+        top: 26,
+        bottom: 13,
         start: 18,
         end: 18,
       ),
@@ -28,18 +28,37 @@ class TitleHeader extends StatelessWidget {
         mainAxisAlignment: .spaceBetween,
         children: [
           Container(
-            width: 4,
-            height: 24,
+            width: 34,
+            height: 34,
             margin: const EdgeInsetsDirectional.only(end: 10),
             decoration: BoxDecoration(
-              color: context.color.tertiaryColor,
-              borderRadius: BorderRadius.circular(99),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  context.color.tertiaryColor,
+                  context.color.tertiaryColor.withValues(alpha: 0.72),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(11),
+              boxShadow: [
+                BoxShadow(
+                  color: context.color.tertiaryColor.withValues(alpha: 0.18),
+                  blurRadius: 12,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Icon(
+              Icons.auto_awesome_rounded,
+              color: context.color.buttonColor,
+              size: 17,
             ),
           ),
           Expanded(
             child: CustomText(
               title,
-              fontWeight: .w700,
+              fontWeight: .w800,
               fontSize: context.font.lg,
               color: context.color.textColorDark,
               maxLines: 2,

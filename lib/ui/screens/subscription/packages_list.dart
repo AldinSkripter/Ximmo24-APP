@@ -330,9 +330,17 @@ class SubscriptionPackageListScreenState
                           if (state is FetchSubscriptionPackagesSuccess) {
                             return Column(
                               children: [
+                                _buildPremiumIntro(state),
                                 CustomTabBar(
                                   tabController: _tabController,
                                   isScrollable: false,
+                                  borderRadius: 18.rw(context),
+                                  margin: EdgeInsets.fromLTRB(
+                                    16.rw(context),
+                                    0,
+                                    16.rw(context),
+                                    14.rh(context),
+                                  ),
                                   tabs: [
                                     Tab(text: 'myPlans'.translate(context)),
                                     Tab(text: 'allPlans'.translate(context)),
@@ -365,6 +373,90 @@ class SubscriptionPackageListScreenState
             },
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildPremiumIntro(FetchSubscriptionPackagesSuccess state) {
+    final planCount = state.packageResponseModel.subscriptionPackage.length;
+    return Container(
+      margin: EdgeInsets.fromLTRB(
+        16.rw(context),
+        16.rh(context),
+        16.rw(context),
+        14.rh(context),
+      ),
+      padding: EdgeInsets.all(20.rw(context)),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: AlignmentDirectional.topStart,
+          end: AlignmentDirectional.bottomEnd,
+          colors: [
+            context.color.tertiaryColor,
+            context.color.tertiaryColor.withValues(alpha: 0.72),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(26.rw(context)),
+        boxShadow: [
+          BoxShadow(
+            color: context.color.tertiaryColor.withValues(alpha: 0.22),
+            blurRadius: 28,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 54.rw(context),
+            height: 54.rh(context),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.16),
+              borderRadius: BorderRadius.circular(18.rw(context)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.24)),
+            ),
+            child: Icon(
+              Icons.diamond_rounded,
+              color: context.color.buttonColor,
+              size: 29.rw(context),
+            ),
+          ),
+          SizedBox(width: 15.rw(context)),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  'subscriptionPlan'.translate(context),
+                  color: context.color.buttonColor,
+                  fontSize: context.font.lg,
+                  fontWeight: FontWeight.w800,
+                  maxLines: 2,
+                ),
+                SizedBox(height: 5.rh(context)),
+                CustomText(
+                  '${'allPlans'.translate(context)} · $planCount',
+                  color: context.color.buttonColor.withValues(alpha: 0.76),
+                  fontSize: context.font.sm,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 34.rw(context),
+            height: 34.rh(context),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.14),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.verified_user_rounded,
+              size: 19.rw(context),
+              color: context.color.buttonColor,
+            ),
+          ),
+        ],
       ),
     );
   }

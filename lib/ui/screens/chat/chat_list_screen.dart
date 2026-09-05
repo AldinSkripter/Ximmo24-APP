@@ -120,7 +120,12 @@ class _ChatListScreenState extends State<ChatListScreen>
                   physics: Constant.scrollPhysics,
                   controller: _scrollController,
                   itemCount: state.chatedUserList.length,
-                  padding: const EdgeInsetsDirectional.all(16),
+                  padding: EdgeInsetsDirectional.fromSTEB(
+                    16.rw(context),
+                    16.rh(context),
+                    16.rw(context),
+                    118.rh(context),
+                  ),
                   itemBuilder: (context, index) {
                     final chatedUser = state.chatedUserList[index];
 
@@ -304,27 +309,42 @@ class ChatTile extends StatelessWidget {
       },
       child: AbsorbPointer(
         child: Container(
-          margin: const EdgeInsetsDirectional.only(bottom: 8),
-          height: 74.rh(context),
+          margin: EdgeInsetsDirectional.only(bottom: 12.rh(context)),
+          height: 90.rh(context),
           decoration: BoxDecoration(
             color: context.color.secondaryColor,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: context.color.borderColor, width: 1.5),
+            borderRadius: BorderRadius.circular(22.rw(context)),
+            border: Border.all(
+              color: context.color.brightness == Brightness.dark
+                  ? Colors.white.withValues(alpha: 0.09)
+                  : context.color.borderColor.withValues(alpha: 0.70),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(
+                  alpha: context.color.brightness == Brightness.dark
+                      ? 0.18
+                      : 0.055,
+                ),
+                blurRadius: 22,
+                offset: const Offset(0, 9),
+              ),
+            ],
           ),
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(12.rw(context)),
             child: Row(
               children: [
                 Stack(
                   children: [
-                    SizedBox(width: 62.rw(context), height: 62.rh(context)),
+                    SizedBox(width: 64.rw(context), height: 64.rh(context)),
                     Container(
-                      width: 52.rw(context),
-                      height: 52.rh(context),
+                      width: 58.rw(context),
+                      height: 58.rh(context),
                       clipBehavior: .antiAlias,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(17.rw(context)),
                       ),
                       child: CustomImage(
                         imageUrl: propertyPicture,
@@ -364,7 +384,7 @@ class ChatTile extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(width: 10.rw(context)),
+                SizedBox(width: 13.rw(context)),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: .start,
@@ -373,7 +393,8 @@ class ChatTile extends StatelessWidget {
                         child: CustomText(
                           userName,
                           maxLines: 1,
-                          fontWeight: .bold,
+                          fontWeight: FontWeight.w700,
+                          fontSize: context.font.md,
                           color: context.color.textColorDark,
                         ),
                       ),
@@ -396,7 +417,7 @@ class ChatTile extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: Colors.red.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(999),
                     ),
                     child: CustomText(
                       'blocked'.translate(context),
@@ -407,8 +428,8 @@ class ChatTile extends StatelessWidget {
                   )
                 else if (pendingMessageCount != '0')
                   Container(
-                    width: 24,
-                    height: 24,
+                    width: 28.rw(context),
+                    height: 28.rh(context),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: context.color.tertiaryColor,

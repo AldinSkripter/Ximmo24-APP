@@ -21,14 +21,14 @@ class SliderSection extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Column(
         children: <Widget>[
-          SizedBox(height: 15.rh(context)),
+          SizedBox(height: 18.rh(context)),
           CarouselSlider(
             items: directionalBanners
                 .map((banner) => _SliderBanner(banner: banner))
                 .toList(),
             options: CarouselOptions(
-              height: 188.rs(context),
-              viewportFraction: 1,
+              height: 198.rs(context),
+              viewportFraction: 0.94,
               autoPlay: true,
               autoPlayInterval: const Duration(seconds: 3),
               enlargeCenterPage: true,
@@ -58,19 +58,17 @@ class _SliderBannerState extends State<_SliderBanner> {
   Widget build(BuildContext context) {
     final banner = widget.banner;
     final childWidget = Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: SliderSection._sidePadding,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Container(
         decoration: BoxDecoration(
           color: context.color.secondaryColor,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           border: Border.all(color: context.color.borderColor),
           boxShadow: [
             BoxShadow(
               color: context.color.textColorDark.withValues(alpha: 0.10),
-              blurRadius: 24,
-              offset: const Offset(0, 10),
+              blurRadius: 28,
+              offset: const Offset(0, 12),
             ),
           ],
         ),

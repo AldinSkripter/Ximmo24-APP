@@ -20,9 +20,7 @@ class PremiumBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: context.color.primaryColor,
-      child: SafeArea(
+    return SafeArea(
         top: false,
         minimum: EdgeInsets.only(
           left: 12.rw(context),
@@ -57,18 +55,22 @@ class PremiumBottomBar extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24.rw(context)),
                   child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                    filter: ImageFilter.blur(sigmaX: 28, sigmaY: 28),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: AlignmentDirectional.topStart,
                           end: AlignmentDirectional.bottomEnd,
                           colors: [
-                            context.color.secondaryColor.withValues(
-                              alpha: 0.88,
+                            Colors.white.withValues(
+                              alpha: context.color.brightness == Brightness.light
+                                  ? 0.50
+                                  : 0.18,
                             ),
                             context.color.secondaryColor.withValues(
-                              alpha: 0.68,
+                              alpha: context.color.brightness == Brightness.light
+                                  ? 0.20
+                                  : 0.14,
                             ),
                           ],
                         ),
@@ -76,8 +78,8 @@ class PremiumBottomBar extends StatelessWidget {
                         border: Border.all(
                           color:
                               context.color.brightness == Brightness.light
-                              ? Colors.white.withValues(alpha: 0.72)
-                              : Colors.white.withValues(alpha: 0.12),
+                              ? Colors.white.withValues(alpha: 0.86)
+                              : Colors.white.withValues(alpha: 0.20),
                         ),
                       ),
                     ),
@@ -133,7 +135,6 @@ class PremiumBottomBar extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }

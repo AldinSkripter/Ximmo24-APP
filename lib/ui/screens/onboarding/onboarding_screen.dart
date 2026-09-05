@@ -15,14 +15,11 @@ import 'package:ebroker/utils/extensions/extensions.dart';
 import 'package:ebroker/utils/helper_utils.dart';
 import 'package:ebroker/utils/hive_utils.dart';
 import 'package:ebroker/utils/language_change_helper.dart';
-import 'package:ebroker/utils/lottie/lottie_editor.dart';
 import 'package:ebroker/utils/responsive_size.dart';
 import 'package:ebroker/utils/ui_utils.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -31,52 +28,507 @@ class OnboardingScreen extends StatefulWidget {
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
+class PremiumOnboardingVisual extends StatefulWidget {
+  const PremiumOnboardingVisual({required this.page, super.key});
+
+  final int page;
+
+  @override
+  State<PremiumOnboardingVisual> createState() =>
+      _PremiumOnboardingVisualState();
+}
+
+class _PremiumOnboardingVisualState extends State<PremiumOnboardingVisual>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2800),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = context.color.tertiaryColor;
+    return IgnorePointer(
+      child: SizedBox(
+        width: 360.rw(context),
+        height: 330.rh(context),
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, _) {
+            final motion = Curves.easeInOut.transform(_controller.value);
+            return Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                Transform.scale(
+                  scale: 0.96 + motion * 0.05,
+                  child: Container(
+                    width: 250.rw(context),
+                    height: 250.rh(context),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          accent.withValues(alpha: 0.22),
+                          accent.withValues(alpha: 0.03),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Transform.rotate(
+                  angle: motion * 0.16,
+                  child: Container(
+                    width: 292.rw(context),
+                    height: 292.rh(context),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: accent.withValues(alpha: 0.12),
+                      ),
+                    ),
+                  ),
+                ),
+                Transform.rotate(
+                  angle: -motion * 0.12,
+                  child: Container(
+                    width: 220.rw(context),
+                    height: 220.rh(context),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.34),
+                        width: 1.4,
+                      ),
+                    ),
+                  ),
+                ),
+                PositionedDirectional(
+                  start: 18.rw(context),
+                  top: 58.rh(context) + motion * 8,
+                  child: Transform.rotate(
+                    angle: -0.08,
+                    child: _floatingCard(
+                      context,
+                      icon: Icons.apartment_rounded,
+                      size: const Size(112, 92),
+                      opacity: 0.78,
+                    ),
+                  ),
+                ),
+                PositionedDirectional(
+                  end: 14.rw(context),
+                  bottom: 52.rh(context) + (1 - motion) * 9,
+                  child: Transform.rotate(
+                    angle: 0.07,
+                    child: _floatingCard(
+                      context,
+                      icon: widget.page == 2
+                          ? Icons.verified_user_rounded
+                          : Icons.location_on_rounded,
+                      size: const Size(108, 88),
+                      opacity: 0.72,
+                    ),
+                  ),
+                ),
+                Transform.translate(
+                  offset: Offset(0, -5 + motion * 10),
+                  child: _phoneFrame(context, motion),
+                ),
+                PositionedDirectional(
+                  end: 40.rw(context),
+                  top: 48.rh(context) - motion * 6,
+                  child: _pageBadge(context, motion),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _phoneFrame(BuildContext context, double motion) {
+    final accent = context.color.tertiaryColor;
+    return Container(
+      width: 174.rw(context),
+      height: 270.rh(context),
+      padding: EdgeInsets.all(9.rw(context)),
+      decoration: BoxDecoration(
+        color: context.color.textColorDark,
+        borderRadius: BorderRadius.circular(34.rw(context)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.42)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.22),
+            blurRadius: 34,
+            offset: const Offset(0, 18),
+          ),
+          BoxShadow(
+            color: accent.withValues(alpha: 0.18),
+            blurRadius: 30,
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(26.rw(context)),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: context.color.secondaryColor,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    context.color.secondaryColor,
+                    accent.withValues(alpha: 0.13),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 7.rh(context),
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                  width: 44.rw(context),
+                  height: 5.rh(context),
+                  decoration: BoxDecoration(
+                    color: context.color.textColorDark.withValues(alpha: 0.16),
+                    borderRadius: BorderRadius.circular(99),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                12.rw(context),
+                20.rh(context),
+                12.rw(context),
+                12.rh(context),
+              ),
+              child: _phoneContent(context, motion),
+            ),
+            PositionedDirectional(
+              start: -28.rw(context),
+              top: -36.rh(context),
+              child: Transform.rotate(
+                angle: -0.45,
+                child: Container(
+                  width: 72.rw(context),
+                  height: 210.rh(context),
+                  color: Colors.white.withValues(alpha: 0.055),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  IconData get _pageIcon => switch (widget.page) {
+    0 => Icons.maps_home_work_rounded,
+    1 => Icons.travel_explore_rounded,
+    _ => Icons.forum_rounded,
+  };
+
+  Widget _pageBadge(BuildContext context, double motion) {
+    return Transform.scale(
+      scale: 0.94 + (motion * 0.06),
+      child: Container(
+        width: 46.rw(context),
+        height: 46.rh(context),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              context.color.tertiaryColor,
+              context.color.tertiaryColor.withValues(alpha: 0.68),
+            ],
+          ),
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.white.withValues(alpha: 0.72)),
+          boxShadow: [
+            BoxShadow(
+              color: context.color.tertiaryColor.withValues(alpha: 0.3),
+              blurRadius: 18,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Icon(_pageIcon, color: Colors.white, size: 23.rw(context)),
+      ),
+    );
+  }
+
+  Widget _phoneContent(BuildContext context, double motion) {
+    final accent = context.color.tertiaryColor;
+    if (widget.page == 1) {
+      return Column(
+        children: [
+          Container(
+            height: 32.rh(context),
+            decoration: BoxDecoration(
+              color: context.color.primaryColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                SizedBox(width: 9.rw(context)),
+                Icon(Icons.search_rounded, size: 16, color: accent),
+                const Spacer(),
+                Icon(Icons.tune_rounded, size: 16, color: accent),
+                SizedBox(width: 9.rw(context)),
+              ],
+            ),
+          ),
+          SizedBox(height: 12.rh(context)),
+          for (var i = 0; i < 2; i++) ...[
+            Expanded(
+              child: Transform.translate(
+                offset: Offset((i == 0 ? -1 : 1) * motion * 2, 0),
+                child: _listingPreview(context, i),
+              ),
+            ),
+            if (i == 0) SizedBox(height: 9.rh(context)),
+          ],
+        ],
+      );
+    }
+    if (widget.page == 2) {
+      return Column(
+        children: [
+          Row(
+            children: [
+              CircleAvatar(radius: 14, backgroundColor: accent),
+              SizedBox(width: 8.rw(context)),
+              Expanded(child: _line(context, 8, 0.55)),
+            ],
+          ),
+          SizedBox(height: 22.rh(context)),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: _messageBubble(context, false, 0.82),
+          ),
+          SizedBox(height: 12.rh(context)),
+          Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: _messageBubble(context, true, 0.68),
+          ),
+          SizedBox(height: 12.rh(context)),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: _messageBubble(context, false, 0.58),
+          ),
+          const Spacer(),
+          Container(
+            height: 32.rh(context),
+            decoration: BoxDecoration(
+              color: context.color.primaryColor,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Container(
+                margin: const EdgeInsets.all(4),
+                width: 24,
+                decoration: BoxDecoration(
+                  color: accent,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.arrow_upward_rounded,
+                  color: Colors.white,
+                  size: 14,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            SizedBox(
+              width: 54.rw(context),
+              child: _line(context, 7, 1),
+            ),
+            const Spacer(),
+            Icon(Icons.notifications_none_rounded, size: 18, color: accent),
+          ],
+        ),
+        SizedBox(height: 14.rh(context)),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [accent, accent.withValues(alpha: 0.58)],
+              ),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Stack(
+              children: [
+                Center(
+                  child: Icon(
+                    Icons.villa_rounded,
+                    color: Colors.white.withValues(alpha: 0.92),
+                    size: 62,
+                  ),
+                ),
+                PositionedDirectional(
+                  end: 10,
+                  top: 10,
+                  child: Icon(
+                    Icons.favorite_border_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 12.rh(context)),
+        _line(context, 9, 0.82),
+        SizedBox(height: 7.rh(context)),
+        _line(context, 7, 0.54),
+        SizedBox(height: 12.rh(context)),
+        Row(
+          children: [
+            Icon(Icons.location_on_rounded, size: 15, color: accent),
+            SizedBox(width: 5.rw(context)),
+            Expanded(child: _line(context, 6, 1)),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _listingPreview(BuildContext context, int index) {
+    final accent = context.color.tertiaryColor;
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: context.color.primaryColor.withValues(alpha: 0.72),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 42.rw(context),
+            decoration: BoxDecoration(
+              color: accent.withValues(alpha: index == 0 ? 0.22 : 0.12),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.home_work_rounded, color: accent, size: 23),
+          ),
+          SizedBox(width: 8.rw(context)),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _line(context, 7, 0.9),
+                const SizedBox(height: 6),
+                _line(context, 6, 0.62),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _messageBubble(BuildContext context, bool accentBubble, double width) {
+    return FractionallySizedBox(
+      widthFactor: width,
+      child: Container(
+        height: 34.rh(context),
+        decoration: BoxDecoration(
+          color: accentBubble
+              ? context.color.tertiaryColor
+              : context.color.primaryColor,
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(13),
+            topRight: const Radius.circular(13),
+            bottomLeft: Radius.circular(accentBubble ? 13 : 4),
+            bottomRight: Radius.circular(accentBubble ? 4 : 13),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _line(BuildContext context, double height, double widthFactor) {
+    return FractionallySizedBox(
+      widthFactor: widthFactor,
+      child: Container(
+        height: height.rh(context),
+        decoration: BoxDecoration(
+          color: context.color.textLightColor.withValues(alpha: 0.22),
+          borderRadius: BorderRadius.circular(99),
+        ),
+      ),
+    );
+  }
+
+  Widget _floatingCard(
+    BuildContext context, {
+    required IconData icon,
+    required Size size,
+    required double opacity,
+  }) {
+    return Container(
+      width: size.width.rw(context),
+      height: size.height.rh(context),
+      decoration: BoxDecoration(
+        color: context.color.secondaryColor.withValues(alpha: opacity),
+        borderRadius: BorderRadius.circular(22.rw(context)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.52)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.09),
+            blurRadius: 22,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Icon(icon, color: context.color.tertiaryColor, size: 30),
+    );
+  }
+
+}
+
 class _OnboardingScreenState extends State<OnboardingScreen> {
   int currentPageIndex = 0;
   late int totalPages;
   late final PageController _pageController;
 
-  final LottieEditor _onBoardingOne = LottieEditor();
-  final LottieEditor _onBoardingTwo = LottieEditor();
-  final LottieEditor _onBoardingThree = LottieEditor();
-
-  dynamic onBoardingOneData;
-  dynamic onBoardingTwoData;
-  dynamic onBoardingThreeData;
-
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
-    Future.delayed(Duration.zero, () async {
-      try {
-        await _onBoardingOne.openAndLoad('assets/lottie/onbo_a.json');
-        await _onBoardingTwo.openAndLoad('assets/lottie/onbo_b.json');
-        await _onBoardingThree.openAndLoad('assets/lottie/onbo_c.json');
-
-        if (!mounted) return;
-
-        _onBoardingOne.changeWholeLottieFileColor(
-          context.color.tertiaryColor,
-        );
-        _onBoardingTwo.changeWholeLottieFileColor(
-          context.color.tertiaryColor,
-        );
-        _onBoardingThree.changeWholeLottieFileColor(
-          context.color.tertiaryColor,
-        );
-
-        onBoardingOneData = _onBoardingOne.convertToUint8List();
-        onBoardingTwoData = _onBoardingTwo.convertToUint8List();
-        onBoardingThreeData = _onBoardingThree.convertToUint8List();
-      } on Exception catch (e) {
-        debugPrint('Error loading or processing Lottie files: $e');
-        onBoardingOneData = null;
-        onBoardingTwoData = null;
-        onBoardingThreeData = null;
-      }
-      if (mounted) setState(() {});
-    });
   }
 
   @override
@@ -87,20 +539,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final slidersList = [
+    final slidersList = <Map<String, dynamic>>[
       {
-        'lottie': onBoardingOneData,
         'title': 'onboarding_1_title'.translate(context),
         'description': 'onboarding_1_description'.translate(context),
-        'button': 'next_button.svg',
       },
       {
-        'lottie': onBoardingTwoData,
         'title': 'onboarding_2_title'.translate(context),
         'description': 'onboarding_2_description'.translate(context),
       },
       {
-        'lottie': onBoardingThreeData,
         'title': 'onboarding_3_title'.translate(context),
         'description': 'onboarding_3_description'.translate(context),
       },
@@ -111,31 +559,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       value: UiUtils.getSystemUiOverlayStyle(context: context),
       child: Scaffold(
         backgroundColor: context.color.backgroundColor,
-        body: Stack(
-          children: <Widget>[
-            Container(
-              color: context.color.tertiaryColor.withValues(alpha: 0.1),
+        body: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                context.color.tertiaryColor.withValues(alpha: 0.18),
+                context.color.backgroundColor,
+                context.color.tertiaryColor.withValues(alpha: 0.06),
+              ],
             ),
-            PositionedDirectional(
-              bottom: 282.rh(context),
-              child: SizedBox(
-                height: 400.rh(context),
-                width: context.screenWidth,
-                child: PageView.builder(
-                  controller: _pageController,
-                  physics: Constant.scrollPhysics,
-                  onPageChanged: (index) =>
-                      setState(() => currentPageIndex = index),
-                  itemCount: slidersList.length,
-                  itemBuilder: (context, index) =>
-                      _buildLottieWidget(context, slidersList[index]['lottie']),
-                ),
-              ),
-            ),
-            PositionedDirectional(
-              top: kPagingTouchSlop + 16.rh(context),
-              start: 16,
-              child: MultiBlocListener(
+          ),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    18.rw(context),
+                    10.rh(context),
+                    18.rw(context),
+                    0,
+                  ),
+                  child: Row(
+                    children: [
+                      MultiBlocListener(
                 listeners: [
                   BlocListener<FetchLanguageCubit, FetchLanguageState>(
                     listener: (context, state) async {
@@ -185,182 +633,270 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     },
                   ),
                 ],
-                child: _buildLanguageDropdown(),
-              ),
-            ),
-            PositionedDirectional(
-              top: kPagingTouchSlop + 16.rh(context),
-              end: 16.rw(context),
-              child: GestureDetector(
-                onTap: () async {
-                  await Navigator.pushReplacementNamed(context, Routes.login);
-                },
-                child: CustomText(
-                  'skip'.translate(context),
-                  color: context.color.textColorDark,
-                  fontSize: context.font.md,
-                  fontWeight: .w600,
-                ),
-              ),
-            ),
-            PositionedDirectional(
-              bottom: 0,
-              child: GestureDetector(
-                onHorizontalDragEnd: (details) async {
-                  if (details.primaryVelocity! < 0) {
-                    if (currentPageIndex < 2) {
-                      await _pageController.nextPage(
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  } else if (details.primaryVelocity! > 0) {
-                    if (currentPageIndex > 0) {
-                      await _pageController.previousPage(
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  }
-                },
-                child: Container(
-                  height: 282.rh(context),
-                  width: context.screenWidth,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: context.color.secondaryColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(48),
-                      topRight: Radius.circular(48),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 16.rh(context)),
-                      CustomText(
-                        slidersList[currentPageIndex]['title']?.toString() ??
-                            '',
-                        fontWeight: .w500,
-                        fontSize: context.font.xxl,
-                        color: context.color.tertiaryColor,
-                        textAlign: .center,
-                      ),
-                      SizedBox(height: 16.rh(context)),
-                      CustomText(
-                        key: ValueKey('desc_$currentPageIndex'),
-                        slidersList[currentPageIndex]['description']
-                                ?.toString() ??
-                            '',
-                        maxLines: 3,
-                        textAlign: .center,
-                        fontSize: context.font.md,
-                        color: context.color.textColorDark,
-                        fontWeight: .w600,
+                        child: _buildLanguageDropdown(),
                       ),
                       const Spacer(),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              for (var i = 0; i < slidersList.length; i++) ...[
-                                buildIndicator(
-                                  context,
-                                  selected: i == currentPageIndex,
-                                ),
-                              ],
-                            ],
+                      GestureDetector(
+                        onTap: () async {
+                          await Navigator.pushReplacementNamed(
+                            context,
+                            Routes.login,
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.rw(context),
+                            vertical: 9.rh(context),
                           ),
-                          const Spacer(),
-                          GestureDetector(
-                            key: const ValueKey('next_screen'),
-                            onTap: () async {
-                              if (currentPageIndex < slidersList.length - 1) {
-                                await _pageController.nextPage(
-                                  duration: const Duration(milliseconds: 400),
-                                  curve: Curves.easeInOut,
-                                );
-                              } else {
-                                await Navigator.of(
-                                  context,
-                                ).pushNamedAndRemoveUntil(
-                                  Routes.login,
-                                  (route) => false,
-                                );
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              width: 48.rw(context),
-                              height: 48.rh(context),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: context.color.tertiaryColor,
-                                shape: .circle,
-                              ),
-                              child: CustomImage(
-                                matchTextDirection: true,
-                                imageUrl: AppIcons.arrowRight,
-                                fit: .contain,
-                                color: context.color.backgroundColor,
-                                width: 24.rw(context),
-                                height: 24.rh(context),
-                              ),
+                          decoration: BoxDecoration(
+                            color: context.color.secondaryColor.withValues(
+                              alpha: 0.72,
+                            ),
+                            borderRadius: BorderRadius.circular(999),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.55),
                             ),
                           ),
-                        ],
+                          child: CustomText(
+                            'skip'.translate(context),
+                            color: context.color.textColorDark,
+                            fontSize: context.font.sm,
+                            fontWeight: .w600,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ),
+                Expanded(
+                  flex: 6,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    physics: Constant.scrollPhysics,
+                    onPageChanged: (index) =>
+                        setState(() => currentPageIndex = index),
+                    itemCount: slidersList.length,
+                    itemBuilder: (context, index) => Center(
+                      child: PremiumOnboardingVisual(
+                        key: ValueKey('premium-visual-$index'),
+                        page: index,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    14.rw(context),
+                    0,
+                    14.rw(context),
+                    12.rh(context),
+                  ),
+                  child: _buildOnboardingCard(context, slidersList),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildLottieWidget(BuildContext context, dynamic lottieData) {
-    // If lottie data is null or empty, return blank SizedBox
-    if (lottieData == null) {
-      return SizedBox(
-        width: 350.rw(context),
-        height: 350.rh(context),
-      );
-    }
+  Widget _buildOnboardingCard(
+    BuildContext context,
+    List<Map<String, dynamic>> slidersList,
+  ) {
+    return Container(
+      width: double.infinity,
+      constraints: BoxConstraints(minHeight: 260.rh(context)),
+      padding: EdgeInsets.fromLTRB(
+        24.rw(context),
+        28.rh(context),
+        24.rw(context),
+        20.rh(context),
+      ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            context.color.secondaryColor.withValues(alpha: 0.98),
+            Color.alphaBlend(
+              context.color.tertiaryColor.withValues(alpha: 0.055),
+              context.color.secondaryColor,
+            ),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(36.rw(context)),
+        border: Border.all(
+          color: context.color.brightness == Brightness.dark
+              ? Colors.white.withValues(alpha: 0.16)
+              : Colors.white.withValues(alpha: 0.82),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.14),
+            blurRadius: 38,
+            offset: const Offset(0, 14),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 360),
+                curve: Curves.easeOutCubic,
+                width: 42.rw(context),
+                height: 42.rh(context),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      context.color.tertiaryColor,
+                      context.color.tertiaryColor.withValues(alpha: 0.68),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(14.rw(context)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: context.color.tertiaryColor.withValues(alpha: 0.25),
+                      blurRadius: 16,
+                      offset: const Offset(0, 7),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  switch (currentPageIndex) {
+                    0 => Icons.maps_home_work_rounded,
+                    1 => Icons.travel_explore_rounded,
+                    _ => Icons.forum_rounded,
+                  },
+                  color: Colors.white,
+                  size: 21.rw(context),
+                ),
+              ),
+              const Spacer(),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.rw(context),
+                  vertical: 7.rh(context),
+                ),
+                decoration: BoxDecoration(
+                  color: context.color.tertiaryColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(99),
+                ),
+                child: CustomText(
+                  '${(currentPageIndex + 1).toString().padLeft(2, '0')}  /  ${slidersList.length.toString().padLeft(2, '0')}',
+                  color: context.color.tertiaryColor,
+                  fontSize: context.font.xs,
+                  fontWeight: .w700,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 18.rh(context)),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 320),
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.08, 0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+            ),
+            child: Column(
+              key: ValueKey(currentPageIndex),
+              children: [
+                CustomText(
+                  slidersList[currentPageIndex]['title']?.toString() ?? '',
+                  fontWeight: .w700,
+                  fontSize: context.font.xxl,
+                  color: context.color.textColorDark,
+                  textAlign: .center,
+                ),
+                SizedBox(height: 12.rh(context)),
+                CustomText(
+                  slidersList[currentPageIndex]['description']?.toString() ??
+                      '',
+                  maxLines: 4,
+                  textAlign: .center,
+                  fontSize: context.font.md,
+                  color: context.color.textLightColor,
+                  fontWeight: .w500,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 22.rh(context)),
+          Row(
+            children: [
+              for (var i = 0; i < slidersList.length; i++)
+                buildIndicator(context, selected: i == currentPageIndex),
+              const Spacer(),
+              GestureDetector(
+                key: const ValueKey('next_screen'),
+                onTap: _goToNextOnboardingPage,
+                child: Container(
+                  width: 58.rw(context),
+                  height: 58.rh(context),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        context.color.tertiaryColor,
+                        context.color.tertiaryColor.withValues(alpha: 0.72),
+                      ],
+                    ),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.72),
+                      width: 1.4,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: context.color.tertiaryColor.withValues(
+                          alpha: 0.32,
+                        ),
+                        blurRadius: 20,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: CustomImage(
+                    matchTextDirection: true,
+                    imageUrl: AppIcons.arrowRight,
+                    fit: .contain,
+                    color: context.color.buttonColor,
+                    width: 24.rw(context),
+                    height: 24.rh(context),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
-    try {
-      final data = lottieData as List<int>?;
-      if (data == null || data.isEmpty) {
-        return SizedBox(
-          width: 350.rw(context),
-          height: 350.rh(context),
-        );
-      }
-
-      return Lottie.memory(
-        width: 350.rw(context),
-        height: 350.rh(context),
-        fit: .contain,
-        Uint8List.fromList(data),
-        delegates: const LottieDelegates(values: []),
-        errorBuilder: (context, error, stackTrace) {
-          debugPrint('Lottie error: $error');
-          // Return blank SizedBox on error
-          return SizedBox(
-            width: 350.rw(context),
-            height: 350.rh(context),
-          );
-        },
+  Future<void> _goToNextOnboardingPage() async {
+    if (currentPageIndex < totalPages - 1) {
+      await _pageController.nextPage(
+        duration: const Duration(milliseconds: 420),
+        curve: Curves.easeOutCubic,
       );
-    } on Exception catch (e) {
-      debugPrint('Error building Lottie widget: $e');
-      // Return blank SizedBox on any exception
-      return SizedBox(
-        width: 350.rw(context),
-        height: 350.rh(context),
-      );
+      return;
     }
+    await Navigator.of(context).pushNamedAndRemoveUntil(
+      Routes.login,
+      (route) => false,
+    );
   }
 
   Widget buildIndicator(BuildContext context, {required bool selected}) {

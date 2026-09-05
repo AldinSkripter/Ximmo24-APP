@@ -46,23 +46,30 @@ class _AddListingOverlayState extends State<AddListingOverlay>
     with TickerProviderStateMixin {
   late final AnimationController _projectController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 400),
-    reverseDuration: const Duration(milliseconds: 400),
+    duration: const Duration(milliseconds: 420),
+    reverseDuration: const Duration(milliseconds: 300),
   );
   late final AnimationController _propertyController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 300),
-    reverseDuration: const Duration(milliseconds: 300),
+    duration: const Duration(milliseconds: 340),
+    reverseDuration: const Duration(milliseconds: 260),
   );
 
-  // Values match the original body-Stack Tween values exactly.
   late final Animation<double> _propertyAnim =
-      Tween<double>(begin: -60.rh(context), end: 30.rh(context)).animate(
-        CurvedAnimation(parent: _propertyController, curve: Curves.easeIn),
+      Tween<double>(begin: 42.rh(context), end: 112.rh(context)).animate(
+        CurvedAnimation(
+          parent: _propertyController,
+          curve: Curves.easeOutBack,
+          reverseCurve: Curves.easeInCubic,
+        ),
       );
   late final Animation<double> _projectAnim =
-      Tween<double>(begin: -60.rh(context), end: 80.rh(context)).animate(
-        CurvedAnimation(parent: _projectController, curve: Curves.easeIn),
+      Tween<double>(begin: 42.rh(context), end: 166.rh(context)).animate(
+        CurvedAnimation(
+          parent: _projectController,
+          curve: Curves.easeOutBack,
+          reverseCurve: Curves.easeInCubic,
+        ),
       );
 
   @override
@@ -117,7 +124,6 @@ class _AddListingOverlayState extends State<AddListingOverlay>
                 ),
               _floatingButton(
                 tween: _propertyAnim,
-                leftOffset: 90.rw(context),
                 width: 180.rw(context),
                 icon: AppIcons.propertiesIcon,
                 label: 'property',
@@ -125,7 +131,6 @@ class _AddListingOverlayState extends State<AddListingOverlay>
               ),
               _floatingButton(
                 tween: _projectAnim,
-                leftOffset: 64.rw(context),
                 width: 128.rw(context),
                 icon: AppIcons.upcomingProject,
                 label: 'project',
@@ -140,7 +145,6 @@ class _AddListingOverlayState extends State<AddListingOverlay>
 
   Widget _floatingButton({
     required Animation<double> tween,
-    required double leftOffset,
     required double width,
     required String icon,
     required String label,
@@ -148,7 +152,7 @@ class _AddListingOverlayState extends State<AddListingOverlay>
   }) {
     return Positioned(
       bottom: tween.value,
-      left: (context.screenWidth / 2) - leftOffset,
+      left: (context.screenWidth - width) / 2,
       child: GestureDetector(
         onTap: () async {
           widget.controller.close();
@@ -252,34 +256,31 @@ class AddListingButtonState extends State<AddListingButton>
           behavior: .opaque,
           onTap: widget.controller.toggle,
           child: SizedBox(
-            width: 64.rw(context),
-            height: 64.rh(context),
+            width: 66.rw(context),
+            height: 66.rh(context),
             child: Stack(
               alignment: Alignment.center,
               clipBehavior: .none,
               children: [
                 ClipOval(
                   child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+                    filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
                     child: Container(
-                      height: 64.rh(context),
-                      width: 64.rw(context),
+                      height: 66.rh(context),
+                      width: 66.rw(context),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         gradient: LinearGradient(
                           begin: AlignmentDirectional.topStart,
                           end: AlignmentDirectional.bottomEnd,
                           colors: [
-                            context.color.secondaryColor.withValues(
-                              alpha: 0.78,
-                            ),
-                            context.color.secondaryColor.withValues(
-                              alpha: 0.38,
-                            ),
+                            Colors.white.withValues(alpha: 0.68),
+                            context.color.secondaryColor.withValues(alpha: 0.34),
                           ],
                         ),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.34),
+                          color: Colors.white.withValues(alpha: 0.82),
+                          width: 1.2,
                         ),
                       ),
                     ),
@@ -289,8 +290,8 @@ class AddListingButtonState extends State<AddListingButton>
                   scale: isOpen ? 1.15 : 1,
                   duration: const Duration(milliseconds: 200),
                   child: Container(
-                    height: 52.rh(context),
-                    width: 52.rw(context),
+                    height: 48.rh(context),
+                    width: 48.rw(context),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
@@ -298,16 +299,16 @@ class AddListingButtonState extends State<AddListingButton>
                         end: AlignmentDirectional.bottomEnd,
                         colors: [
                           context.color.tertiaryColor,
-                          context.color.tertiaryColor.withValues(alpha: 0.78),
+                          context.color.tertiaryColor.withValues(alpha: 0.72),
                         ],
                       ),
                       border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.18),
+                          color: Colors.white.withValues(alpha: 0.30),
                       ),
                       boxShadow: [
                         BoxShadow(
                           color: context.color.tertiaryColor.withValues(
-                            alpha: 0.34,
+                            alpha: 0.30,
                           ),
                           offset: const Offset(0, 7),
                           blurRadius: 18,
@@ -317,8 +318,8 @@ class AddListingButtonState extends State<AddListingButton>
                   ),
                 ),
                 Container(
-                  height: 54.rh(context),
-                  width: 54.rw(context),
+                  height: 48.rh(context),
+                  width: 48.rw(context),
                   alignment: Alignment.center,
                   child: AnimatedBuilder(
                     animation: _plusController,

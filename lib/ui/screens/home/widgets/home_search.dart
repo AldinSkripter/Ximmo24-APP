@@ -11,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeSearchField extends StatelessWidget {
-  const HomeSearchField({super.key});
+  const HomeSearchField({super.key, this.embedded = false});
+
+  final bool embedded;
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +32,29 @@ class HomeSearchField extends StatelessWidget {
           return const SizedBox.shrink();
         }
         return Padding(
-          padding: const EdgeInsets.fromLTRB(18, 12, 18, 4),
+          padding: embedded
+              ? EdgeInsets.zero
+              : const EdgeInsets.fromLTRB(18, 12, 18, 4),
           child: Container(
-            height: 58.rh(context),
+            height: (embedded ? 52 : 58).rh(context),
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-              color: context.color.secondaryColor,
+              color: context.color.secondaryColor.withValues(
+                alpha: embedded ? 0.96 : 1,
+              ),
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: context.color.borderColor),
+              border: Border.all(
+                color: embedded
+                    ? Colors.white.withValues(alpha: 0.65)
+                    : context.color.borderColor,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: context.color.textColorDark.withValues(alpha: 0.08),
-                  blurRadius: 22,
-                  offset: const Offset(0, 8),
+                  color: context.color.textColorDark.withValues(
+                    alpha: embedded ? 0.13 : 0.08,
+                  ),
+                  blurRadius: embedded ? 18 : 22,
+                  offset: Offset(0, embedded ? 7 : 8),
                 ),
               ],
             ),
@@ -61,8 +73,8 @@ class HomeSearchField extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          width: 42.rw(context),
-                          height: 42.rh(context),
+                          width: (embedded ? 38 : 42).rw(context),
+                          height: (embedded ? 38 : 42).rh(context),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: context.color.tertiaryColor.withValues(
@@ -108,8 +120,8 @@ class HomeSearchField extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    width: 46.rw(context),
-                    height: 46.rh(context),
+                    width: (embedded ? 40 : 46).rw(context),
+                    height: (embedded ? 40 : 46).rh(context),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: context.color.tertiaryColor,

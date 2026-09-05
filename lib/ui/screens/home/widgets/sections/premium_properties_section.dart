@@ -46,7 +46,7 @@ class PremiumPropertiesSection extends StatelessWidget {
                       : ResponsiveHelper.isTablet(context)
                       ? 3
                       : 2,
-                  height: 248.rh(context),
+                  height: 268.rh(context),
                   crossAxisSpacing: 6,
                   mainAxisSpacing: 6,
                 ),

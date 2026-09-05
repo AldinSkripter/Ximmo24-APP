@@ -11,6 +11,7 @@ class CustomTabBar extends StatelessWidget {
     this.onTap,
     this.margin,
     this.tabBackgroundColor,
+    this.borderRadius = 4,
     super.key,
   });
   final TabController tabController;
@@ -19,6 +20,7 @@ class CustomTabBar extends StatelessWidget {
   final void Function(int)? onTap;
   final EdgeInsets? margin;
   final Color? tabBackgroundColor;
+  final double borderRadius;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,7 +34,7 @@ class CustomTabBar extends StatelessWidget {
           ),
       decoration: BoxDecoration(
         color: context.color.secondaryColor,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(color: context.color.borderColor),
       ),
 
@@ -47,7 +49,7 @@ class CustomTabBar extends StatelessWidget {
         physics: isScrollable ? Constant.scrollPhysics : null,
         indicator: BoxDecoration(
           color: tabBackgroundColor ?? context.color.tertiaryColor,
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(borderRadius - 3 > 0 ? borderRadius - 3 : 1),
         ),
         labelStyle: TextStyle(
           fontSize: context.font.sm.rf(context),

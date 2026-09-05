@@ -47,7 +47,7 @@ class MostViewedSection extends StatelessWidget {
                       : ResponsiveHelper.isTablet(context)
                       ? 3
                       : 2,
-                  height: 248.rh(context),
+                  height: 268.rh(context),
                   crossAxisSpacing: 8,
                 ),
             itemCount: itemCount,

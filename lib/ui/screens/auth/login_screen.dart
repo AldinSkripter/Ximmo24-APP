@@ -342,9 +342,9 @@ class LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSkipButton() {
     return MaterialButton(
-      color: context.color.secondaryColor.withValues(alpha: 0.7),
+      color: context.color.secondaryColor.withValues(alpha: 0.88),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(18),
         side: BorderSide(
           color: context.color.borderColor,
         ),
@@ -633,18 +633,66 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildLoginImageContainer() {
-    return Stack(
-      children: [
-        Positioned(
-          top: 0,
-          child: CustomImage(
+    return SizedBox(
+      height: isTablet ? context.screenHeight : 500.rh(context),
+      width: context.screenWidth,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          CustomImage(
             imageUrl: AppSettings.loginBackground,
-            height: isTablet ? context.screenHeight : 485,
-            width: MediaQuery.of(context).size.width,
-            color: context.color.tertiaryColor.withValues(alpha: 0.3),
+            fit: BoxFit.cover,
+            color: context.color.tertiaryColor.withValues(alpha: 0.18),
           ),
-        ),
-      ],
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black.withValues(alpha: 0.08),
+                  Colors.transparent,
+                  context.color.secondaryColor.withValues(alpha: 0.16),
+                  context.color.secondaryColor,
+                ],
+                stops: const [0, 0.42, 0.76, 1],
+              ),
+            ),
+          ),
+          PositionedDirectional(
+            start: 22.rw(context),
+            top: 92.rh(context),
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 15.rw(context),
+                vertical: 10.rh(context),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.32),
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.auto_awesome_rounded,
+                    color: Colors.white,
+                    size: 17.rw(context),
+                  ),
+                  SizedBox(width: 8.rw(context)),
+                  CustomText(
+                    'Ximmo24',
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: context.font.sm,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -667,22 +715,42 @@ class LoginScreenState extends State<LoginScreen> {
       curve: Curves.easeOutBack,
       padding: EdgeInsets.only(bottom: liftAmount),
       child: Container(
+        margin: EdgeInsets.fromLTRB(
+          isTablet ? 0 : 12.rw(context),
+          0,
+          isTablet ? 0 : 12.rw(context),
+          10.rh(context),
+        ),
         constraints: BoxConstraints(
           minHeight: 400.rh(context),
+          maxHeight: context.screenHeight * 0.72,
         ),
-        width: isTablet ? context.screenWidth * 0.7 : context.screenWidth,
+        width: isTablet
+            ? context.screenWidth * 0.7
+            : context.screenWidth - 24.rw(context),
         decoration: BoxDecoration(
-          color: context.color.secondaryColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16.rw(context)),
-            topRight: Radius.circular(16.rw(context)),
-          ),
+          color: context.color.secondaryColor.withValues(alpha: 0.98),
+          borderRadius: BorderRadius.circular(34.rw(context)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.72)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.16),
+              blurRadius: 36,
+              offset: const Offset(0, 12),
+            ),
+          ],
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: 18.rw(context),
-        ),
-        child: showRegisterOptions
+        padding: EdgeInsets.symmetric(horizontal: 20.rw(context)),
+        child: SingleChildScrollView(
+          physics: Constant.scrollPhysics,
+          padding: EdgeInsets.only(bottom: 14.rh(context)),
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 320),
+            switchInCurve: Curves.easeOutCubic,
+            switchOutCurve: Curves.easeInCubic,
+            child: showRegisterOptions
             ? Column(
+                key: const ValueKey('register-options'),
                 mainAxisSize: .min,
                 children: [
                   SizedBox(height: 32.rh(context)),
@@ -812,6 +880,7 @@ class LoginScreenState extends State<LoginScreen> {
                 ],
               )
             : Column(
+                key: const ValueKey('login-options'),
                 mainAxisSize: .min,
                 crossAxisAlignment: .start,
                 children: [
@@ -825,6 +894,8 @@ class LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
+          ),
+        ),
       ),
     );
   }
@@ -854,6 +925,39 @@ class LoginScreenState extends State<LoginScreen> {
   Widget _buildTitle() => Center(
     child: Column(
       children: [
+        Container(
+          width: 54.rw(context),
+          height: 5.rh(context),
+          margin: EdgeInsets.only(bottom: 22.rh(context)),
+          decoration: BoxDecoration(
+            color: context.color.borderColor,
+            borderRadius: BorderRadius.circular(999),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 14.rw(context),
+            vertical: 8.rh(context),
+          ),
+          decoration: BoxDecoration(
+            color: context.color.brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.06)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(18.rw(context)),
+            border: context.color.brightness == Brightness.dark
+                ? Border.all(color: Colors.white.withValues(alpha: 0.08))
+                : null,
+          ),
+          child: CustomImage(
+            imageUrl: context.color.brightness == Brightness.dark
+                ? AppIcons.splashLogoDark
+                : AppIcons.splashLogoLight,
+            width: 156.rw(context),
+            height: 42.rh(context),
+            fit: BoxFit.contain,
+          ),
+        ),
+        SizedBox(height: 16.rh(context)),
         CustomText(
           'loginNow'.translate(context),
           fontWeight: .w700,
@@ -925,7 +1029,7 @@ class LoginScreenState extends State<LoginScreen> {
             border: BorderSide(
               color: context.color.borderColor,
             ),
-            radius: 4,
+            radius: 16,
           ),
         ] else ...[
           // Show Login button when password field is visible
@@ -939,7 +1043,7 @@ class LoginScreenState extends State<LoginScreen> {
             border: BorderSide(
               color: context.color.borderColor,
             ),
-            radius: 4,
+            radius: 16,
           ),
         ],
 
@@ -1053,16 +1157,23 @@ class LoginScreenState extends State<LoginScreen> {
       child: Container(
         alignment: Alignment.center,
         margin: EdgeInsets.only(bottom: 12.rh(context)),
-        height: 48.rh(context),
+        height: 54.rh(context),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: context.color.secondaryColor,
-          borderRadius: BorderRadius.circular(4),
+          color: context.color.primaryColor.withValues(alpha: 0.48),
+          borderRadius: BorderRadius.circular(17.rw(context)),
           border: Border.all(
             color: showRegisterOptions
-                ? context.color.textColorDark
-                : context.color.borderColor,
+                ? context.color.tertiaryColor.withValues(alpha: 0.34)
+                : context.color.borderColor.withValues(alpha: 0.78),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.035),
+              blurRadius: 14,
+              offset: const Offset(0, 5),
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: .center,
@@ -1077,7 +1188,7 @@ class LoginScreenState extends State<LoginScreen> {
               ),
             ),
             SizedBox(width: 8.rw(context)),
-            CustomText(text),
+            CustomText(text, fontWeight: FontWeight.w600),
           ],
         ),
       ),
@@ -1625,7 +1736,7 @@ class LoginScreenState extends State<LoginScreen> {
           border: BorderSide(
             color: context.color.borderColor,
           ),
-          radius: 4,
+          radius: 16,
         );
       } else {
         // Password field is shown, now allow login
@@ -1639,7 +1750,7 @@ class LoginScreenState extends State<LoginScreen> {
           border: BorderSide(
             color: context.color.borderColor,
           ),
-          radius: 4,
+          radius: 16,
         );
       }
     }
@@ -1656,7 +1767,7 @@ class LoginScreenState extends State<LoginScreen> {
       border: BorderSide(
         color: context.color.borderColor,
       ),
-      radius: 4,
+      radius: 16,
     );
   }
 
@@ -1839,11 +1950,12 @@ class LoginScreenState extends State<LoginScreen> {
     required bool isTablet, // Pass `isTablet` as a parameter
   }) {
     return Container(
-      width: isTablet ? context.screenWidth * 0.7 : context.screenWidth,
+      width: double.infinity,
       color: context.color.secondaryColor,
-      padding: const EdgeInsets.symmetric(
-        vertical: 8,
-      ), // Added for better spacing
+      padding: EdgeInsets.symmetric(
+        horizontal: 8.rw(context),
+        vertical: 8.rh(context),
+      ),
       margin: EdgeInsets.only(bottom: 8.rh(context)),
       child: Column(
         children: [
@@ -1855,9 +1967,13 @@ class LoginScreenState extends State<LoginScreen> {
             textAlign: .center,
           ),
           SizedBox(height: 4.rh(context)),
-          // Terms and Privacy row
-          Row(
-            mainAxisAlignment: .center,
+          // Keep long translated policy names inside narrow phone screens.
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runAlignment: WrapAlignment.center,
+            spacing: 0,
+            runSpacing: 3.rh(context),
             children: [
               // Terms and Conditions
               GestureDetector(

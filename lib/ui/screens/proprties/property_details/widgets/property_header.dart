@@ -14,16 +14,37 @@ class PropertyHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: .start,
-      children: [
-        SizedBox(height: 12.rh(context)),
-        _buildCategoryAndType(context),
-        SizedBox(height: 8.rh(context)),
-        _buildTitleAndDate(context),
-        SizedBox(height: 6.rh(context)),
-        _buildPrice(context),
-      ],
+    return Container(
+      margin: EdgeInsets.only(top: 16.rh(context)),
+      padding: EdgeInsets.all(18.rw(context)),
+      decoration: BoxDecoration(
+        color: context.color.secondaryColor,
+        borderRadius: BorderRadius.circular(24.rw(context)),
+        border: Border.all(
+          color: context.color.brightness == Brightness.dark
+              ? Colors.white.withValues(alpha: 0.10)
+              : context.color.borderColor.withValues(alpha: 0.72),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(
+              alpha: context.color.brightness == Brightness.dark ? 0.22 : 0.07,
+            ),
+            blurRadius: 26,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: .start,
+        children: [
+          _buildCategoryAndType(context),
+          SizedBox(height: 14.rh(context)),
+          _buildTitleAndDate(context),
+          SizedBox(height: 12.rh(context)),
+          _buildPrice(context),
+        ],
+      ),
     );
   }
 
@@ -35,11 +56,18 @@ class PropertyHeader extends StatelessWidget {
         : Colors.amber;
     return Row(
       children: [
-        CustomImage(
-          imageUrl: property.category?.image ?? '',
-          width: 24.rw(context),
-          height: 24.rh(context),
-          color: context.color.textColorDark,
+        Container(
+          width: 38.rw(context),
+          height: 38.rh(context),
+          padding: EdgeInsets.all(8.rw(context)),
+          decoration: BoxDecoration(
+            color: context.color.tertiaryColor.withValues(alpha: 0.10),
+            borderRadius: BorderRadius.circular(12.rw(context)),
+          ),
+          child: CustomImage(
+            imageUrl: property.category?.image ?? '',
+            color: context.color.tertiaryColor,
+          ),
         ),
         SizedBox(width: 10.rw(context)),
         Expanded(
@@ -68,7 +96,10 @@ class PropertyHeader extends StatelessWidget {
                 ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          padding: EdgeInsets.symmetric(
+            horizontal: 12.rw(context),
+            vertical: 7.rh(context),
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(999),
             color: statusColor.withValues(alpha: 0.1),
@@ -103,7 +134,7 @@ class PropertyHeader extends StatelessWidget {
                           property.title?.firstUpperCase() ??
                           '',
                       fontWeight: .w800,
-                      fontSize: context.font.md,
+                      fontSize: context.font.lg,
                       color: context.color.textColorDark,
                     ),
                   ),
@@ -113,7 +144,7 @@ class PropertyHeader extends StatelessWidget {
                       property.title?.firstUpperCase() ??
                       '',
                   fontWeight: .w800,
-                  fontSize: context.font.md,
+                  fontSize: context.font.lg,
                   color: context.color.textColorDark,
                 ),
         ),
@@ -150,7 +181,7 @@ class PropertyHeader extends StatelessWidget {
               child: CustomText(
                 priceText,
                 fontWeight: .w700,
-                fontSize: context.font.sm,
+                fontSize: context.font.xl,
                 color: context.color.tertiaryColor,
               ),
             ),
@@ -159,7 +190,7 @@ class PropertyHeader extends StatelessWidget {
           CustomText(
             priceText,
             fontWeight: .w700,
-            fontSize: context.font.sm,
+            fontSize: context.font.xl,
             color: context.color.tertiaryColor,
           ),
         if (Constant.isNumberWithSuffix &&
