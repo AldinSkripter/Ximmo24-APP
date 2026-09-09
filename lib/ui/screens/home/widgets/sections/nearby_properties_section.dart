@@ -33,7 +33,7 @@ class NearbyPropertiesSection extends StatelessWidget {
             title: title,
           ),
           SizedBox(
-            height: 284.rh(context),
+            height: 292.rh(context),
             child: ListView.separated(
               separatorBuilder: (context, index) =>
                   SizedBox(width: 8.rw(context)),
