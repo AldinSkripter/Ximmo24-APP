@@ -27,6 +27,7 @@ class HomeScreenDataRepository {
     try {
       final result = await Api.get(
         url: Api.homepageSectionsData,
+        queryParameters: const {'platform': 'app'},
       );
       return HomeSectionDataModel.fromApiResponse(result);
     } on Exception catch (e, st) {
@@ -43,7 +44,7 @@ class HomeScreenDataRepository {
     try {
       final result = await Api.get(
         url: Api.homepagePropertySections,
-        queryParameters: _locationParameters(),
+        queryParameters: {..._locationParameters(), 'platform': 'app'},
       );
       return PropertySectionsModel.fromApiResponse(result);
     } on Exception catch (e, st) {
@@ -60,7 +61,7 @@ class HomeScreenDataRepository {
     try {
       final result = await Api.get(
         url: Api.homepageProjectSections,
-        queryParameters: _locationParameters(),
+        queryParameters: {..._locationParameters(), 'platform': 'app'},
       );
       return ProjectSectionsModel.fromApiResponse(result);
     } on Exception catch (e, st) {
@@ -77,7 +78,7 @@ class HomeScreenDataRepository {
     try {
       final result = await Api.get(
         url: Api.homepageOtherSections,
-        queryParameters: _locationParameters(),
+        queryParameters: {..._locationParameters(), 'platform': 'app'},
       );
       return OtherSectionsModel.fromApiResponse(result);
     } on Exception catch (e, st) {
@@ -94,6 +95,7 @@ class HomeScreenDataRepository {
     try {
       final result = await Api.get(
         url: Api.apiGetPropertiesByCity,
+        queryParameters: const {'platform': 'app'},
       );
 
       final dynamic dataNode = result['data'];
